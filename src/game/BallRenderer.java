@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Class for rendering the ball and its animation. The colour of the 
- * ball has been modelled as an integer, which can take the values 
+ * Class for rendering the ball and its animation. The color of the 
+ * ball has been modeled as an integer, which can take the values 
  * of 0, 1, 2 and 3.
  * 
  * @author Max Messerich en Joeri Kock
@@ -19,29 +19,35 @@ public class BallRenderer {
 	// Instance variables ----------------------------------------------
 	
 	/**
-	 * This array marks the colour codes, which are {R, G, B}.
+	 * Defines the color codes for 4 players in RGB.
 	 */
 	public static final float[][] PLAYER_COLORS = { { 1, 0, 0 }, { 0, 1, 0 },
 			{ 0, 0, 1 }, { 1, 1, 0 } };
-	
 	/**
-	 * Marks how transparent the balls should be.
+	 * Defines the maximum alpha value for rendering balls.
 	 */
-	public static final float MAX_ALPHA = .95f;
-	public static final float CHOICE_ALPHA = .9f;
-	
+	public static final float MAX_ALPHA = .85f;
 	/**
-	 * Creates a new texture image that is rendered over the coloured rectangles
+	 * Defines the alpha value for rendering suggestions.
+	 */
+	public static final float CHOICE_ALPHA = .15f;
+
+	public static final float MOUSE_OVER_ALPHA  = .6f;
+	/**
+	 * Creates a new texture image that is rendered over the colored rectangles
 	 * that represent the balls on the field.
 	 */
 	public static final Texture OVERLAY = new Texture(
-			Gdx.files.internal("assets/data/overlay.png"));
+			Gdx.files.internal("assets/data/overlay2.png"));
 	
 	/**
-	 * Instance variable nessecary for the mouse hover.
+	 * Color for mouse_over effect.
 	 */
 	public static final float[] MOUSE_OVER = { 1, 1, 1 };
-	public static final float[] CHOICE_COLOR = {.5f,.5f,.5f};
+	/**
+	 * Color for suggestions effect.
+	 */
+	public static final float[] CHOICE_COLOR = {0,0,0};
 	
 	/**
 	 * The width of the rectangle for rendering and the alpha value for rendering
@@ -68,7 +74,10 @@ public class BallRenderer {
 	 * Integer representing the ID of the colour.
 	 */
 	private int colorID;
-	
+	/**
+	 * Represents the current player of board.
+	 */
+	private int currentPlayerColorID;
 	/**
 	 * Renders a new ball and sets the colorID to -1, meaning it is empty.
 	 * 
@@ -144,8 +153,20 @@ public class BallRenderer {
 	public void setMouseOver(boolean mouseOver) {
 		this.mouseOver = mouseOver;
 	}
-	public void setChoice(boolean isChoice){
-		this.isChoice = isChoice;
+	/**
+	 * Marks the ball as a suggested move to be played by the current player by marking the field in the color
+	 * of that player.
+	 * @param color Color ID of the current Player
+	 */
+	public void isChoice(int currentPlayerID){
+		this.isChoice = true;
+		this.currentPlayerColorID = currentPlayerID;
+	}
+	/**
+	 * Use when the ball is no longer a possible move for the current player.
+	 */
+	public void notChoice(){
+		this.isChoice = false;
 	}
 	/**
 	 * Sets the render colour of the rectangle.
@@ -192,10 +213,10 @@ public class BallRenderer {
 		if (this.isClear()) {
 			if (mouseOver) {
 				this.renderColor = MOUSE_OVER;
-				alpha = .8f;
+				alpha = MOUSE_OVER_ALPHA;
 			}
 			if(isChoice){
-				this.renderColor = CHOICE_COLOR;
+				this.renderColor = PLAYER_COLORS[this.currentPlayerColorID];
 				this.alpha = CHOICE_ALPHA;
 			}
 			if(!mouseOver&&!isChoice){
@@ -207,12 +228,13 @@ public class BallRenderer {
 			this.renderColor = this.ballColor;
 		}
 		shapes.setColor(renderColor[0], renderColor[1], renderColor[2], alpha);
-		shapes.rect(offSetX+x, offSetY+y, width, width);		
+		
+		shapes.rect(offSetX+x, offSetY+y, width, width);	
+
 	}
 
 	/**
-	 * Renders the same as the draw-method, but this is used for 
-	 * rendering textures.
+	 * Renders the overlay texture at the position of the ball.
 	 * 
 	 * @param offSetX
 	 * 			Defines the left-down corner of the board.

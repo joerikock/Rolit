@@ -33,12 +33,15 @@ public class BoardGUI {
 	/**
 	 * List that keeps up the changes made to the board.
 	 */
-	private ArrayList<int[]> boardChanges, choices;
-	
+	private ArrayList<int[]> boardChanges;
+	/**
+	 * List that keeps the possible Moves for the current player.
+	 */
+	private ArrayList<int[]> choices;
 	/**
 	 * The x and y coordinates for the balls.
 	 */
-	private float x, y;
+	private float offSetX, offSetY;
 	
 	/**
 	 * Booleans used for the animation.
@@ -113,7 +116,7 @@ public class BoardGUI {
 	}
 	
 	/**
-	 * Method for setting a field to a new colour.
+	 * Method for setting a field to a new color.
 	 * 
 	 * @param x
 	 * 			the x-coordinate of the field.
@@ -146,8 +149,7 @@ public class BoardGUI {
 						* BALL_SIZE, BALL_SIZE);
 			}
 		}
-		this.x = 0;
-		this.y = 0;
+
 		animationInProgress = false;
 	}
 
@@ -173,15 +175,15 @@ public class BoardGUI {
 	 * 			the y-coordinate.
 	 */
 	public void setPosition(float x, float y) {
-		this.x = x;
-		this.y = y;
-		System.out.println("BoardGUI OFFSET: " + this.x + ", " + this.y);
+		this.offSetX = x;
+		this.offSetY = y;
+//		System.out.println("BoardGUI OFFSET: " + this.x + ", " + this.y);
 	}
 
 	/**
-	 * Updates the Rendered Board. When the Board itself is updated and handles
+	 * Updates the Rendered Board when the Board is updated and. Handles
 	 * the interaction of the user like hovering the mouse over a ball and
-	 * clicking it.
+	 * clicking it. Shows possible moves for the current Player. 
 	 * 
 	 * @param mouseX
 	 * 			the x-coordinate of the mouse.
@@ -197,17 +199,23 @@ public class BoardGUI {
 				balls[x][y].setMouseOver(false);
 			}
 		}
+		/**
+		 * Whenever the board has been updated (or no ball has been placed yet)
+		 * the list of possible moves for the current player is fetched and the 
+		 * the possible choices are indicated in rendering.
+		 */
 		if(!choicesInit){
 			this.choices = board.getValidMoveList();
-			System.out.println("Setting suggestions");
+//			System.out.println("Setting suggestions");
 			for(int i=0; i<choices.size();i++){
-				balls[choices.get(i)[0]][choices.get(i)[1]].setChoice(true);
+				balls[choices.get(i)[0]][choices.get(i)[1]].isChoice(board.currentPlayerColor());
 			}
 			choicesInit = true;
 		}
 		/**
 		 * If the board has been modified, fetch the ArrayList of new modified
-		 * fields in boardChanges and tell the new Ball to change its color
+		 * fields in boardChanges and tell the new Ball to change its color. 
+		 * choiceInit is set to false so the suggestions are updated next loop.
 		 * 
 		 */
 		if (board.modified()) {
@@ -219,20 +227,17 @@ public class BoardGUI {
 
 			this.balls[newBall[0]][newBall[1]].changeColorTo(newBall[2]);
 			for(int i=0; i<choices.size();i++){
-				balls[choices.get(i)[0]][choices.get(i)[1]].setChoice(false);
+				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
 			}
 			animationInProgress = true;
 			
 		}
-
 		/**
-		 * When the animation is not done yet, animated
-		 * first ball has been fully blended in, the rest of the 
-		 * changes is executed
-		 */
+		 * Only if the last animation has been finished, the user can select a new field.
+		 **/
 		if (animationInProgress) {
 			if (this.balls[newBall[0]][newBall[1]].animationDone()) {
-				System.out.println("SET :" + boardChanges.size());
+//				System.out.println("SET :" + boardChanges.size());
 				for (int i = 0; i < boardChanges.size(); i++) {
 					this.balls[boardChanges.get(i)[0]][boardChanges.get(i)[1]]
 							.changeColorTo(boardChanges.get(i)[2]);
@@ -241,8 +246,8 @@ public class BoardGUI {
 			}
 
 		} else {
-			int selectedFieldX = (int) ((mouseX - x) / BALL_SIZE);
-			int selectedFieldY = (int) ((mouseY - y) / BALL_SIZE);
+			int selectedFieldX = (int) ((mouseX - offSetX) / BALL_SIZE);
+			int selectedFieldY = (int) ((mouseY - offSetY) / BALL_SIZE);
 			if (board.boundTest(selectedFieldX, selectedFieldY)) {
 				balls[selectedFieldX][selectedFieldY].setMouseOver(true);
 			}
@@ -263,7 +268,7 @@ public class BoardGUI {
 	public boolean hasSelectedField(){
 		return this.newSelectedField;
 	}
-	
+
 	/**
 	 * Method returning an array containing all the selected fields on 
 	 * the board.
@@ -292,7 +297,7 @@ public class BoardGUI {
 	public void draw(ShapeRenderer shapes) {
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				this.balls[x][y].draw(this.x, this.y, shapes);
+				this.balls[x][y].draw(offSetX, offSetY, shapes);
 				this.balls[x][y].setMouseOver(false);
 			}
 		}
@@ -308,7 +313,7 @@ public class BoardGUI {
 		batch.begin();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				this.balls[x][y].batchDraw(this.x, this.y, batch);
+				this.balls[x][y].batchDraw(offSetX, offSetY, batch);
 			}
 		}
 		batch.end();

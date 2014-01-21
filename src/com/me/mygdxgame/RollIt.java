@@ -34,36 +34,18 @@ public class RollIt implements ApplicationListener, TextInputListener {
 	Board board;
 	Camera camera;
 	Game game;
+
 	@Override
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		
-//		camera = new OrthographicCamera(w, h);
-//		camera.position.set(0, 0, 0);
+
 		Texture.setEnforcePotImages(false);
 		batch = new SpriteBatch();
-
 		shapes = new ShapeRenderer();
 		// add Key Listener for keyboardInput
-
 		FONT = new BitmapFont();
-		menu = new MenuManager();
-		LoginMenu loginMenu = new LoginMenu(menu);
-		MainMenu mainMenu = new MainMenu(menu);
-
-		menu.addMenu(mainMenu);
-		menu.addMenu(loginMenu);
-//		board = new Board();
-		menu.print();
-		// board.tryMove(3, 3, 1);
-		// board.tryMove(3,4, 2);
-		// board.update();
-		//
-		// board.update();
 		game = new Game();
-
-
 		input = new InputHandler();
 	}
 
@@ -80,14 +62,9 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		FONT.setColor(0, 0, 0, 1);
-		try {
-			input.update();
-		} catch (CleanUpException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		input.update();
 		// System.out.println(input.getKey());
 		if (input.getKey() == 'c') {
 
@@ -96,7 +73,8 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		if (input.getKey() == 'd') {
 			board.print();
 		}
-		game.update(input.getMouseX(), input.getMouseY(), input.mouseClicked(),input.getKey());
+		game.update(input.getMouseX(), input.getMouseY(), input.mouseClicked(),
+				input.getKey());
 
 		game.draw(shapes, batch);
 		input.cleanUp();

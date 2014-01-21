@@ -37,9 +37,19 @@ public class Board {
 			}
 		}
 	}
-
-	public int currentPlayer() {
+	/**
+	 * 
+	 * @return Returns the colorID(0,1,2,3) of the current player.
+	 */
+	public int currentPlayerColor() {
 		return currentPlayer;
+	}
+	/**
+	 * 
+	 * @return The instance of the current player.
+	 */
+	public Player currentPlayer(){
+		return players[currentPlayer];
 	}
 
 	private void nextPlayer() {

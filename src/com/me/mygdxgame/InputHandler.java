@@ -41,20 +41,17 @@ public class InputHandler implements InputProcessor {
 		// enableRepeatEvents(true);
 	}
 
-	// TODO: throw exception when not cleaned up!!!
+	// 
 	/**
 	 * Updates the the position of the mouse and checks whether it has been
 	 * clicked. Note: All required data has to be fetched via the given queries
 	 * like getKey() or mouseClicked(), because all arguments will be reset to
-	 * the starting values at the beginning of each loop
+	 * the starting values at the beginning of each loop.
 	 * 
 	 * @throws CleanUpException
 	 */
-	public void update() throws CleanUpException {
-		if (!clean) {
-			throw new CleanUpException("cleanUp() not called before update");
-			// System.out.println("Not cleaned");
-		} else {
+	public void update(){
+
 			mouseX = Gdx.input.getX();
 			mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 			// mouseClicked = false;
@@ -67,7 +64,6 @@ public class InputHandler implements InputProcessor {
 				}
 			}
 			mouseDown = Gdx.input.isButtonPressed(0);
-		}
 
 	}
 
