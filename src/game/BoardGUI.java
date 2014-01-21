@@ -33,7 +33,7 @@ public class BoardGUI {
 	/**
 	 * List that keeps up the changes made to the board.
 	 */
-	private ArrayList<int[]> boardChanges;
+	private ArrayList<int[]> boardChanges, choices;
 	
 	/**
 	 * The x and y coordinates for the balls.
@@ -43,7 +43,7 @@ public class BoardGUI {
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, newSelectedField;
+	private boolean animationInProgress, newSelectedField, choicesInit;
 	
 	/**
 	 * Array neccesary for the animation of a new ball.
@@ -197,23 +197,32 @@ public class BoardGUI {
 				balls[x][y].setMouseOver(false);
 			}
 		}
-
+		if(!choicesInit){
+			this.choices = board.getValidMoveList();
+			System.out.println("Setting suggestions");
+			for(int i=0; i<choices.size();i++){
+				balls[choices.get(i)[0]][choices.get(i)[1]].setChoice(true);
+			}
+			choicesInit = true;
+		}
 		/**
 		 * If the board has been modified, fetch the ArrayList of new modified
 		 * fields in boardChanges and tell the new Ball to change its color
 		 * 
 		 */
 		if (board.modified()) {
-			
+			choicesInit = false;
 			boardChanges = new ArrayList<int[]>();
 			boardChanges.addAll(board.getChanges());
 
 			newBall = boardChanges.remove(0);
 
 			this.balls[newBall[0]][newBall[1]].changeColorTo(newBall[2]);
-
+			for(int i=0; i<choices.size();i++){
+				balls[choices.get(i)[0]][choices.get(i)[1]].setChoice(false);
+			}
 			animationInProgress = true;
-
+			
 		}
 
 		/**

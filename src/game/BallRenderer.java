@@ -28,6 +28,7 @@ public class BallRenderer {
 	 * Marks how transparent the balls should be.
 	 */
 	public static final float MAX_ALPHA = .95f;
+	public static final float CHOICE_ALPHA = .9f;
 	
 	/**
 	 * Creates a new texture image that is rendered over the coloured rectangles
@@ -40,6 +41,7 @@ public class BallRenderer {
 	 * Instance variable nessecary for the mouse hover.
 	 */
 	public static final float[] MOUSE_OVER = { 1, 1, 1 };
+	public static final float[] CHOICE_COLOR = {.5f,.5f,.5f};
 	
 	/**
 	 * The width of the rectangle for rendering and the alpha value for rendering
@@ -55,7 +57,7 @@ public class BallRenderer {
 	/**
 	 * Instance variable nessecary for the mouse hover.
 	 */
-	private boolean changing, mouseOver;
+	private boolean changing, mouseOver, isChoice;
 	
 	/**
 	 * Variable that decides whether the alpha value is increased or decreased.
@@ -142,7 +144,9 @@ public class BallRenderer {
 	public void setMouseOver(boolean mouseOver) {
 		this.mouseOver = mouseOver;
 	}
-	
+	public void setChoice(boolean isChoice){
+		this.isChoice = isChoice;
+	}
 	/**
 	 * Sets the render colour of the rectangle.
 	 * 
@@ -189,7 +193,12 @@ public class BallRenderer {
 			if (mouseOver) {
 				this.renderColor = MOUSE_OVER;
 				alpha = .8f;
-			} else {
+			}
+			if(isChoice){
+				this.renderColor = CHOICE_COLOR;
+				this.alpha = CHOICE_ALPHA;
+			}
+			if(!mouseOver&&!isChoice){
 				if (alpha>0) {
 					alpha=alpha -.02f;
 				}
