@@ -20,10 +20,11 @@ public class Board {
 		this.modified = false;
 		changes = new ArrayList<int[]>();
 		modifiedBalls = new ArrayList<int[]>();
-		validMovesForNextPlayer = new ArrayList<int[]>();
+//		validMovesForNextPlayer = new ArrayList<int[]>();
 		this.players = players;
 		this.currentPlayer = 0;
 		reset();
+		debugBoard();
 	}
 
 	private int[][] getData() {
@@ -36,10 +37,6 @@ public class Board {
 				this.field[w][h] = -1;
 			}
 		}
-		field[3][3] = 0;
-		field[3][4] = 1;
-		field[4][4] = 2;
-		field[4][3] = 3;
 	}
 
 	public int currentPlayer() {
@@ -51,6 +48,15 @@ public class Board {
 		if (currentPlayer == players.length) {
 			currentPlayer = 0;
 		}
+	}
+
+	private void debugBoard() {
+		field[3][3] = 0;
+		field[3][4] = 1;
+		field[4][4] = 2;
+		field[4][3] = 3;
+
+
 	}
 
 	/**
@@ -94,11 +100,11 @@ public class Board {
 		return getValidMoveList().contains(pos);
 	}
 	public ArrayList<int[]> getValidMoveList(){
-		if(validMovesForNextPlayer.size()==0){
+		if(validMovesForNextPlayer == null){
 			System.out.println("ValidMoves empty. Calling ");
 			this.validMovesForNextPlayer = this.getValidMoves();
 		}
-		return this.validMovesForNextPlayer;
+		return validMovesForNextPlayer;
 	}
 	private ArrayList<int[]> getValidMoves() {
 		// Fill freeFields with all free Fields of Board b
@@ -125,11 +131,14 @@ public class Board {
 				validMoves.add(freeMoves.get(i));
 			}
 		}
+		System.out.println("		VALIDMOVE SIZE: "+ validMoves.size());
 		//If there are no moves that HAVE to be played, return a list of all Fields that have occupied neighbours
 		if(validMoves.size()==0){
 			return freeMoves;
 		}
 		//otherwise validMove
+		System.out.println("_______________________________________________________________________");
+		System.out.println("_______________________________________________________________________");
 		return validMoves;
 	}
 
@@ -185,7 +194,19 @@ public class Board {
 	}
 
 	public boolean validateMove(int x, int y) {
-		return (boundTest(x, y) && getField(x,y)==-1);
+		int[] pos = {x,y};
+		ArrayList<int[]> temp = getValidMoveList();
+		for(int i=0; i<temp.size(); i++){
+			System.out.println(temp.get(i)[0]+", "+temp.get(i)[1]);
+			if(temp.get(i)[0] == pos[0]&&temp.get(i)[1]==pos[1]){
+				System.out.println("validateMOve: TRUE");
+				return true;
+			}
+			
+		}
+		return false;
+
+//		return (boundTest(x, y) && getField(x,y)==-1);
 //		this.inValidMoveList(x, y)
 	}
 
@@ -230,7 +251,7 @@ public class Board {
 //		System.out.println("Board.getChanges()");
 		return this.modifiedBalls;
 	}
-
+	
 	// TODO: Test whether there are any free fields left
 	/**
 	 * TODO: changes looping through vectors/distance distance/vector (easier to
@@ -275,9 +296,7 @@ public class Board {
 			while (true) {
 				int currentX = newBallData[0] + VECTORS[i][0] * distance;
 				int currentY = newBallData[1] + VECTORS[i][1] * distance;
-				if(currentX==newBallData[0]&&currentY==newBallData[1]){
-					System.out.println("ERROR: ["+ VECTORS[i][0]+", " +VECTORS[i][1]+"] : "+distance +" == ["+currentX+", "+currentY+"] -> ["+newBallData[0]+", "+newBallData[1]+"]");
-				}
+				
 				int currentColor = this.getField(currentX, currentY);
 				/**
 				 * If the the current field is out of bounds or empty stop
@@ -293,7 +312,12 @@ public class Board {
 				 * add the index of the current vector and distance to
 				 * changes. Cancel search for this vector.
 				 */
-				if (currentColor == this.newBallColor) {
+				if (currentColor == color) {
+					if(distance==1){
+						break;
+					}
+					System.out.println("Same color : "+color+" @ "+currentX+", "+currentY);
+					System.out.println("adding to changes with: "+distance);
 					int[] newChange = { i, distance };
 					requiredChanges.add(newChange);
 					break;
@@ -360,7 +384,15 @@ public class Board {
 			this.newBall = false;
 			// The next players turn
 			this.nextPlayer();
-			this.validMovesForNextPlayer = this.getValidMoves();
+			validMovesForNextPlayer = null;
+			this.validMovesForNextPlayer = this.getValidMoveList();
+			System.out.println( " - ------- - - - - -- - ");
+			System.out.println("UPDATING DONE. Next Player: "+currentPlayer);
+			System.out.println("PossibleMoves for next player:");
+			for(int i=0; i<validMovesForNextPlayer.size();i++){
+				System.out.println(validMovesForNextPlayer.get(i)[0]+", "+
+						validMovesForNextPlayer.get(i)[1]);
+			}
 		}
 	}
 

@@ -34,7 +34,7 @@ public class BallRenderer {
 	 * that represent the balls on the field.
 	 */
 	public static final Texture OVERLAY = new Texture(
-			Gdx.files.internal("data/overlay.png"));
+			Gdx.files.internal("assets/data/overlay.png"));
 	
 	/**
 	 * Instance variable nessecary for the mouse hover.
