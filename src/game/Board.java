@@ -24,7 +24,6 @@ public class Board {
 		this.players = players;
 		this.currentPlayer = 0;
 		reset();
-		debugBoard();
 	}
 
 	private int[][] getData() {
@@ -37,6 +36,10 @@ public class Board {
 				this.field[w][h] = -1;
 			}
 		}
+		field[3][3] = 0;
+		field[3][4] = 1;
+		field[4][4] = 2;
+		field[4][3] = 3;
 	}
 
 	public int currentPlayer() {
@@ -48,15 +51,6 @@ public class Board {
 		if (currentPlayer == players.length) {
 			currentPlayer = 0;
 		}
-	}
-
-	private void debugBoard() {
-		field[3][3] = 0;
-		field[3][4] = 1;
-		field[4][4] = 2;
-		field[4][3] = 3;
-
-
 	}
 
 	/**

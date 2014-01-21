@@ -11,21 +11,75 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+/**
+ * Class for maintaining the progress of the game Rolit.
+ * 
+ * @author Max Messerich en Joeri Kock
+ *
+ */
+
 public class Game {
-	public static final Tools tools = new Tools();
-	private MenuManager menus;
-	LoginMenu login;
-	MainMenu mainMenu;
-	IngameMenu inGameMenu;
-	BoardGUI boardPainter;
-	AnimatedBackGround bg;
-	Board board;
-	boolean gameActive;
-	Player p1, p2, p3;
-//	HumanPlayer p2;
-	Player[] players;
+	
+	// Instance variables --------------------------------------------------
+	
 	/**
-	 * Runs the all menus and the game
+	 * Creating a constant tools, used for generating random booleans, 
+	 * integers, doubles and floats.
+	 */
+	public static final Tools tools = new Tools();
+	
+	/**
+	 * Creates a MenuManager.
+	 */
+	private MenuManager menus;
+	
+	/**
+	 * Creates a LoginMenu.
+	 */
+	private LoginMenu login;
+	
+	/**
+	 * Creates a main menu.
+	 */
+	private MainMenu mainMenu;
+	
+	/**
+	 * Creates an in-game menu.
+	 */
+	private IngameMenu inGameMenu;
+	
+	/**
+	 * Creates a BoardGUI object.
+	 */
+	private BoardGUI boardPainter;
+	
+	/**
+	 * Creates an animated background for the login- and the main menu.
+	 */
+	private AnimatedBackGround bg;
+	
+	/**
+	 * Creates a board.
+	 */
+	private Board board;
+	
+	/**
+	 * Creates a boolean defining whether the game is currently active.
+	 */
+	private boolean gameActive;
+	
+	/**
+	 * Creates 3 players.
+	 */
+	private Player p1, p2, p3;
+	
+	/**
+	 * Creates an array for the players.
+	 */
+	private Player[] players;
+	
+	/**
+	 * Creates a new game.
 	 */
 	public Game() {
 		this.menus = new MenuManager();
@@ -35,11 +89,10 @@ public class Game {
 		menus.addMenu(inGameMenu);
 		menus.addMenu(mainMenu);
 		menus.addMenu(login);
-	
+		
 		boardPainter = new BoardGUI();
 		boardPainter.setPosition(200, 0);
 		bg = new AnimatedBackGround(3,200);
-//		p1 = new DumbPlayer(0);
 	
 		p1 = new HumanPlayer("Dr.Schnappus",0, boardPainter);
 		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
@@ -48,13 +101,18 @@ public class Game {
 		players[0] = p1;
 		players[1] = p2;
 	}
-	//Such awesome. much programming. great working. WOW
+	
 	/**
 	 * Updates the Menus and the game. Feeding user input
+	 * 
 	 * @param x
+	 * 			the x-coordinate of the mouse cursor.
 	 * @param y
+	 * 			the y-coordinate of the mouse cursor.
 	 * @param mouseDown
+	 * 			checks whether the left mouse button is pressed or not.
 	 * @param input
+	 * 			last charcter typed with the keyboard.
 	 */
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
@@ -70,43 +128,34 @@ public class Game {
 			if(boardPainter.animationDone()){
 				if(!board.finished()){
 					if(board.currentPlayer()==0){
-						
 						if(p1.hasMove()){
 							System.out.println("Game. player 0 making move");
 							p1.makeMove(board);
 							System.out.println("Game. player 0 done");
 						}
-						
-						
 					}
 					if(board.currentPlayer()==1){
 						if(p2.hasMove()){
 							p2.makeMove(board);
 						}
-						
 					}
 					if(board.currentPlayer()==2){
 						if(p3.hasMove()){
 							p3.makeMove(board);
 						}
-						
 					}					
-				}else{
+				} else {
 					System.out.println("GAME OVER");
 				}
-				
 			}
-			
-			
-			
-			
-			
-			
-		}else{
+		} else {
 			bg.update();
 		}
 		menus.update(x, y, mouseDown,input);
-		//If a game is not in progress render a dummy field that randomly changes colors or something so the menu looks cool and stuff
+		/**
+		 * If a game is not in progress render a dummy field 
+		 * that randomly changes colors so the menu looks better.
+		 */
 		if(menus.getActiveMenu() == mainMenu){
 			if(menus.getActiveMenu().lastClickedElement() == "Exit"){
 				System.exit(0);
@@ -124,7 +173,6 @@ public class Game {
 			System.out.println(menus.getActiveMenu().lastClickedElement());
 		}
 		if (menus.getActiveMenu() == login) {
-//			
 			if (menus.getActiveMenu().lastClickedElement() == "Login") {
 				System.out.println("Loggin in with: " +login.getUser()+", "+login.getPassword());
 				menus.setActiveMenu(mainMenu);
@@ -132,27 +180,45 @@ public class Game {
 		}
 
 		//TODO: Add new Menu that opens when "Back" is clicked and give more options
-
 	}
+	
+	/**
+	 * Sets the initial position of the ShapeRenderer.
+	 * 
+	 * @param shapes
+	 * 			the shapes to be rendered to their initial state.
+	 */
 	private void shapeRendererInit(ShapeRenderer shapes){
 		Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND); 
 		shapes.begin(ShapeType.Filled);
 	}
+	
+	/**
+	 * Method to end the ShapeRenderer.
+	 * 
+	 * @param shapes
+	 * 			the shapes to be ended.
+	 */
 	private void shapeRendererExit(ShapeRenderer shapes){
 		shapes.end();
 	}
-	//TODO: Spop using ShapeRenderer and use Texture instead. Asshole behaviour in rendering.
+	
+	/**
+	 * Draw the shapes and the batch (for the textures) to the BoardGUI
+	 * using the methods provided in the BoardGUI class.
+	 * 
+	 * @param shapes
+	 * 			the shapes to be drawn.
+	 * @param batch
+	 * 			the batch used for the textures.
+	 */
 	public void draw(ShapeRenderer shapes, SpriteBatch batch){
-//		board.update();
-//		boardPainter.update(input.getMouseX(), input.getMouseY(),
-//				input.mouseClicked());
-
-		if(gameActive){
+		if (gameActive) {
 			shapeRendererInit(shapes);
 			boardPainter.draw(shapes);
 			shapeRendererExit(shapes);
 			boardPainter.batchDraw(batch);
-		}else{
+		} else {
 			shapeRendererInit(shapes);
 			bg.shapesDraw(shapes);
 			shapeRendererExit(shapes);
@@ -161,19 +227,9 @@ public class Game {
 		shapeRendererInit(shapes);
 		menus.shapesDraw(shapes);
 		shapeRendererExit(shapes);
-//		boardPainter.draw(shapes);
-		// Gdx.gl.glDisable(GL10.GL_BLEND);
-//		shapes.end();
-		// Gdx.gl.glEnable(GL10.GL_BLEND);
-//		boardPainter.batchDraw(batch);
 		menus.batchDraw(batch);
-		if(gameActive){
+		if (gameActive) {
 			boardPainter.batchDraw(batch);
-		}else{
-//			bg.batchDraw(batch);
-//			bg.batchDraw(batch);
 		}
-//		 menus.draw(shapes, batch);
 	}
-
 }

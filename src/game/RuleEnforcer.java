@@ -2,6 +2,12 @@ package game;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * 
+ * @author Max Messerich en Joeri Kock
+ */
+
 public class RuleEnforcer {
 	public static boolean boundTest(int x, int y) {
 		return (x >= 0 && x < Board.FIELD_WIDTH && y >= 0 && y < Board.FIELD_HEIGHT);
