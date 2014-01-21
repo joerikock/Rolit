@@ -1,16 +1,16 @@
 package game;
 
 /**
- * A test for the AI in Rolit. Creates 2 AI DumbPlayers that play a game of 
+ * A test for the AI in Rolit. Creates 2 AI DumbPlayers that play a game of
  * Rolit against each other using a naive strategy.
  * 
  * @author Max Messerich en Joeri Kock.
  */
 
 public class AITest {
-	
+
 	// -- Instance variable -----------------------------------------
-	
+
 	/**
 	 * The board.
 	 */

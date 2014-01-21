@@ -41,7 +41,7 @@ public class InputHandler implements InputProcessor {
 		// enableRepeatEvents(true);
 	}
 
-	// 
+	//
 	/**
 	 * Updates the the position of the mouse and checks whether it has been
 	 * clicked. Note: All required data has to be fetched via the given queries
@@ -50,20 +50,20 @@ public class InputHandler implements InputProcessor {
 	 * 
 	 * @throws CleanUpException
 	 */
-	public void update(){
+	public void update() {
 
-			mouseX = Gdx.input.getX();
-			mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-			// mouseClicked = false;
+		mouseX = Gdx.input.getX();
+		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+		// mouseClicked = false;
 
-			if (!Gdx.input.isButtonPressed(0)) {
-				if (mouseDown) {
+		if (!Gdx.input.isButtonPressed(0)) {
+			if (mouseDown) {
 
-					mouseClicked = true;
-					mouseDown = false;
-				}
+				mouseClicked = true;
+				mouseDown = false;
 			}
-			mouseDown = Gdx.input.isButtonPressed(0);
+		}
+		mouseDown = Gdx.input.isButtonPressed(0);
 
 	}
 

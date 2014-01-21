@@ -19,6 +19,4 @@ public class MainMenu extends Menu {
 		this.addGuiObject(exit);
 	}
 
-
-
 }

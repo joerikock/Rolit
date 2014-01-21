@@ -126,10 +126,11 @@ public class Game {
 
 			gameActive = true;
 			board.update();
-			//TODO: Managing game should be done in an extra function
+			// TODO: Managing game should be done in an extra function
 			if (boardPainter.animationDone()) {
 				if (!board.finished()) {
 					if (board.currentPlayer().hasMove()) {
+						// System.out.
 						board.currentPlayer().makeMove(board);
 					}
 

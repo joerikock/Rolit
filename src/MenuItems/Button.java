@@ -30,6 +30,7 @@ public class Button extends GuiObject {
 	public boolean selected() {
 		return false;
 	}
+
 	public String toString() {
 		return new String("Button: " + text + "- - alpha: " + alpha);
 	}

@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
  * 
  */
 
-
 public abstract class Menu {
 	// private ArrayList<>
 	private ArrayList<Button> buttons;
@@ -44,9 +43,11 @@ public abstract class Menu {
 	public MenuManager getManager() {
 		return this.manager;
 	}
-	public void activate(){
+
+	public void activate() {
 		this.lastClickedElementIndex = -1;
 	}
+
 	public void addButton(Button button) {
 		button.setParent(this);
 		this.buttons.add(button);
@@ -145,11 +146,12 @@ public abstract class Menu {
 		}
 	}
 
-//	public abstract void action();
-/**
- * Returns the name of the last clicked Element in the currently active menu
- * @return
- */
+	// public abstract void action();
+	/**
+	 * Returns the name of the last clicked Element in the currently active menu
+	 * 
+	 * @return
+	 */
 	public String lastClickedElement() {
 
 		if (this.lastClickedElementIndex != -1) {

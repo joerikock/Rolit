@@ -5,21 +5,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * The class for the animated background in the menu. There is a red
- * square moving horizontally, and after some time it goes bouncing around
- * the frame.
+ * The class for the animated background in the menu. There is a red square
+ * moving horizontally, and after some time it goes bouncing around the frame.
  * 
  * @author Max Messerich en Joeri Kock.
  */
 
 public class AnimatedBackGround {
 	// Instance variables ------------------------------------------
-	
+
 	/**
 	 * The BoardGUI.
 	 */
 	BoardGUI bg;
-	
+
 	/**
 	 * Some integers that are nessecary for the animation to work.
 	 */
@@ -29,15 +28,15 @@ public class AnimatedBackGround {
 	 * Creates a new AnimatedBackGround.
 	 * 
 	 * @param speed
-	 * 				the speed of the moving animation.
+	 *            the speed of the moving animation.
 	 * @param delay
-	 * 				this determines how long the animation should move 
-	 * 				horizontally.
+	 *            this determines how long the animation should move
+	 *            horizontally.
 	 */
 	public AnimatedBackGround(int speed, int delay) {
 		this.bg = new BoardGUI(
-				(int) (Gdx.graphics.getWidth() / BoardGUI.BALL_SIZE)+1,
-				(int) (Gdx.graphics.getHeight() / BoardGUI.BALL_SIZE)+1);
+				(int) (Gdx.graphics.getWidth() / BoardGUI.BALL_SIZE) + 1,
+				(int) (Gdx.graphics.getHeight() / BoardGUI.BALL_SIZE) + 1);
 		this.count = 0;
 		this.speedCount = 0;
 		this.speed = speed;
@@ -49,8 +48,8 @@ public class AnimatedBackGround {
 	}
 
 	/**
-	 * The method performing the actual animation. When the square hits
-	 * the edge, the xChange and/or yChange is reversed.
+	 * The method performing the actual animation. When the square hits the
+	 * edge, the xChange and/or yChange is reversed.
 	 */
 	public void update() {
 		if (count == maxCount) {
@@ -62,7 +61,7 @@ public class AnimatedBackGround {
 		} else {
 			count++;
 		}
-		if(speedCount==speed){
+		if (speedCount == speed) {
 			if (!bg.isField(x + xChange, y)) {
 				xChange *= -1;
 			}
@@ -72,14 +71,14 @@ public class AnimatedBackGround {
 
 			x += xChange;
 			y += yChange;
-//			System.out.println(x + ", " + y + " :: " + xChange + ", " + yChange);
-//			bg.setFieldColor(x, y, 0, 0, 1, .3f);
-			speedCount= 0;
-		}else{
+			// System.out.println(x + ", " + y + " :: " + xChange + ", " +
+			// yChange);
+			// bg.setFieldColor(x, y, 0, 0, 1, .3f);
+			speedCount = 0;
+		} else {
 			speedCount++;
 		}
-		bg.setFieldColor(x, y,.9f,.2f,.2f, .9f);
-
+		bg.setFieldColor(x, y, .9f, .2f, .2f, .9f);
 
 	}
 
@@ -87,7 +86,7 @@ public class AnimatedBackGround {
 	 * Draws the shape on the screen
 	 * 
 	 * @param shapes
-	 * 				A ShapeRenderer nessecary for creating the shape.
+	 *            A ShapeRenderer nessecary for creating the shape.
 	 */
 	public void shapesDraw(ShapeRenderer shapes) {
 		bg.draw(shapes);
@@ -97,8 +96,8 @@ public class AnimatedBackGround {
 	 * Draws the texture of the red square.
 	 * 
 	 * @param batch
-	 * 				SpriteBatch nessecary for the on-screen rendering of
-	 * 				the image.
+	 *            SpriteBatch nessecary for the on-screen rendering of the
+	 *            image.
 	 */
 	public void batchDraw(SpriteBatch batch) {
 		bg.batchDraw(batch);

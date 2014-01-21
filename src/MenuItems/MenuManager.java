@@ -93,11 +93,11 @@ public class MenuManager {
 	}
 
 	public void shapesDraw(ShapeRenderer shapes) {
-		
+
 		if (menus.size() > 0 && currentMenuIndex >= 0) {
 			animationDone = true;
 			if (MenuManager.animationType == 0) {
-				
+
 				if (animationX != 0) {
 					animationDone = false;
 					if (animationDir > 0) {

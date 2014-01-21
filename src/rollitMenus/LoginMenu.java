@@ -8,6 +8,7 @@ import MenuItems.TextInputField;
 public class LoginMenu extends Menu {
 
 	TextInputField password, username;
+
 	public LoginMenu(MenuManager m) {
 		super("Login");
 		super.setManager(m);
@@ -28,7 +29,5 @@ public class LoginMenu extends Menu {
 	public String getUser() {
 		return username.getInput();
 	}
-
-
 
 }

@@ -6,18 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Class for rendering the ball and its animation. The color of the 
- * ball has been modeled as an integer, which can take the values 
- * of 0, 1, 2 and 3.
+ * Class for rendering the ball and its animation. The color of the ball has
+ * been modeled as an integer, which can take the values of 0, 1, 2 and 3.
  * 
  * @author Max Messerich en Joeri Kock
- *
+ * 
  */
 
 public class BallRenderer {
-	
+
 	// Instance variables ----------------------------------------------
-	
+
 	/**
 	 * Defines the color codes for 4 players in RGB.
 	 */
@@ -32,14 +31,14 @@ public class BallRenderer {
 	 */
 	public static final float CHOICE_ALPHA = .15f;
 
-	public static final float MOUSE_OVER_ALPHA  = .6f;
+	public static final float MOUSE_OVER_ALPHA = .6f;
 	/**
 	 * Creates a new texture image that is rendered over the colored rectangles
 	 * that represent the balls on the field.
 	 */
 	public static final Texture OVERLAY = new Texture(
 			Gdx.files.internal("assets/data/overlay2.png"));
-	
+
 	/**
 	 * Color for mouse_over effect.
 	 */
@@ -47,29 +46,29 @@ public class BallRenderer {
 	/**
 	 * Color for suggestions effect.
 	 */
-	public static final float[] CHOICE_COLOR = {0,0,0};
-	
+	public static final float[] CHOICE_COLOR = { 0, 0, 0 };
+
 	/**
-	 * The width of the rectangle for rendering and the alpha value for rendering
-	 * the colours and the animation.
+	 * The width of the rectangle for rendering and the alpha value for
+	 * rendering the colours and the animation.
 	 */
 	private float x, y, width, alpha;
-	
+
 	/**
 	 * Array of variables nessecary for rendering the different colours.
 	 */
 	private float[] renderColor, ballColor, newBallColor;
-	
+
 	/**
 	 * Instance variable nessecary for the mouse hover.
 	 */
 	private boolean changing, mouseOver, isChoice;
-	
+
 	/**
 	 * Variable that decides whether the alpha value is increased or decreased.
 	 */
 	private int animationStep;
-	
+
 	/**
 	 * Integer representing the ID of the colour.
 	 */
@@ -78,15 +77,16 @@ public class BallRenderer {
 	 * Represents the current player of board.
 	 */
 	private int currentPlayerColorID;
+
 	/**
 	 * Renders a new ball and sets the colorID to -1, meaning it is empty.
 	 * 
 	 * @param x
-	 * 			the x-coordinate of the ball.
+	 *            the x-coordinate of the ball.
 	 * @param y
-	 * 			the y-coordinate of the ball.
+	 *            the y-coordinate of the ball.
 	 * @param width
-	 * 			the width of the field.
+	 *            the width of the field.
 	 */
 	public BallRenderer(float x, float y, float width) {
 		this.x = x;
@@ -109,26 +109,27 @@ public class BallRenderer {
 	 * Sets the new width of the rectangles. Nessecary when resizing the frame.
 	 * 
 	 * @param width
-	 * 			The width of the rectangles.
+	 *            The width of the rectangles.
 	 */
 	public void setWidth(float width) {
 		this.width = width;
 	}
-	
+
 	/**
 	 * Method determining if the animation of the rectangle is done.
 	 * 
 	 * @return true if the animation is done, false if it is still animating.
 	 */
-	public boolean animationDone(){;
-		return (!changing&&alpha>=MAX_ALPHA);
+	public boolean animationDone() {
+		;
+		return (!changing && alpha >= MAX_ALPHA);
 	}
-	
+
 	/**
 	 * Change the colour of the rectangle to a different ID.
 	 * 
 	 * @param colorID
-	 * 			the ID of the colour you want to change the rectangle to.
+	 *            the ID of the colour you want to change the rectangle to.
 	 */
 	public void changeColorTo(int colorID) {
 		if (isClear()) {
@@ -148,53 +149,59 @@ public class BallRenderer {
 	 * Sets the mouseOver equal to the instance variable mouseOver.
 	 * 
 	 * @param mouseOver
-	 * 			true if the mouse is on top of the rectangle, false if it is not.
+	 *            true if the mouse is on top of the rectangle, false if it is
+	 *            not.
 	 */
 	public void setMouseOver(boolean mouseOver) {
 		this.mouseOver = mouseOver;
 	}
+
 	/**
-	 * Marks the ball as a suggested move to be played by the current player by marking the field in the color
-	 * of that player.
-	 * @param color Color ID of the current Player
+	 * Marks the ball as a suggested move to be played by the current player by
+	 * marking the field in the color of that player.
+	 * 
+	 * @param color
+	 *            Color ID of the current Player
 	 */
-	public void isChoice(int currentPlayerID){
+	public void isChoice(int currentPlayerID) {
 		this.isChoice = true;
 		this.currentPlayerColorID = currentPlayerID;
 	}
+
 	/**
 	 * Use when the ball is no longer a possible move for the current player.
 	 */
-	public void notChoice(){
+	public void notChoice() {
 		this.isChoice = false;
 	}
+
 	/**
 	 * Sets the render colour of the rectangle.
 	 * 
 	 * @param color
-	 * 			the colour the rectangle should be rendered to.
+	 *            the colour the rectangle should be rendered to.
 	 */
-	public void setRenderColor(float[] color){
+	public void setRenderColor(float[] color) {
 		this.renderColor = color;
 		this.alpha = color[3];
 	}
-	
+
 	/**
 	 * Render the rectangle on the screen.
 	 * 
 	 * @param offSetX
-	 * 			Defines the left-down corner of the board.
+	 *            Defines the left-down corner of the board.
 	 * @param offSetY
-	 * 			Defines the up-right corner of the board.
+	 *            Defines the up-right corner of the board.
 	 * @param shapes
-	 * 			The ShapeRenderer rendering the rectangle.
+	 *            The ShapeRenderer rendering the rectangle.
 	 */
 	public void draw(float offSetX, float offSetY, ShapeRenderer shapes) {
-		
+
 		if (changing) {
 			if (animationStep == 1) {
 				if (alpha > 0) {
-					alpha = alpha - .015f - alpha/20;
+					alpha = alpha - .015f - alpha / 20;
 				} else {
 					alpha = 0;
 					animationStep = 2;
@@ -209,27 +216,27 @@ public class BallRenderer {
 					this.alpha = MAX_ALPHA;
 				}
 			}
-		}		
+		}
 		if (this.isClear()) {
 			if (mouseOver) {
 				this.renderColor = MOUSE_OVER;
 				alpha = MOUSE_OVER_ALPHA;
 			}
-			if(isChoice){
+			if (isChoice) {
 				this.renderColor = PLAYER_COLORS[this.currentPlayerColorID];
 				this.alpha = CHOICE_ALPHA;
 			}
-			if(!mouseOver&&!isChoice){
-				if (alpha>0) {
-					alpha=alpha -.02f;
+			if (!mouseOver && !isChoice) {
+				if (alpha > 0) {
+					alpha = alpha - .02f;
 				}
 			}
 		} else {
 			this.renderColor = this.ballColor;
 		}
 		shapes.setColor(renderColor[0], renderColor[1], renderColor[2], alpha);
-		
-		shapes.rect(offSetX+x, offSetY+y, width, width);	
+
+		shapes.rect(offSetX + x, offSetY + y, width, width);
 
 	}
 
@@ -237,14 +244,14 @@ public class BallRenderer {
 	 * Renders the overlay texture at the position of the ball.
 	 * 
 	 * @param offSetX
-	 * 			Defines the left-down corner of the board.
+	 *            Defines the left-down corner of the board.
 	 * @param offSetY
-	 * 			Defines the up-right corner of the board.
+	 *            Defines the up-right corner of the board.
 	 * @param batch
-	 * 			The SpriteBatch rendering the rectangle.
-	 * 			
+	 *            The SpriteBatch rendering the rectangle.
+	 * 
 	 */
 	public void batchDraw(float offSetX, float offSetY, SpriteBatch batch) {
-		batch.draw(OVERLAY, offSetX+x, offSetY+y);
+		batch.draw(OVERLAY, offSetX + x, offSetY + y);
 	}
 }
