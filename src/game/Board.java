@@ -20,7 +20,6 @@ public class Board {
 		this.modified = false;
 		changes = new ArrayList<int[]>();
 		modifiedBalls = new ArrayList<int[]>();
-//		validMovesForNextPlayer = new ArrayList<int[]>();
 		this.players = players;
 		this.currentPlayer = 0;
 		reset();

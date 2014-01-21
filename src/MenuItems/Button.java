@@ -3,6 +3,12 @@ package MenuItems;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.mygdxgame.RollIt;
 
+/**
+ * Class for setting a button.
+ * 
+ * @author Max Messerich en Joeri Kock
+ */
+
 public class Button extends GuiObject {
 
 	private String text;
