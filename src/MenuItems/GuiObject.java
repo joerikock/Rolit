@@ -139,7 +139,7 @@ public abstract class GuiObject implements GuiElement {
 
 	@Override
 	public void shapesDraw(ShapeRenderer shapes) {
-		if (this.mouseOver) {
+		if (this.mouseOver||selected) {
 			if (this.heightProgress < height) {
 				this.heightProgress += Button.mouseOverEffectSpeed;
 			} else {
@@ -165,6 +165,5 @@ public abstract class GuiObject implements GuiElement {
 	@Override
 	public void batchDraw(SpriteBatch batch) {
 		// TODO Auto-generated method stub
-
 	}
 }
