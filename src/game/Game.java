@@ -3,6 +3,7 @@ package game;
 import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
+import rollitMenus.NewGameMenu;
 import MenuItems.MenuManager;
 
 import com.badlogic.gdx.Gdx;
@@ -47,7 +48,7 @@ public class Game {
 	 * Creates an in-game menu.
 	 */
 	private IngameMenu inGameMenu;
-
+	private NewGameMenu newGameMenu;
 	/**
 	 * Creates a BoardGUI object.
 	 */
@@ -86,18 +87,21 @@ public class Game {
 		login = new LoginMenu(menus);
 		mainMenu = new MainMenu(menus);
 		inGameMenu = new IngameMenu(menus);
+		newGameMenu = new NewGameMenu(menus);
 		menus.addMenu(inGameMenu);
 		menus.addMenu(mainMenu);
+		menus.addMenu(newGameMenu);
 		menus.addMenu(login);
+		
 		board = new Board();
 		boardPainter = new BoardGUI();
 		boardPainter.setPosition(300, 0);
 		boardPainter.setBoard(board);
 		bg = new AnimatedBackGround(3, 200);
-		 p1 = new DumbPlayer(0);
-		 p2 = new DumbPlayer(1);
-//		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
-//		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
+		p1 = new DumbPlayer(0);
+		p2 = new DumbPlayer(1);
+		// p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
+		// p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
 		// p3 = new HumanPlayer("Pimmel", 2, boardPainter);
 		players = new Player[2];
 		players[0] = p1;
@@ -120,6 +124,7 @@ public class Game {
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
 		if (menus.getActiveMenu() == inGameMenu) {
+			gameActive = true;
 			if (menus.getActiveMenu().lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
@@ -139,15 +144,17 @@ public class Game {
 				System.exit(0);
 			}
 			if (menus.getActiveMenu().lastClickedElement() == "New Game") {
-				System.out.println("Starting a new Game");
+
+				menus.setActiveMenu(newGameMenu);
+			}
+		}
+		if (menus.getActiveMenu() == newGameMenu) {
+			
+			if (menus.getActiveMenu().lastClickedElement() == "Start") {
 				menus.setActiveMenu(inGameMenu);
 				board.newGame(players);
-
 			}
 
-		}
-		if (menus.getActiveMenu().lastClickedElement() != null) {
-			System.out.println(menus.getActiveMenu().lastClickedElement());
 		}
 		if (menus.getActiveMenu() == login) {
 			if (menus.getActiveMenu().lastClickedElement() == "Login") {
@@ -165,10 +172,10 @@ public class Game {
 		boardPainter.update(x, y, mouseDown);
 
 		gameActive = true;
-		
+
 		// TODO: Managing game should be done in an extra function
 		if (boardPainter.animationDone()) {
-//			System.out.println("Animation Done!");
+			// System.out.println("Animation Done!");
 			if (!board.finished()) {
 				if (board.currentPlayer().hasMove()) {
 					// System.out.

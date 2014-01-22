@@ -35,4 +35,10 @@ public class Button extends GuiObject {
 		return new String("Button: " + text + "- - alpha: " + alpha);
 	}
 
+	@Override
+	public void updateMembers() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
