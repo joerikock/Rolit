@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 
 /**
- * Class for a greedy player. A GreedyPlayer checks all the possible moves 
+ * Class for a smart player. A SmartPlayer checks all the possible moves 
  * it can make, and chooses the one where he can capture the most balls. If
  * a field in the corner of the field is available to make a move on, that
  * field is selected.
@@ -11,26 +11,27 @@ import java.util.ArrayList;
  * @author Max Messerich en Joeri Kock
  */
 
-public class GreedyPlayer extends Player {
+public class SmartPlayer extends Player {
 
 	/**
-	 * Creating the GreedyPlayer by using the super-constructor of Player.
+	 * Creating the SmartPlayer by using the super-constructor of Player.
 	 * 
 	 * @param color
 	 *            the colour the player needs to be assigned to.
 	 */
-	public GreedyPlayer (int color) {
-		super("Greedy Player", color);
+	public SmartPlayer (int color) {
+		super("Smart Player", color);
 	}
 
 	/**
-	 * The determineMove method of the GreedyPlayer. This method returns a move
+	 * The determineMove method of the SmartPlayer. This method returns a move
 	 * which gets him the most fields. If a corner field is available, that 
 	 * field is returned.
 	 */
 	public int[] determineMove(Board b) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
 		int numberOfFields = -1;
+		int fieldCounter = -1;
 		int[] result = {-1, -1};
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
@@ -49,7 +50,9 @@ public class GreedyPlayer extends Player {
 				Board copy = b.deepCopy();
 				copy.tryMove(possibleMoves.get(i)[0], 
 						possibleMoves.get(i)[1], this.getID());
-				if (copy.occupiedFields(this.getID()) > numberOfFields) {
+				fieldCounter = copy.occupiedFields(this.getID());
+				if (fieldCounter > numberOfFields) {
+					numberOfFields = fieldCounter;
 					result[0] = possibleMoves.get(i)[0];
 					result[1] = possibleMoves.get(i)[1];
 				}

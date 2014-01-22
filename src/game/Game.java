@@ -99,8 +99,8 @@ public class Game {
 		boardPainter.setPosition(300, 0);
 		boardPainter.setBoard(board);
 		bg = new AnimatedBackGround(3, 200);
-		p1 = new GreedyPlayer(0);
-		p2 = new GreedyPlayer(1);
+		p1 = new SmartPlayer(0);
+		p2 = new SmartPlayer(1);
 //		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
 //		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
 //		p3 = new HumanPlayer("Pimmel", 2, boardPainter);
