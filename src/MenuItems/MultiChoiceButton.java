@@ -3,6 +3,7 @@ package MenuItems;
 public class MultiChoiceButton extends GuiObject implements ParentObject{
 	private Button[] buttons;
 	private Button selectedButton;
+	private boolean newItem;
 	public MultiChoiceButton(String text, String[] buttonNames, String selectedButtonName, Menu menu, float x, float y){
 		super(text);
 		//Set Text;
@@ -16,8 +17,8 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 			menu.addChildGuiObjectTo(buttons[i], this);
 			super.addChildren(buttons[i]);
 		}
-		this.selectedButton = buttons[0];
-		buttons[0].setSelected(true);
+//		this.selectedButton = buttons[0];
+//		buttons[0].setSelected(true);
 		
 	
 	}
@@ -25,19 +26,32 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 	public String getSelectedChild(){
 		return this.selectedButton.getName();
 	}
+	/**
+	 * Updated the Button of the "Choicebox".
+	 */
 	@Override
 	public void updateMembers() {
 //		GuiObject[] children = this.getChildren();
-		for(int i=0; i<this.getChildren().size(); i++){
-			this.getChildren().get(i).setSelected(false);
-		}
-		for(int i=0; i<this.getChildren().size();i++){
-			if(this.getChildren().get(i).clicked()){
-				this.selectedButton = (Button)(this.getChildren().get(i));
+		this.newItem = false;
+		for(int ind=0; ind<this.getChildren().size();ind++){
+			if(this.getChildren().get(ind).clicked()){
+				newItem = true;
+				for(int i=0; i<this.getChildren().size(); i++){
+					this.getChildren().get(i).setSelected(false);
+				}
+				this.selectedButton = (Button)(this.getChildren().get(ind));
+				
 			}
 		}
-		selectedButton.setSelected(true);
+		if(this.selectedButton!=null){
+			selectedButton.setSelected(true);
+		}
 		
+		
+	}
+	@Override
+	public boolean newSelectedObject() {
+		return newItem;
 	}
 
 }

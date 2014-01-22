@@ -4,6 +4,7 @@ import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
 import rollitMenus.NewGameMenu;
+import MenuItems.Menu;
 import MenuItems.MenuManager;
 
 import com.badlogic.gdx.Gdx;
@@ -128,14 +129,15 @@ public class Game {
 	// TODO: Multithreading???
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
-		if (menus.getActiveMenu() == inGameMenu) {
+		Menu active = menus.getActiveMenu();
+		if (active == inGameMenu) {
 			gameActive = true;
-			if (menus.getActiveMenu().lastClickedElement() == "Back") {
+			if (active.lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
 			}
 			this.updateGame(x, y, mouseDown);
-
+			
 		} else {
 			bg.update();
 		}
@@ -144,32 +146,32 @@ public class Game {
 		 * If a game is not in progress render a dummy field that randomly
 		 * changes colors so the menu looks better.
 		 */
-		if (menus.getActiveMenu() == mainMenu) {
-			if (menus.getActiveMenu().lastClickedElement() == "Exit") {
+		if (active == mainMenu) {
+			if (active.lastClickedElement() == "Exit") {
 				System.exit(0);
 			}
-			if (menus.getActiveMenu().lastClickedElement() == "New Game") {
+			if (active.lastClickedElement() == "New Game") {
 
 				menus.setActiveMenu(newGameMenu);
 			}
 		}
-		if (menus.getActiveMenu() == newGameMenu) {
-			if (menus.getActiveMenu().lastClickedElement() == "Start") {
+		if (active == newGameMenu) {
+			if (active.lastClickedElement() == "Start") {
 				menus.setActiveMenu(inGameMenu);
 				board.newGame(players);
 			}
-			if(menus.getActiveMenu().lastClickedElement() == "Opponet"){
-				if(menus.getActiveMenu().selectedChild()=="Human Player"){
+			if(active.lastClickedElement() == "Opponet"&&active.lastClickedElementInstace().newSelectedObject()){
+				if(active.selectedChild()=="Human Player"){
 					System.out.println("Human");
 					p2 = new HumanPlayer("Max", 1, boardPainter);
 					players[1] = p2;
 				}
-				if(menus.getActiveMenu().selectedChild()=="Simple AI"){
+				if(active.selectedChild()=="Simple AI"){
 					System.out.println("Dumb");
 					p2 = new DumbPlayer(1);
 					players[1] = p2;
 				}
-				if(menus.getActiveMenu().selectedChild()=="Smart AI"){
+				if(active.selectedChild()=="Smart AI"){
 					System.out.println("Smart");
 					p2 = new SmartPlayer(1);
 					players[1] = p2;
@@ -177,8 +179,8 @@ public class Game {
 			}
 
 		}
-		if (menus.getActiveMenu() == login) {
-			if (menus.getActiveMenu().lastClickedElement() == "Login") {
+		if (active == login) {
+			if (active.lastClickedElement() == "Login") {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);

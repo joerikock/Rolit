@@ -28,7 +28,6 @@ public abstract class Menu {
 	private int lastClickedElementIndex;
 	private MenuManager manager;
 	private String name;
-
 	/**
 	 * Creates a new Menu with button, textfields and god know what. The update
 	 * function returns the id of the selected element
@@ -207,7 +206,19 @@ public abstract class Menu {
 		}
 		return null;
 	}
-	
+	/**
+	 * 
+	 * @return The last clicked GuiObject instances. 
+	 */
+	public GuiObject lastClickedElementInstace() {
+
+		if (this.lastClickedElementIndex != -1) {
+			// System.out.println("CLICKED: "
+			// +this.menuObjects.get(lastClickedElementIndex).getName());
+			return this.guiObjects.get(lastClickedElementIndex);
+		}
+		return null;
+	}
 	public String selectedChild(){
 		return this.guiObjects.get(lastClickedElementIndex).getSelectedChild();
 	}

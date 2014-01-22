@@ -88,6 +88,7 @@ public abstract class GuiObject implements GuiElement {
 		}
 
 	}
+	public abstract boolean newSelectedObject();
 	public abstract void updateMembers();
 	public float realX() {
 		return px + x;
