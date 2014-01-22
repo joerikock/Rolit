@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * field is selected.
  * 
  * @author Max Messerich en Joeri Kock
- *
  */
 
 public class GreedyPlayer extends Player {
@@ -21,24 +20,32 @@ public class GreedyPlayer extends Player {
 	 *            the colour the player needs to be assigned to.
 	 */
 	public GreedyPlayer (int color) {
-		super("Greedy player", color);
+		super("Greedy Player", color);
 	}
 
 	/**
-	 * Method returning an array of all possible moves vor the DumbPlayer. The
-	 * moves chosen by this player are completely random, as long as it is a
-	 * legal move to make.
+	 * The determineMove method of the GreedyPlayer. This method returns a move
+	 * which gets him the most fields. If a corner field is available, that 
+	 * field is returned.
 	 */
 	public int[] determineMove(Board b) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
-		for (int i = 0; i < possibleMoves.size(); i++) {
-			Board copy;
-		}
-		int choice = Tools.randomInt(0, possibleMoves.size() - 1);
-		if (choice == possibleMoves.size()) {
-			return possibleMoves.get(choice - 1);
-		}
-		return possibleMoves.get(choice);
+		int numberOfFields = -1;
+		int[] result = {-1, -1};
+		//if (possibleMoves) {
+			
+		//} else {
+			for (int i = 0; i < possibleMoves.size(); i++) {
+				Board copy = b.deepCopy();
+				copy.tryMove(possibleMoves.get(i)[0], 
+						possibleMoves.get(i)[1], this.getID());
+				if (copy.occupiedFields(this.getID()) > numberOfFields) {
+					result[0] = possibleMoves.get(i)[0];
+					result[1] = possibleMoves.get(i)[1];
+				}
+			}
+		//}
+		return result;
 	}
 
 	/**
@@ -51,6 +58,4 @@ public class GreedyPlayer extends Player {
 	public boolean hasMove() {
 		return true;
 	}
-	
-	
 }

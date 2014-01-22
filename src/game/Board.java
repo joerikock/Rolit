@@ -55,8 +55,10 @@ public class Board {
 	 */
 	public Board deepCopy() {
 		Board copy = new Board();
-        for (int i = 0; i < field.length; i++) {
-            copy.field[i] = this.field[i];
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+        	for (int j = 0; j < FIELD_HEIGHT; j++) {
+        		copy.field[i][j] = this.field[i][j];
+        	}
         }
         return copy;
 	}
@@ -296,6 +298,25 @@ public class Board {
 		}
 		return false;
 	}
+	
+	/**
+	 * Count all the fields a given player has.
+	 * 
+	 * @param id
+	 * 			the player.
+	 * @return the number of fields the player has.
+	 */
+	public int occupiedFields(int id) {
+    	int result = 0;
+    	for (int i = 0; i < FIELD_WIDTH; i++) {
+    		for (int j = 0; j < FIELD_HEIGHT; j++) {
+    			if (field[i][j] == id) {
+    				result += 1;
+    			}
+    		}
+		}
+    	return result;
+    }
 
 	/**
 	 * 

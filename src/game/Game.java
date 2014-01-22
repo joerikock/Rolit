@@ -94,17 +94,17 @@ public class Game {
 		boardPainter.setPosition(300, 0);
 		boardPainter.setBoard(board);
 		bg = new AnimatedBackGround(3, 200);
-//		p1 = new DumbPlayer(0);
-//		p2 = new DumbPlayer(1);
-		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
-		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
-		p3 = new HumanPlayer("Pimmel", 2, boardPainter);
-		p4 = new HumanPlayer("Joeri", 3, boardPainter);
-		players = new Player[4];
+		p1 = new GreedyPlayer(0);
+		p2 = new GreedyPlayer(1);
+//		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
+//		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
+//		p3 = new HumanPlayer("Pimmel", 2, boardPainter);
+//		p4 = new HumanPlayer("Joeri", 3, boardPainter);
+		players = new Player[2];
 		players[0] = p1;
 		players[1] = p2;
-		players[2] = p3;
-		players[3] = p4;
+//		players[2] = p3;
+//		players[3] = p4;
 		board.newGame(players);
 	}
 
