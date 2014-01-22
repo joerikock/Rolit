@@ -47,6 +47,19 @@ public class Board {
 		field[4][4] = 2;
 		field[4][3] = 3;
 	}
+	
+	/**
+	 * Creates a copy of the board.
+	 * 
+	 * @return a copy of the current board.
+	 */
+	public Board deepCopy() {
+		Board copy = new Board();
+        for (int i = 0; i < field.length; i++) {
+            copy.field[i] = this.field[i];
+        }
+        return copy;
+	}
 
 	/**
 	 * 
