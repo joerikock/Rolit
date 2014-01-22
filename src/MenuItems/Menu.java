@@ -163,7 +163,6 @@ public abstract class Menu {
 			//If the currrent GuiObject x is of the menu itself, and is clicked, the currently selected element
 			//is x
 			if(indexManager.get(i) == menuObjects){
-				System.out.println(guiObjects.get(i).getName()+" Menu");
 				if (guiObjects.get(i).clicked()) {
 					// System.out.println(i);
 					this.lastClickedElementIndex = i;

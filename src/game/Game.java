@@ -159,6 +159,9 @@ public class Game {
 				menus.setActiveMenu(inGameMenu);
 				board.newGame(players);
 			}
+			if(menus.getActiveMenu().lastClickedElement() == "Test"){
+				System.out.println("YES");
+			}
 
 		}
 		if (menus.getActiveMenu() == login) {
