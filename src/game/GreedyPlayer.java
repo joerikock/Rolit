@@ -33,15 +33,26 @@ public class GreedyPlayer extends Player {
 		int numberOfFields = -1;
 		int[] result = {-1, -1};
 		for (int i = 0; i < possibleMoves.size(); i++) {
-			if (possibleMoves.get(i)[0] == 0 && ) {
-				
-			}
-			Board copy = b.deepCopy();
-			copy.tryMove(possibleMoves.get(i)[0], 
-					possibleMoves.get(i)[1], this.getID());
-			if (copy.occupiedFields(this.getID()) > numberOfFields) {
-				result[0] = possibleMoves.get(i)[0];
-				result[1] = possibleMoves.get(i)[1];
+			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
+				result[0] = 0;
+				result[1] = 0;
+			} else if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 7) {
+				result[0] = 0;
+				result[1] = 7;
+			} else if (possibleMoves.get(i)[0] == 7 && possibleMoves.get(i)[1] == 0) {
+				result[0] = 7;
+				result[1] = 0;
+			} else if (possibleMoves.get(i)[0] == 7 && possibleMoves.get(i)[1] == 7) {
+				result[0] = 7;
+				result[1] = 7;
+			} else {
+				Board copy = b.deepCopy();
+				copy.tryMove(possibleMoves.get(i)[0], 
+						possibleMoves.get(i)[1], this.getID());
+				if (copy.occupiedFields(this.getID()) > numberOfFields) {
+					result[0] = possibleMoves.get(i)[0];
+					result[1] = possibleMoves.get(i)[1];
+				}
 			}
 		}
 		return result;
