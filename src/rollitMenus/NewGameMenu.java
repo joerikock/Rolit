@@ -9,6 +9,7 @@ public class NewGameMenu extends Menu {
 
 	public NewGameMenu(MenuManager manager) {
 		super("newGameMenu");
+
 		super.setManager(manager);
 		Button start = new Button("Start", 10, 10);
 		this.addGuiObject(start);
@@ -16,6 +17,7 @@ public class NewGameMenu extends Menu {
 		MultiChoiceButton opponentChooser = new MultiChoiceButton("Opponet",
 				choices, null, this, 50, 50);
 		this.addGuiObject(opponentChooser);
+
 	}
 
 }

@@ -18,12 +18,12 @@ public class DumbPlayer extends Player {
 	 *            the colour the player needs to be assigned to.
 	 */
 	public DumbPlayer(int color) {
-		super("DumbPlayer", color);
+		super("Dumb Player", color);
 	}
 
 	/**
-	 * Method returning an array of all possible moves vor the DumbPlayer. The
-	 * moves chosen by this player are completely random, as long as it is a
+	 * Method returning an array a possible move vor the DumbPlayer. The
+	 * move chosen by this player is completely random, as long as it is a
 	 * legal move to make.
 	 */
 	public int[] determineMove(Board b) {

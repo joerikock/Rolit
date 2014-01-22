@@ -8,11 +8,13 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 		//Set Text;
 		super.setDimensions(x, y, 100, 30);
 		//Add Buttons
+
 		menu.addGuiObject(this);
 		buttons = new Button[buttonNames.length];
 		for(int i=0; i<buttonNames.length; i++){
 			buttons[i] = new Button(buttonNames[i], x+100+i*100, y);
 			menu.addChildGuiObjectTo(buttons[i], this);
+
 		}
 		this.selectedButton = buttons[0];
 		buttons[0].setSelected(true);

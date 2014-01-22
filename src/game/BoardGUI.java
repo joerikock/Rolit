@@ -182,7 +182,7 @@ public class BoardGUI {
 	}
 
 	/**
-	 * Updates the Rendered Board when the Board is updated and. Handles the
+	 * Updates the Rendered Board when the Board is updated and handles the
 	 * interaction of the user like hovering the mouse over a ball and clicking
 	 * it. Shows possible moves for the current Player.
 	 * 
@@ -237,7 +237,6 @@ public class BoardGUI {
 			this.changinsBallInit = false;
 //			if(choices.size()>0){
 //				animationInProgress = true;
-//				
 //			}
 
 		}

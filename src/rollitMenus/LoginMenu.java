@@ -20,10 +20,12 @@ public class LoginMenu extends Menu {
 		
 		
 		MultiChoiceButton test= new MultiChoiceButton("Test", buttonNames, "Cool", this, 300, 200);
+
 		this.addGuiObject(b);
 		this.addGuiObject(username);
 		this.addGuiObject(password);
 		this.addGuiObject(test);
+
 
 	}
 
