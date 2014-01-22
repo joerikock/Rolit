@@ -177,7 +177,7 @@ public abstract class Menu {
 				if (guiObjects.get(i).clicked()) {
 					
 					this.lastClickedElementIndex = this.childIndexManager.get(i);
-					System.out.println(guiObjects.get(this.lastClickedElementIndex).name);
+
 				}
 			}
 
