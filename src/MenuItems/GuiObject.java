@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.me.mygdxgame.RollIt;
 
 //TODO: generalize drawing of elements
-public class GuiObject implements GuiElement {
+public abstract class GuiObject implements GuiElement {
 	public static final float R = 0;
 	public static final float G = 0;
 	public static final float B = 0;
@@ -16,6 +16,7 @@ public class GuiObject implements GuiElement {
 	static final float mouseOverEffectSpeed = .5f;
 	boolean mouseOver, selected, clicked;
 	float x, y, px, py, width, height, alpha, heightProgress;
+	private GuiObject[] children;
 	Menu parent;
 	String name;
 
@@ -24,9 +25,14 @@ public class GuiObject implements GuiElement {
 	}
 
 	public void setParent(Menu parent) {
-		this.parent = parent;
+//		this.parent = parent;
 	}
-
+	public void setChildren(GuiObject[] children){
+		this.children = children;
+	}
+	public GuiObject[] getChildren(){
+		return children;
+	}
 	public String getName() {
 		return name;
 	}
@@ -48,7 +54,10 @@ public class GuiObject implements GuiElement {
 
 		alpha = a;
 	}
-
+	public void setSelected(boolean selected){
+		mouseOver = selected;
+		this.selected = selected;
+	}
 	@Override
 	/**
 	 * Updates the Object and returns true, if the the mouse is over the elemnt and is clicked
@@ -73,7 +82,7 @@ public class GuiObject implements GuiElement {
 		}
 
 	}
-
+	public abstract void updateMembers();
 	public float realX() {
 		return px + x;
 	}

@@ -8,7 +8,7 @@ public class NewGameMenu extends Menu{
 	public NewGameMenu() {
 		super("newGameMenu");
 		Button start = new Button("Start", 10,10);
-		this.addGuiObject(start);
+		this.addGuiObject(start, false);
 	}
 
 }

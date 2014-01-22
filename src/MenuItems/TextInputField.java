@@ -110,4 +110,10 @@ public class TextInputField extends GuiObject {
 
 	}
 
+	@Override
+	public void updateMembers() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

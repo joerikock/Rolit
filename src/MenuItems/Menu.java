@@ -1,11 +1,10 @@
 package MenuItems;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * TODO: Add function to add a GuiElement to the Menu, that makes sure that the
@@ -18,8 +17,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public abstract class Menu {
 	// private ArrayList<>
-	private ArrayList<Button> buttons;
+	private ArrayList<GuiObject> guiObjects;
+	private HashMap<Integer,ArrayList<GuiObject>> indexManager;
+	private HashMap<Integer, Integer> childIndexManager;
 	private ArrayList<GuiObject> menuObjects;
+	private ArrayList<GuiObject> childrenObjects;
 	private ArrayList<Integer> buttonIndexList, textInputFieldIndexList;
 	private int lastClickedElementIndex;
 	private MenuManager manager;
@@ -31,7 +33,11 @@ public abstract class Menu {
 	 */
 	public Menu(String name) {
 		lastClickedElementIndex = -1;
+		this.indexManager = new HashMap<Integer, ArrayList<GuiObject>>();
+		this.childIndexManager = new HashMap<Integer, Integer>();
+		this.guiObjects = new ArrayList<GuiObject>();
 		this.menuObjects = new ArrayList<GuiObject>();
+		this.childrenObjects = new ArrayList<GuiObject>();
 		this.buttonIndexList = new ArrayList<Integer>();
 		this.textInputFieldIndexList = new ArrayList<Integer>();
 		this.name = name;
@@ -49,47 +55,53 @@ public abstract class Menu {
 		this.lastClickedElementIndex = -1;
 	}
 
-	public void addButton(Button button) {
-		button.setParent(this);
-		this.buttons.add(button);
-	}
-
 	/**
 	 * Adds a specific GuiObject(Button, TextField, etc) to the menu.
 	 * 
 	 * @param obj
 	 */
-	public void addGuiObject(GuiObject obj) {
-		obj.setParent(this);
-		menuObjects.add(obj);
-		int menuObjectsLastIndex = menuObjects.size() - 1;
-		// add the index of the new element in menuObjects to the corresponding
-		// ArrayList
-
+	private void addInternal(GuiObject obj){
+		guiObjects.add(obj);
 		if (obj instanceof Button) {
-			buttonIndexList.add(menuObjectsLastIndex);
+			buttonIndexList.add(guiObjects.size()-1);
 			System.out.println("Menu.addGuiObject: " + "Button added "
 					+ obj.name);
 		}
 		if (obj instanceof TextInputField) {
-			textInputFieldIndexList.add(menuObjectsLastIndex);
+			textInputFieldIndexList.add(guiObjects.size()-1);
 		}
 	}
+	public void addGuiObject(GuiObject obj, boolean isChild) {
+		
+		addInternal(obj);
+		indexManager.put(guiObjects.size()-1,menuObjects);
+		
+	
 
+		// add the index of the new element in menuObjects to the corresponding
+		// ArrayList
+
+
+	}
+	public void addChildGuiObjectTo(GuiObject obj, GuiObject parent){
+		addInternal(obj);
+		indexManager.put(guiObjects.size()-1, childrenObjects);
+		
+	}
 	public void shapesDraw(ShapeRenderer shapes) {
-		for (int i = 0; i < menuObjects.size(); i++) {
-			// System.out.print(menuObjects.get(i).getName()+", ");
+//		System.out.println(guiObjects.size());
+		for (int i = 0; i < guiObjects.size(); i++) {
 			// shapes.begin(ShapeType.Filled);
-			menuObjects.get(i).shapesDraw(shapes);
+			guiObjects.get(i).shapesDraw(shapes);
 			// shapes.end();
 		}
 	}
 
 	public void batchDraw(SpriteBatch batch) {
 
-		for (int i = 0; i < menuObjects.size(); i++) {
+		for (int i = 0; i < guiObjects.size(); i++) {
 			// System.out.println();
-			menuObjects.get(i).batchDraw(batch);
+			guiObjects.get(i).batchDraw(batch);
 		}
 	}
 
@@ -111,20 +123,41 @@ public abstract class Menu {
 	 */
 
 	public void update(float x, float y, boolean mouseDown, char input) {
-		for (int i = 0; i < menuObjects.size(); i++) {
-			menuObjects.get(i).update(x, y, mouseDown);
-			if (menuObjects.get(i).clicked()) {
-				// System.out.println(i);
-				this.lastClickedElementIndex = i;
+		//Update all guiObjects with their needed data
+		for (int i = 0; i < guiObjects.size(); i++) {
+			
+			guiObjects.get(i).update(x, y, mouseDown);
+			if(guiObjects.get(i) instanceof TextInput){
+				TextInput t = (TextInput)guiObjects.get(i);
+				t.updateKeys(input);
 			}
-		}
+			//If the currrent GuiObject x is of the menu itself, and is clicked, the currently selected element
+			//is x
+			if(indexManager.get(i) == menuObjects){
+				System.out.println(guiObjects.get(i).getName()+" Menu");
+				if (guiObjects.get(i).clicked()) {
+					// System.out.println(i);
+					this.lastClickedElementIndex = i;
+				}
+			}
+			//If the current GuiObject x is a child object of GuiObject y, the currently selected element is y
+			if(indexManager.get(i) == childrenObjects){
+				System.out.println(guiObjects.get(i).getName()+" Menu");
+				if (guiObjects.get(i).clicked()) {
+					// System.out.println(i);
+					this.lastClickedElementIndex = i;
+				}
+			}	
+			
 
-		for (int i = 0; i < this.textInputFieldIndexList.size(); i++) {
-			TextInputField t = (TextInputField) (this.menuObjects
-					.get(textInputFieldIndexList.get(i)));
-			t.updateKeys(input);
-
 		}
+//
+//		for (int i = 0; i < this.textInputFieldIndexList.size(); i++) {
+//			TextInputField t = (TextInputField) (this.menuObjects
+//					.get(textInputFieldIndexList.get(i)));
+//			t.updateKeys(input);
+//
+//		}
 	}
 
 	// public abstract void action();

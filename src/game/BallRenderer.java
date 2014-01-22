@@ -29,7 +29,7 @@ public class BallRenderer {
 	/**
 	 * Defines the alpha value for rendering suggestions.
 	 */
-	public static final float CHOICE_ALPHA = .15f;
+	public static final float CHOICE_ALPHA = .2f;
 
 	public static final float MOUSE_OVER_ALPHA = .6f;
 	/**
