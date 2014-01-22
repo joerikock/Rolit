@@ -159,7 +159,21 @@ public class Game {
 				board.newGame(players);
 			}
 			if(menus.getActiveMenu().lastClickedElement() == "Opponet"){
-				System.out.println(menus.getActiveMenu().selectedChild());
+				if(menus.getActiveMenu().selectedChild()=="Human Player"){
+					System.out.println("Human");
+					p2 = new HumanPlayer("Max", 1, boardPainter);
+					players[1] = p2;
+				}
+				if(menus.getActiveMenu().selectedChild()=="Simple AI"){
+					System.out.println("Dumb");
+					p2 = new DumbPlayer(1);
+					players[1] = p2;
+				}
+				if(menus.getActiveMenu().selectedChild()=="Smart AI"){
+					System.out.println("Smart");
+					p2 = new SmartPlayer(1);
+					players[1] = p2;
+				}
 			}
 
 		}

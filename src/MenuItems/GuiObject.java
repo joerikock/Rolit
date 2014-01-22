@@ -38,14 +38,7 @@ public abstract class GuiObject implements GuiElement {
 	 * 
 	 * @return Returns the name of the selected Child.
 	 */
-	public String getSelectedChild(){
-		for(int i=0; i<children.size();i++){
-			if(children.get(i).selected()){
-				return children.get(i).getName();
-			}
-		}
-		return null;
-	}
+	public abstract String getSelectedChild();
 	public String getName() {
 		return name;
 	}

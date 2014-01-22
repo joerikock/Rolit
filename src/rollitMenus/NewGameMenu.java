@@ -13,7 +13,7 @@ public class NewGameMenu extends Menu {
 		super.setManager(manager);
 		Button start = new Button("Start", 10, 10);
 		this.addGuiObject(start);
-		String[] choices = { "Human Player", "Simple AI" };
+		String[] choices = { "Human Player", "Simple AI", "Smart AI"};
 		MultiChoiceButton opponentChooser = new MultiChoiceButton("Opponet",
 				choices, null, this, 50, 50);
 		this.addGuiObject(opponentChooser);

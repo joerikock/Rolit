@@ -116,4 +116,10 @@ public class TextInputField extends GuiObject {
 		
 	}
 
+	@Override
+	public String getSelectedChild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

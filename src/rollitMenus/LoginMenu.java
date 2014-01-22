@@ -16,15 +16,11 @@ public class LoginMenu extends Menu {
 		password = new TextInputField("Password", 200, 200);
 		password.setTextVisibility(false);
 		username = new TextInputField("Name", 200, 100);
-		String[] buttonNames = {"Test", "Cool", "DADUM"};
-		
-		
-		MultiChoiceButton test= new MultiChoiceButton("Test", buttonNames, "Cool", this, 300, 200);
 
 		this.addGuiObject(b);
 		this.addGuiObject(username);
 		this.addGuiObject(password);
-		this.addGuiObject(test);
+
 
 
 	}
