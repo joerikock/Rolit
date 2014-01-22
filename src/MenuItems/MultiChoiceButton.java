@@ -14,11 +14,11 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 		for(int i=0; i<buttonNames.length; i++){
 			buttons[i] = new Button(buttonNames[i], x+100+i*100, y);
 			menu.addChildGuiObjectTo(buttons[i], this);
-
+			super.addChildren(buttons[i]);
 		}
 		this.selectedButton = buttons[0];
 		buttons[0].setSelected(true);
-		super.setChildren(buttons);
+		
 	
 	}
 	public String selectedButton(){
@@ -26,13 +26,13 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 	}
 	@Override
 	public void updateMembers() {
-		GuiObject[] children = this.getChildren();
-		for(int i=0; i<children.length; i++){
-			children[i].setSelected(false);
+//		GuiObject[] children = this.getChildren();
+		for(int i=0; i<this.getChildren().size(); i++){
+			this.getChildren().get(i).setSelected(false);
 		}
-		for(int i=0; i<children.length;i++){
-			if(children[i].clicked()){
-				this.selectedButton = (Button)(children[i]);
+		for(int i=0; i<this.getChildren().size();i++){
+			if(this.getChildren().get(i).clicked()){
+				this.selectedButton = (Button)(this.getChildren().get(i));
 			}
 		}
 		selectedButton.setSelected(true);

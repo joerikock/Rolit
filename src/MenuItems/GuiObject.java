@@ -1,9 +1,9 @@
 package MenuItems;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.me.mygdxgame.RollIt;
 
 //TODO: generalize drawing of elements
 public abstract class GuiObject implements GuiElement {
@@ -16,22 +16,35 @@ public abstract class GuiObject implements GuiElement {
 	static final float mouseOverEffectSpeed = .5f;
 	boolean mouseOver, selected, clicked;
 	float x, y, px, py, width, height, alpha, heightProgress;
-	private GuiObject[] children;
+	private ArrayList<GuiObject> children;
 	Menu parent;
 	String name;
 
 	public GuiObject(String name) {
+		children = new ArrayList<GuiObject>();
 		this.name = name;
 	}
 
 	public void setParent(Menu parent) {
 //		this.parent = parent;
 	}
-	public void setChildren(GuiObject[] children){
-		this.children = children;
+	public void addChildren(GuiObject child){
+		this.children.add(child);
 	}
-	public GuiObject[] getChildren(){
+	public ArrayList<GuiObject> getChildren(){
 		return children;
+	}
+	/**
+	 * 
+	 * @return Returns the name of the selected Child.
+	 */
+	public String getSelectedChild(){
+		for(int i=0; i<children.size();i++){
+			if(children.get(i).selected()){
+				return children.get(i).getName();
+			}
+		}
+		return null;
 	}
 	public String getName() {
 		return name;

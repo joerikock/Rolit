@@ -154,13 +154,12 @@ public class Game {
 			}
 		}
 		if (menus.getActiveMenu() == newGameMenu) {
-			
 			if (menus.getActiveMenu().lastClickedElement() == "Start") {
 				menus.setActiveMenu(inGameMenu);
 				board.newGame(players);
 			}
-			if(menus.getActiveMenu().lastClickedElement() == "Test"){
-				System.out.println("YES");
+			if(menus.getActiveMenu().lastClickedElement() == "Opponet"){
+				System.out.println(menus.getActiveMenu().selectedChild());
 			}
 
 		}

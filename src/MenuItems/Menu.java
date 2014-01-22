@@ -156,6 +156,7 @@ public abstract class Menu {
 		for (int i = 0; i < guiObjects.size(); i++) {
 			
 			guiObjects.get(i).update(x, y, mouseDown);
+			guiObjects.get(i).updateMembers();
 			if(guiObjects.get(i) instanceof TextInput){
 				TextInput t = (TextInput)guiObjects.get(i);
 				t.updateKeys(input);
@@ -205,6 +206,10 @@ public abstract class Menu {
 			return this.guiObjects.get(lastClickedElementIndex).getName();
 		}
 		return null;
+	}
+	
+	public String selectedChild(){
+		return this.guiObjects.get(lastClickedElementIndex).getSelectedChild();
 	}
 
 	public void print() {
