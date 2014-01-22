@@ -31,6 +31,10 @@ public class SmartPlayer extends Player {
 	@Override
 	public int[] determineMove(Board b) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
+		for(int[] elem : possibleMoves){
+			System.out.print("(" + elem[0] + ", " + elem[1] + "), ");
+		}
+		System.out.println();
 		int numberOfFields = -1;
 		int fieldCounter = -1;
 		int[] result = {-1, -1};
@@ -38,21 +42,28 @@ public class SmartPlayer extends Player {
 			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
 				result[0] = 0;
 				result[1] = 0;
+				return result;
 			} else if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 7) {
 				result[0] = 0;
 				result[1] = 7;
+				return result;
 			} else if (possibleMoves.get(i)[0] == 7 && possibleMoves.get(i)[1] == 0) {
 				result[0] = 7;
 				result[1] = 0;
+				return result;
 			} else if (possibleMoves.get(i)[0] == 7 && possibleMoves.get(i)[1] == 7) {
 				result[0] = 7;
 				result[1] = 7;
+				return result;
 			} else {
-				Board copy = b.deepCopy();
-				copy.tryMove(possibleMoves.get(i)[0], 
-						possibleMoves.get(i)[1], this.getID());
-				fieldCounter = copy.occupiedFields(this.getID());
+//				Board copy = b.deepCopy();
+				fieldCounter = b.resultingChangesForMove(possibleMoves.get(i)[0], possibleMoves.get(i)[1], this.getID()).size();
+//				copy.tryMove(possibleMoves.get(i)[0], 
+//						possibleMoves.get(i)[1], this.getID());
+//				b.update();
+				System.out.println(fieldCounter);
 				if (fieldCounter > numberOfFields) {
+					System.out.println("Move: " + possibleMoves.get(i)[0] + ", " + possibleMoves.get(i)[1]);
 					numberOfFields = fieldCounter;
 					result[0] = possibleMoves.get(i)[0];
 					result[1] = possibleMoves.get(i)[1];

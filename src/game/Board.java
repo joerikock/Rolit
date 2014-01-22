@@ -272,7 +272,7 @@ public class Board {
 		// sets field[x][y] = color if possible and sets newBall to true to
 		// force update
 
-		if (color == currentPlayer && validateMove(x, y)) {
+		if (validateMove(x, y)) {
 
 			this.newBall = true;
 			this.newBallX = x;
@@ -331,7 +331,7 @@ public class Board {
 	 * @return A list of changes that have to be executed, if a ball is placed
 	 *         on x,y with the color "color".
 	 */
-	private ArrayList<int[]> resultingChangesForMove(int x, int y, int color) {
+	public ArrayList<int[]> resultingChangesForMove(int x, int y, int color) {
 		/**
 		 * loop through all possible direction. Advance one step at a time until
 		 * a ball of the same color as the new ball is found. save the index of
