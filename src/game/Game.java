@@ -186,8 +186,6 @@ public class Game {
 					// System.out.
 					board.currentPlayer().makeMove(board);
 				}
-			} else {
-				System.out.println("GAME OVER");
 			}
 		}
 		board.update();
