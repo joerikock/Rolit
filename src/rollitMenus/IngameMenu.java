@@ -6,11 +6,9 @@ import MenuItems.MenuManager;
 
 public class IngameMenu extends Menu {
 	Button back;
-
 	public IngameMenu(MenuManager m) {
 		super("Ingame");
 		super.setManager(m);
-		this.back = new Button("Back", 0, 10, 10);
-		this.addGuiObject(back);
+		this.back = new Button("Back", 10, 10);
 	}
 }

@@ -89,14 +89,15 @@ public class Game {
 		menus.addMenu(inGameMenu);
 		menus.addMenu(mainMenu);
 		menus.addMenu(login);
-
+		board = new Board();
 		boardPainter = new BoardGUI();
-		boardPainter.setPosition(200, 0);
+		boardPainter.setPosition(300, 0);
+		boardPainter.setBoard(board);
 		bg = new AnimatedBackGround(3, 200);
-		// p1 = new DumbPlayer(0);
-		// p2 = new DumbPlayer(1);
-		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
-		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
+		 p1 = new DumbPlayer(0);
+		 p2 = new DumbPlayer(1);
+//		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
+//		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
 		// p3 = new HumanPlayer("Pimmel", 2, boardPainter);
 		players = new Player[2];
 		players[0] = p1;
@@ -104,7 +105,7 @@ public class Game {
 	}
 
 	/**
-	 * Updates the Menus and the game. Feeding user input
+	 * Updates the Menus and the game. Passes user input.
 	 * 
 	 * @param x
 	 *            the x-coordinate of the mouse cursor.
@@ -113,8 +114,9 @@ public class Game {
 	 * @param mouseDown
 	 *            checks whether the left mouse button is pressed or not.
 	 * @param input
-	 *            last charcter typed with the keyboard.
+	 *            last character typed with the keyboard.
 	 */
+	// TODO: Multithreading???
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
 		if (menus.getActiveMenu() == inGameMenu) {
@@ -122,22 +124,7 @@ public class Game {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
 			}
-			boardPainter.update(x, y, mouseDown);
-
-			gameActive = true;
-			board.update();
-			// TODO: Managing game should be done in an extra function
-			if (boardPainter.animationDone()) {
-				if (!board.finished()) {
-					if (board.currentPlayer().hasMove()) {
-						// System.out.
-						board.currentPlayer().makeMove(board);
-					}
-
-				}
-			} else {
-				System.out.println("GAME OVER");
-			}
+			this.updateGame(x, y, mouseDown);
 
 		} else {
 			bg.update();
@@ -154,8 +141,7 @@ public class Game {
 			if (menus.getActiveMenu().lastClickedElement() == "New Game") {
 				System.out.println("Starting a new Game");
 				menus.setActiveMenu(inGameMenu);
-				board = new Board(players);
-				boardPainter.setBoard(board);
+				board.newGame(players);
 
 			}
 
@@ -173,6 +159,26 @@ public class Game {
 
 		// TODO: Add new Menu that opens when "Back" is clicked and give more
 		// options
+	}
+
+	private void updateGame(float x, float y, boolean mouseDown) {
+		boardPainter.update(x, y, mouseDown);
+
+		gameActive = true;
+		
+		// TODO: Managing game should be done in an extra function
+		if (boardPainter.animationDone()) {
+//			System.out.println("Animation Done!");
+			if (!board.finished()) {
+				if (board.currentPlayer().hasMove()) {
+					// System.out.
+					board.currentPlayer().makeMove(board);
+				}
+			} else {
+				System.out.println("GAME OVER");
+			}
+		}
+		board.update();
 	}
 
 	/**

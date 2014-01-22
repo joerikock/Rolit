@@ -13,7 +13,7 @@ public class Button extends GuiObject {
 
 	private String text;
 
-	public Button(String text, int id, float x, float y) {
+	public Button(String text,float x, float y) {
 		super(text);
 		this.text = text;
 		this.heightProgress = 0;

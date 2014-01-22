@@ -124,16 +124,6 @@ public class GuiObject implements GuiElement {
 	}
 
 	@Override
-	public void drawExtras(ShapeRenderer shapes, SpriteBatch batch) {
-		System.out.println("drawExtras called  within Object" + this.name);
-		batch.begin();
-		// System.out.println(this.text);
-		RollIt.FONT.setColor(1, 0, 0, 1);
-		RollIt.FONT.draw(batch, name, realX(), realY() + height / 2);
-		batch.end();
-	}
-
-	@Override
 	public String toString() {
 		return name;
 	}

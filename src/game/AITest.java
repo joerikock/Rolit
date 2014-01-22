@@ -23,18 +23,16 @@ public class AITest {
 		Player p1 = new DumbPlayer(0);
 		Player p2 = new DumbPlayer(1);
 		Player[] players = { p1, p2 };
-		Board b = new Board(players);
+		Board b = new Board();
+		b.newGame(players);
 		b.print();
 		/**
 		 * After every move, print the board again.
 		 */
 		while (!b.finished()) {
-			if (b.currentPlayer() == 0) {
-				p1.makeMove(b);
-			} else if (b.currentPlayer() == 1) {
-				p2.makeMove(b);
-			}
-			b.print();
+				b.currentPlayer().makeMove(b);
+				b.update();
+				b.print();
 		}
 		System.out.println("WINNER IS " + b.getWinner());
 	}

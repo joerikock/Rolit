@@ -65,14 +65,6 @@ public class RollIt implements ApplicationListener, TextInputListener {
 
 		FONT.setColor(0, 0, 0, 1);
 		input.update();
-		// System.out.println(input.getKey());
-		if (input.getKey() == 'c') {
-
-			board.tryMove(5, 1, 2);
-		}
-		if (input.getKey() == 'd') {
-			board.print();
-		}
 		game.update(input.getMouseX(), input.getMouseY(), input.mouseClicked(),
 				input.getKey());
 

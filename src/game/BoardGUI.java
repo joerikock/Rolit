@@ -46,7 +46,8 @@ public class BoardGUI {
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, newSelectedField, choicesInit;
+	private boolean animationInProgress, changinsBallInit, newSelectedField,
+			choicesInit;
 
 	/**
 	 * Array neccesary for the animation of a new ball.
@@ -212,6 +213,7 @@ public class BoardGUI {
 						.currentPlayerColor());
 			}
 			choicesInit = true;
+
 		}
 		/**
 		 * If the board has been modified, fetch the ArrayList of new modified
@@ -220,7 +222,8 @@ public class BoardGUI {
 		 * 
 		 */
 		if (board.modified()) {
-			choicesInit = false;
+			board.print();
+			
 			boardChanges = new ArrayList<int[]>();
 			boardChanges.addAll(board.getChanges());
 
@@ -230,7 +233,12 @@ public class BoardGUI {
 			for (int i = 0; i < choices.size(); i++) {
 				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
 			}
-			animationInProgress = true;
+			animationInProgress = (boardChanges.size()>0);
+			this.changinsBallInit = false;
+//			if(choices.size()>0){
+//				animationInProgress = true;
+//				
+//			}
 
 		}
 		/**
@@ -239,12 +247,21 @@ public class BoardGUI {
 		 **/
 		if (animationInProgress) {
 			if (this.balls[newBall[0]][newBall[1]].animationDone()) {
-				// System.out.println("SET :" + boardChanges.size());
-				for (int i = 0; i < boardChanges.size(); i++) {
-					this.balls[boardChanges.get(i)[0]][boardChanges.get(i)[1]]
-							.changeColorTo(boardChanges.get(i)[2]);
+				if (!changinsBallInit) {
+					for (int i = 0; i < boardChanges.size(); i++) {
+						this.balls[boardChanges.get(i)[0]][boardChanges.get(i)[1]]
+								.changeColorTo(boardChanges.get(i)[2]);
+					}
+					changinsBallInit = true;
 				}
-				animationInProgress = false;
+				// System.out.println("animation in progress");
+				// System.out.println(this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]].animationDone());
+				if(this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]].animationDone()){
+					animationInProgress = false;
+					choicesInit = false;
+				}
+
+
 			}
 
 		} else {

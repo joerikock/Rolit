@@ -148,42 +148,6 @@ public class MenuManager {
 		return menus.get(currentMenuIndex);
 	}
 
-	public void draw(ShapeRenderer shapes, SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		if (menus.size() > 0 && currentMenuIndex >= 0) {
-			animationDone = true;
-			// if (MenuManager.animationType == 0) {
-			// if (animationX != 0) {
-			// animationDone = false;
-			// if (animationDir > 0) {
-			// animationX += animationDir
-			// * MenuManager.ANIMATION_SPEED;
-			// if (animationX > 0) {
-			// animationX = 0;
-			// }
-			// } else {
-			// animationX += animationDir
-			// * MenuManager.ANIMATION_SPEED;
-			// if (animationX < 0) {
-			// animationX = 0;
-			// }
-			// }
-			//
-			// }
-			// menus.get(currentMenuIndex).setPosition(animationX, 0);
-			// }
-			// if (MenuManager.animationType == 1) {
-			// if (alpha < MAX_ALPHA) {
-			// animationDone = false;
-			// alpha += 0.01f;
-			// menus.get(currentMenuIndex).setAlpha(alpha);
-			// }
-			// }
-			// System.out.println("::::");
-			menus.get(currentMenuIndex).setAlpha(.2f);
-			menus.get(currentMenuIndex).draw(shapes, batch);
-		}
-	}
 
 	public void print() {
 		System.out
@@ -192,6 +156,7 @@ public class MenuManager {
 			System.out.println();
 			System.out.println("MENU " + i);
 			menus.get(i).print();
+			
 		}
 		System.out.println("############################################");
 

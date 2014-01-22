@@ -75,25 +75,6 @@ public abstract class Menu {
 		}
 	}
 
-	/**
-	 * calls the draw function of all elements of this menu
-	 * 
-	 * @param shapes
-	 * @param batch
-	 */
-	public void draw(ShapeRenderer shapes, SpriteBatch batch) {
-		// System.out.println("Menu.draw called for "
-		// +this.menuObjects.size()+" ");
-		for (int i = 0; i < menuObjects.size(); i++) {
-			// System.out.print(menuObjects.get(i).getName()+", ");
-			// shapes.begin(ShapeType.Filled);
-			menuObjects.get(i).draw(shapes, batch);
-			menuObjects.get(i).drawExtras(shapes, batch);
-			// shapes.end();
-			// Gdx.gl10.
-		}
-	}
-
 	public void shapesDraw(ShapeRenderer shapes) {
 		for (int i = 0; i < menuObjects.size(); i++) {
 			// System.out.print(menuObjects.get(i).getName()+", ");

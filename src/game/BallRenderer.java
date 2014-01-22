@@ -37,7 +37,7 @@ public class BallRenderer {
 	 * that represent the balls on the field.
 	 */
 	public static final Texture OVERLAY = new Texture(
-			Gdx.files.internal("assets/data/overlay2.png"));
+			Gdx.files.internal("assets/data/overlay.png"));
 
 	/**
 	 * Color for mouse_over effect.
@@ -121,7 +121,6 @@ public class BallRenderer {
 	 * @return true if the animation is done, false if it is still animating.
 	 */
 	public boolean animationDone() {
-		;
 		return (!changing && alpha >= MAX_ALPHA);
 	}
 
@@ -218,14 +217,15 @@ public class BallRenderer {
 			}
 		}
 		if (this.isClear()) {
-			if (mouseOver) {
-				this.renderColor = MOUSE_OVER;
-				alpha = MOUSE_OVER_ALPHA;
-			}
 			if (isChoice) {
 				this.renderColor = PLAYER_COLORS[this.currentPlayerColorID];
 				this.alpha = CHOICE_ALPHA;
 			}
+			if (mouseOver) {
+				this.renderColor = MOUSE_OVER;
+				alpha = MOUSE_OVER_ALPHA;
+			}
+
 			if (!mouseOver && !isChoice) {
 				if (alpha > 0) {
 					alpha = alpha - .02f;

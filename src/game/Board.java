@@ -14,22 +14,29 @@ public class Board {
 	ArrayList<int[]> modifiedBalls, validMovesForNextPlayer;
 	private Player[] players;
 
-	public Board(Player[] players) {
+	public Board() {
 		this.field = new int[FIELD_WIDTH][FIELD_HEIGHT];
 		this.newBall = false;
 		this.modified = false;
-		changes = new ArrayList<int[]>();
-		modifiedBalls = new ArrayList<int[]>();
-		this.players = players;
-		this.currentPlayer = 0;
-		reset();
-
+		this.reset();
+		
 	}
-
+	/**
+	 * Sets the board up for a new game. 
+	 * @param players Array of Player instances that will participate in the round.
+	 */
+	public void newGame(Player[] players){
+		this.players = players;
+		this.currentPlayer=0;
+		this.reset();
+	}
 	/**
 	 * Resets the board to the standart rolit board.
 	 */
 	public void reset() {
+		changes = new ArrayList<int[]>();
+		modifiedBalls = new ArrayList<int[]>();
+		this.currentPlayer = 0;
 		for (int w = 0; w < FIELD_WIDTH; w++) {
 			for (int h = 0; h < FIELD_HEIGHT; h++) {
 				this.field[w][h] = -1;
@@ -89,7 +96,6 @@ public class Board {
 	 * @return True if the position x, y is not out of bounds.
 	 */
 	public boolean boundTest(int x, int y) {
-
 		return (x >= 0 && x < FIELD_WIDTH && y >= 0 && y < FIELD_HEIGHT);
 	}
 
@@ -136,7 +142,7 @@ public class Board {
 	 */
 	private ArrayList<int[]> getValidMoves() {
 		// Fill freeFields with all free Fields of Board b
-		System.out.println("getValidMoves() called");
+
 		ArrayList<int[]> freeMoves = new ArrayList<int[]>();
 		// Add all fields that have neighbours into freeMoves
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
@@ -196,7 +202,7 @@ public class Board {
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (this.getField(x, y) == -1) {
-					// System.out.println(x+" ," +y+" : "+getField(x,y));
+					
 					return false;
 				}
 			}
@@ -239,9 +245,9 @@ public class Board {
 		int[] pos = { x, y };
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
-			System.out.println(temp.get(i)[0] + ", " + temp.get(i)[1]);
+		
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
-				System.out.println("validateMOve: TRUE");
+				
 				return true;
 			}
 
@@ -271,7 +277,7 @@ public class Board {
 			this.newBallY = y;
 			this.newBallColor = color;
 			field[x][y] = color;
-			System.out.println("WORKED");
+
 			return true;
 
 		}
@@ -293,7 +299,6 @@ public class Board {
 	 *         arrays that represent x,y-positions of the a ball and its color.
 	 */
 	public ArrayList<int[]> getChanges() {
-		// System.out.println("Board.getChanges()");
 		return this.modifiedBalls;
 	}
 
@@ -326,7 +331,6 @@ public class Board {
 		// add new Ball to changes
 		for (int i = 0; i < VECTORS.length; i++) {
 			int distance = 1;
-			// System.out.println(2+", "+i);
 			while (true) {
 				int currentX = newBallData[0] + VECTORS[i][0] * distance;
 				int currentY = newBallData[1] + VECTORS[i][1] * distance;
@@ -372,7 +376,7 @@ public class Board {
 			changes.clear();
 		}
 		if (newBall) {
-			System.out.println("NEW BALL DETECTED!");
+
 
 			changes = this.resultingChangesForMove(newBallX, newBallY,
 					newBallColor);
@@ -383,7 +387,7 @@ public class Board {
 			int[] newBallData = { newBallX, newBallY, newBallColor };
 
 			modifiedBalls.add(newBallData);
-			System.out.println("changes filled: " + changes.size());
+		
 			// Execute the changes
 			if (changes.size() > 0) {
 				for (int i = 0; i < changes.size(); i++) {
@@ -391,7 +395,7 @@ public class Board {
 					int currentDistance = changes.get(i)[1];
 					for (int d = 1; d < currentDistance; d++) {
 						// overwrite fields
-						// System.out.println(d);
+
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
 								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
@@ -411,13 +415,6 @@ public class Board {
 			this.nextPlayer();
 			validMovesForNextPlayer = null;
 			this.validMovesForNextPlayer = this.getValidMoveList();
-			System.out.println(" - ------- - - - - -- - ");
-			System.out.println("UPDATING DONE. Next Player: " + currentPlayer);
-			System.out.println("PossibleMoves for next player:");
-			for (int i = 0; i < validMovesForNextPlayer.size(); i++) {
-				System.out.println(validMovesForNextPlayer.get(i)[0] + ", "
-						+ validMovesForNextPlayer.get(i)[1]);
-			}
 		}
 	}
 

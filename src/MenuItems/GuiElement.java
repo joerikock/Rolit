@@ -11,8 +11,6 @@ public interface GuiElement {
 
 	public void batchDraw(SpriteBatch batch);
 
-	public void drawExtras(ShapeRenderer shapes, SpriteBatch batch);
-
 	public boolean focused();
 
 	public boolean selected();
