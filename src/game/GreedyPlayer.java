@@ -32,19 +32,18 @@ public class GreedyPlayer extends Player {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
 		int numberOfFields = -1;
 		int[] result = {-1, -1};
-		//if (possibleMoves) {
-			
-		//} else {
-			for (int i = 0; i < possibleMoves.size(); i++) {
-				Board copy = b.deepCopy();
-				copy.tryMove(possibleMoves.get(i)[0], 
-						possibleMoves.get(i)[1], this.getID());
-				if (copy.occupiedFields(this.getID()) > numberOfFields) {
-					result[0] = possibleMoves.get(i)[0];
-					result[1] = possibleMoves.get(i)[1];
-				}
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			if (possibleMoves.get(i)[0] == 0 && ) {
+				
 			}
-		//}
+			Board copy = b.deepCopy();
+			copy.tryMove(possibleMoves.get(i)[0], 
+					possibleMoves.get(i)[1], this.getID());
+			if (copy.occupiedFields(this.getID()) > numberOfFields) {
+				result[0] = possibleMoves.get(i)[0];
+				result[1] = possibleMoves.get(i)[1];
+			}
+		}
 		return result;
 	}
 
