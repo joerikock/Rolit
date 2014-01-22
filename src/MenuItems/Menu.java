@@ -34,6 +34,7 @@ public abstract class Menu {
 		this.menuObjects = new ArrayList<GuiObject>();
 		this.buttonIndexList = new ArrayList<Integer>();
 		this.textInputFieldIndexList = new ArrayList<Integer>();
+		this.name = name;
 	}
 
 	public void setManager(MenuManager manager) {
@@ -110,7 +111,6 @@ public abstract class Menu {
 	 */
 
 	public void update(float x, float y, boolean mouseDown, char input) {
-		lastClickedElementIndex = -1;
 		for (int i = 0; i < menuObjects.size(); i++) {
 			menuObjects.get(i).update(x, y, mouseDown);
 			if (menuObjects.get(i).clicked()) {

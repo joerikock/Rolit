@@ -10,5 +10,6 @@ public class IngameMenu extends Menu {
 		super("Ingame");
 		super.setManager(m);
 		this.back = new Button("Back", 10, 10);
+		this.addGuiObject(back);
 	}
 }
