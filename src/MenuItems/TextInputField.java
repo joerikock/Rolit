@@ -1,8 +1,6 @@
 package MenuItems;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.me.mygdxgame.RollIt;
 
 public class TextInputField extends GuiObject {

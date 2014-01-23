@@ -3,8 +3,6 @@ package com.me.mygdxgame;
 import game.Board;
 import game.BoardGUI;
 import game.Game;
-import rollitMenus.LoginMenu;
-import rollitMenus.MainMenu;
 import MenuItems.Button;
 import MenuItems.MenuManager;
 import MenuItems.TextInputField;
@@ -14,11 +12,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.me.mygdxgame.InputHandler.CleanUpException;
 
 public class RollIt implements ApplicationListener, TextInputListener {
 	public static BitmapFont FONT;
@@ -40,7 +38,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		Texture.setEnforcePotImages(false);
+		GLTexture.setEnforcePotImages(false);
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
 		// add Key Listener for keyboardInput
@@ -49,12 +47,14 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		input = new InputHandler();
 	}
 
+	@Override
 	public void dispose() {
 		batch.dispose();
 
 	}
 
 	// TODO: Fix alpha blending in menus
+	@Override
 	public void render() {
 		// System.out.println(camera.position.x+","+camera.position.y);
 		// camera.update();

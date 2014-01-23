@@ -3,7 +3,6 @@ package rollitMenus;
 import MenuItems.Button;
 import MenuItems.Menu;
 import MenuItems.MenuManager;
-import MenuItems.MultiChoiceButton;
 import MenuItems.TextInputField;
 
 public class LoginMenu extends Menu {

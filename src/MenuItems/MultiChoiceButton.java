@@ -1,5 +1,8 @@
 package MenuItems;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.me.mygdxgame.RollIt;
+
 public class MultiChoiceButton extends GuiObject implements ParentObject{
 	private Button[] buttons;
 	private Button selectedButton;
@@ -52,6 +55,11 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 	@Override
 	public boolean newSelectedObject() {
 		return newItem;
+	}
+	@Override
+	public void batchDraw(SpriteBatch batch) {
+		RollIt.FONT.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], alpha);
+		RollIt.FONT.draw(batch, this.name, realX(), realY() + 20);
 	}
 
 }

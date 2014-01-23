@@ -150,7 +150,6 @@ public class BoardGUI {
 						* BALL_SIZE, BALL_SIZE);
 			}
 		}
-
 		animationInProgress = false;
 	}
 
@@ -160,6 +159,7 @@ public class BoardGUI {
 	public void setUpBalls() {
 		for (int x = 0; x < this.w; x++) {
 			for (int y = 0; y < this.h; y++) {
+				balls[x][y].reset();
 				if (board.getField(x, y) != -1) {
 					balls[x][y].changeColorTo(board.getField(x, y));
 				}

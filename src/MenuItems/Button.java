@@ -36,15 +36,18 @@ public class Button extends GuiObject {
 		super.setDimensions(x, y, 100, 30);
 	}
 
+	@Override
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT.setColor(1, 0, 0, alpha);
 		RollIt.FONT.draw(batch, text, realX(), realY() + 20);
 	}
 
+	@Override
 	public boolean selected() {
 		return false;
 	}
 
+	@Override
 	public String toString() {
 		return new String("Button: " + text + "- - alpha: " + alpha);
 	}

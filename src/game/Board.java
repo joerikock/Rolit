@@ -25,15 +25,28 @@ public class Board {
 	 * Sets the board up for a new game. 
 	 * @param players Array of Player instances that will participate in the round.
 	 */
-	public void newGame(Player[] players){
-		this.players = players;
+	public void newGame(Player[] playerData){
+		int playerCount = 0;
+		for(int i=0;i<playerData.length;i++){
+			
+			if(playerData[i] != null){
+				System.out.println("PLAYER: "+i);
+				playerCount++;
+			}
+		}
+		this.players = new Player[playerCount];
+		System.out.println("Initializing new Game");
+		for(int i=0; i<playerCount;i++){
+			
+			players[i] = playerData[i];
+		}
 		this.currentPlayer=0;
 		this.reset();
 	}
 	/**
-	 * Resets the board to the standart rolit board.
+	 * Resets the board to the standart rollit board.
 	 */
-	public void reset() {
+	private void reset() {
 		changes = new ArrayList<int[]>();
 		modifiedBalls = new ArrayList<int[]>();
 		this.currentPlayer = 0;
@@ -48,21 +61,6 @@ public class Board {
 		field[4][3] = 3;
 	}
 	
-	/**
-	 * Creates a copy of the board.
-	 * 
-	 * @return a copy of the current board.
-	 */
-	public Board deepCopy() {
-		Board copy = new Board();
-        for (int i = 0; i < FIELD_WIDTH; i++) {
-        	for (int j = 0; j < FIELD_HEIGHT; j++) {
-        		copy.field[i][j] = this.field[i][j];
-        	}
-        }
-        return copy;
-	}
-
 	/**
 	 * 
 	 * @return Returns the colorID(0,1,2,3) of the current player.
@@ -126,17 +124,6 @@ public class Board {
 		}
 		return false;
 
-	}
-
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return Returns true if the move x,y is possible.
-	 */
-	public boolean inValidMoveList(int x, int y) {
-		int[] pos = { x, y };
-		return getValidMoveList().contains(pos);
 	}
 
 	/**

@@ -1,11 +1,7 @@
 package com.me.mygdxgame;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 

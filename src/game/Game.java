@@ -44,11 +44,13 @@ public class Game {
 	 * Creates a main menu.
 	 */
 	private MainMenu mainMenu;
-
 	/**
 	 * Creates an in-game menu.
 	 */
 	private IngameMenu inGameMenu;
+	/**
+	 * Menu for selecting players.
+	 */
 	private NewGameMenu newGameMenu;
 	/**
 	 * Creates a BoardGUI object.
@@ -73,8 +75,6 @@ public class Game {
 	/**
 	 * Creates 3 players.
 	 */
-	private Player p1, p2, p3, p4;
-
 	/**
 	 * Creates an array for the players.
 	 */
@@ -88,30 +88,15 @@ public class Game {
 		login = new LoginMenu(menus);
 		mainMenu = new MainMenu(menus);
 		inGameMenu = new IngameMenu(menus);
-
 		newGameMenu = new NewGameMenu(menus);
 		menus.addMenu(inGameMenu);
-
 		menus.addMenu(mainMenu);
 		menus.addMenu(newGameMenu);
 		menus.addMenu(login);
-		board = new Board();
 		boardPainter = new BoardGUI();
 		boardPainter.setPosition(300, 0);
-		boardPainter.setBoard(board);
 		bg = new AnimatedBackGround(3, 200);
-		p1 = new SmartPlayer(0);
-		p2 = new SmartPlayer(1);
-//		p1 = new HumanPlayer("Dr.Schnappus", 0, boardPainter);
-//		p2 = new HumanPlayer("ArschGeige200", 1, boardPainter);
-//		p3 = new HumanPlayer("Pimmel", 2, boardPainter);
-//		p4 = new HumanPlayer("Joeri", 3, boardPainter);
-		players = new Player[2];
-		players[0] = p1;
-		players[1] = p2;
-//		players[2] = p3;
-//		players[3] = p4;
-		board.newGame(players);
+		players = new Player[4];
 	}
 
 	/**
@@ -137,7 +122,7 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 			this.updateGame(x, y, mouseDown);
-			
+
 		} else {
 			bg.update();
 		}
@@ -156,27 +141,7 @@ public class Game {
 			}
 		}
 		if (active == newGameMenu) {
-			if (active.lastClickedElement() == "Start") {
-				menus.setActiveMenu(inGameMenu);
-				board.newGame(players);
-			}
-			if(active.lastClickedElement() == "Opponet"&&active.lastClickedElementInstace().newSelectedObject()){
-				if(active.selectedChild()=="Human Player"){
-					System.out.println("Human");
-					p2 = new HumanPlayer("Max", 1, boardPainter);
-					players[1] = p2;
-				}
-				if(active.selectedChild()=="Simple AI"){
-					System.out.println("Dumb");
-					p2 = new DumbPlayer(1);
-					players[1] = p2;
-				}
-				if(active.selectedChild()=="Smart AI"){
-					System.out.println("Smart");
-					p2 = new SmartPlayer(1);
-					players[1] = p2;
-				}
-			}
+			updateNewGameMenu(active);
 
 		}
 		if (active == login) {
@@ -207,6 +172,41 @@ public class Game {
 			}
 		}
 		board.update();
+	}
+
+	private void updateNewGameMenu(Menu active) {
+		if (active.lastClickedElement() == "Start") {
+			board = new Board();
+			board.newGame(players);
+			boardPainter.setBoard(board);
+			boardPainter.setUpBalls();
+			menus.setActiveMenu(inGameMenu);
+
+		}
+		// Get the desired Player type for the Red player
+		String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
+		for (int i = 0; i < 4; i++) {
+			if (active.lastClickedElement() == playerColors[i]
+					&& active.lastClickedElementInstace().newSelectedObject()) {
+				if (active.selectedChild() == "Human Player") {
+					System.out.println("Human");
+					players[i] = new HumanPlayer("Max", i, boardPainter);
+				}
+				if (active.selectedChild() == "Simple AI") {
+					System.out.println("Dumb");
+					players[i] = new DumbPlayer(i);
+				}
+				if (active.selectedChild() == "Smart AI") {
+					System.out.println("Smart");
+					players[i] = new SmartPlayer(i);
+				}
+				if (active.selectedChild() == "No Player") {
+					System.out.println("Smart");
+					players[i] = null;
+				}
+			}
+		}
+
 	}
 
 	/**

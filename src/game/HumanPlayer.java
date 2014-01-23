@@ -35,6 +35,7 @@ public class HumanPlayer extends Player {
 	 * 
 	 * @return true if the player has a selected field, false if he has not.
 	 */
+	@Override
 	public boolean hasMove() {
 		return gui.hasSelectedField();
 	}
@@ -44,6 +45,7 @@ public class HumanPlayer extends Player {
 	 * 
 	 * @return an array with all possible moves for the player.
 	 */
+	@Override
 	public int[] determineMove(Board b) {
 		if (gui.hasSelectedField()) {
 			return gui.getSelectedField();

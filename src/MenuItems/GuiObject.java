@@ -13,6 +13,7 @@ public abstract class GuiObject implements GuiElement {
 	public static final float MOUSEOVER_R = .7f;
 	public static final float MOUSEOVER_G = .7f;
 	public static final float MOUSEOVER_B = .7f;
+	public static final float[] FONT_COLOR = {.1f, .6f, .1f};
 	static final float mouseOverEffectSpeed = .5f;
 	boolean mouseOver, selected, clicked;
 	float x, y, px, py, width, height, alpha, heightProgress;
@@ -25,9 +26,6 @@ public abstract class GuiObject implements GuiElement {
 		this.name = name;
 	}
 
-	public void setParent(Menu parent) {
-//		this.parent = parent;
-	}
 	public void addChildren(GuiObject child){
 		this.children.add(child);
 	}
@@ -97,30 +95,18 @@ public abstract class GuiObject implements GuiElement {
 	public float realY() {
 		if (this.mouseOver) {
 			if (this.heightProgress < height) {
-				this.heightProgress += Button.mouseOverEffectSpeed;
+				this.heightProgress += GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = height;
 			}
 		} else {
 			if (this.heightProgress > 0) {
-				this.heightProgress -= Button.mouseOverEffectSpeed;
+				this.heightProgress -= GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = 0;
 			}
 		}
 		return py + y;
-	}
-
-	public void draw(ShapeRenderer shapes, SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		System.out.println(this.name + " draw called. ALPHA: " + this.alpha);
-
-		// shapes.begin(ShapeType.Filled);
-
-		// System.out.println(alpha);
-
-		// shapes.end();
-		// this.drawExtras(shapes, batch);
 	}
 
 	@Override
@@ -146,15 +132,15 @@ public abstract class GuiObject implements GuiElement {
 
 	@Override
 	public void shapesDraw(ShapeRenderer shapes) {
-		if (this.mouseOver||selected) {
+		if (this.mouseOver) {
 			if (this.heightProgress < height) {
-				this.heightProgress += Button.mouseOverEffectSpeed;
+				this.heightProgress += GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = height;
 			}
 		} else {
 			if (this.heightProgress > 0) {
-				this.heightProgress -= Button.mouseOverEffectSpeed;
+				this.heightProgress -= GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = 0;
 			}

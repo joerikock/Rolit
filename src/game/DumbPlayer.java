@@ -26,6 +26,7 @@ public class DumbPlayer extends Player {
 	 * move chosen by this player is completely random, as long as it is a
 	 * legal move to make.
 	 */
+	@Override
 	public int[] determineMove(Board b) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
 		int choice = Tools.randomInt(0, possibleMoves.size() - 1);
@@ -42,6 +43,7 @@ public class DumbPlayer extends Player {
 	 * @return true if the player has a possible move to make. This is always
 	 *         the case.
 	 */
+	@Override
 	public boolean hasMove() {
 		return true;
 	}
