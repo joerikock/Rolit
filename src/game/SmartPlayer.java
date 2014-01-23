@@ -28,7 +28,6 @@ public class SmartPlayer extends Player {
 	 * which gets him the most fields. If a corner field is available, that 
 	 * field is returned.
 	 */
-	@Override
 	public int[] determineMove(Board b) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
 		for(int[] elem : possibleMoves){
