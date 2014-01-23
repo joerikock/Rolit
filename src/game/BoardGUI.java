@@ -207,7 +207,6 @@ public class BoardGUI {
 		 */
 		if (!choicesInit) {
 			this.choices = board.getValidMoveList();
-			// System.out.println("Setting suggestions");
 			for (int i = 0; i < choices.size(); i++) {
 				balls[choices.get(i)[0]][choices.get(i)[1]].isChoice(board
 						.currentPlayerColor());
@@ -222,7 +221,6 @@ public class BoardGUI {
 		 * 
 		 */
 		if (board.modified()) {
-			board.print();
 			
 			boardChanges = new ArrayList<int[]>();
 			boardChanges.addAll(board.getChanges());
@@ -235,6 +233,7 @@ public class BoardGUI {
 			}
 			animationInProgress = (boardChanges.size()>0);
 			this.changinsBallInit = false;
+			this.choicesInit = false;
 //			if(choices.size()>0){
 //				animationInProgress = true;
 //			}
