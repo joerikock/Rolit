@@ -387,10 +387,15 @@ public class Board {
 	}
 
 	/**
+	 * Method that at first makes a given move on the board, then checks in
+	 * all directions of VECTORS and makes the changes when a ball is "captured".
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the move.
 	 * @param y
+	 * 			the Y-coordinate of the move.
 	 * @param color
+	 * 			the colour to change the field into.
 	 * @return A list of changes that have to be executed, if a ball is placed
 	 *         on x,y with the color "color".
 	 */
@@ -447,6 +452,9 @@ public class Board {
 		return requiredChanges;
 	}
 
+	/**
+	 * Method for updating the field.
+	 */
 	public void update() {
 		/**
 		 * If the board has been updated last loop, clear the changes list and
@@ -502,6 +510,9 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Method for printing the current field on the console.
+	 */
 	public void print() {
 		System.out.println("-------------------------");
 		for (int x = 0; x < FIELD_WIDTH; x++) {
