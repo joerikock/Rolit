@@ -31,37 +31,23 @@ public class Button extends GuiObject {
 		super(text);
 		this.text = text;
 		this.heightProgress = 0;
-
+		
 		RollIt.FONT.getBounds(text);
-		super.setDimensions(x, y, 100, 30);
+		super.setDimensions(x, y, 100, 34);
+		super.setSelectAble(false);
 	}
 
 	@Override
 	public void batchDraw(SpriteBatch batch) {
-		RollIt.FONT.setColor(1, 0, 0, alpha);
-		RollIt.FONT.draw(batch, text, realX(), realY() + 20);
+
+		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0],GuiObject.FONT_COLOR[1],GuiObject.FONT_COLOR[2],alpha);
+		RollIt.FONT.draw(batch, text, x, y + 20);
 	}
 
-	@Override
-	public boolean selected() {
-		return false;
-	}
 
 	@Override
 	public String toString() {
 		return new String("Button: " + text + "- - alpha: " + alpha);
-	}
-
-	@Override
-	public void updateMembers() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean newSelectedObject() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

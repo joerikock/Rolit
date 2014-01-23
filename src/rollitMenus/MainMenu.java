@@ -13,9 +13,9 @@ public class MainMenu extends Menu {
 		Button settings = new Button("Settings", 300, 00);
 		Button profile = new Button("Profile", 500, 00);
 		Button exit = new Button("Exit", 700, 00);
-		this.addGuiObject(start, false);
-		this.addGuiObject(settings, false);
-		this.addGuiObject(profile, false);
-		this.addGuiObject(exit,false);
+		this.addGuiObject(start);
+		this.addGuiObject(settings);
+		this.addGuiObject(profile);
+		this.addGuiObject(exit);
 	}
 }

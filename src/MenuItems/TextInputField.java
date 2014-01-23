@@ -3,7 +3,7 @@ package MenuItems;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.mygdxgame.RollIt;
 
-public class TextInputField extends GuiObject {
+public class TextInputField extends GuiObject implements TextInput{
 	String string, displayString;
 	String empty;
 	private boolean textVisible;
@@ -25,11 +25,16 @@ public class TextInputField extends GuiObject {
 		this.textVisible = true;
 		super.setDimensions(x, y, 150, 40);
 	}
-
+	/**
+	 * Sets the visibility of the Input. If the visibility is set to "*" will be shown istead of letters.
+	 * @param bool
+	 */
 	public void setTextVisibility(boolean bool) {
 		this.textVisible = bool;
 	}
-
+	/**
+	 * Updates the TextInputField with characters.
+	 */
 	public void updateKeys(char input) {
 		// \0 = empty character
 		// Only add keys if selected element
@@ -52,11 +57,16 @@ public class TextInputField extends GuiObject {
 			}
 		}
 	}
-
+/**
+ * Returns what the user has written.
+ * @return
+ */
 	public String getInput() {
 		return this.string;
 	}
-
+/**
+ * Prevents the rendered String from being longer than the TextInputField itself.
+ */
 	private void cutDisplayString() {
 		// checks whether the String can be displayed in the box. if not, the
 		// String is substring so it fits.
@@ -67,7 +77,9 @@ public class TextInputField extends GuiObject {
 					displayString.length() - 1);
 		}
 	}
-
+/**
+ * Draws the String.
+ */
 	@Override
 	public void batchDraw(SpriteBatch batch) {
 		// TODO Auto-generated method stub
@@ -108,18 +120,5 @@ public class TextInputField extends GuiObject {
 
 	}
 
-	@Override
-	public void updateMembers() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-
-	@Override
-	public boolean newSelectedObject() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

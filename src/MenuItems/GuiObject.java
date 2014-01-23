@@ -6,161 +6,270 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 //TODO: generalize drawing of elements
-public abstract class GuiObject implements GuiElement {
-	public static final float R = 0;
-	public static final float G = 0;
-	public static final float B = 0;
-	public static final float MOUSEOVER_R = .7f;
-	public static final float MOUSEOVER_G = .7f;
-	public static final float MOUSEOVER_B = .7f;
-	public static final float[] FONT_COLOR = {.1f, .6f, .1f};
-	static final float mouseOverEffectSpeed = .5f;
-	boolean mouseOver, selected, clicked;
-	float x, y, px, py, width, height, alpha, heightProgress;
+public abstract class GuiObject{
+	/**
+	 * Defines the color for the mouse over effect
+	 */
+	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
+	/**
+	 * Defindes the normal background color.
+	 */
+	public static final float[] COLOR = {.1f, .1f, .1f};
+	/**
+	 * Defines the font color.
+	 */
+	public static final float[] FONT_COLOR = { .1f, .6f, .1f };
+	/**
+	 * Defines the speed of the mouse over effect.
+	 */
+	static final float mouseOverEffectSpeed = 1.5f;
+	/**
+	 * Defines whether the mouse is hovering over the element.
+	 */
+	boolean mouseOver;
+	/**
+	 * Defines whether the element is selected (Has been clicked).
+	 */
+	boolean selected;
+	/**
+	 * Defines whether the element has been clicked.
+	 */
+	boolean clicked;
+	/**
+	 * Defines whether the object is the child object of an other object.
+	 */
+	boolean isChild;
+	/**
+	 * Defines whether the obejct is selectable at all. In general all elements are selectable 
+	 * except for buttons that are not the child of another object.
+	 */
+	boolean selectAble;
+
+	/**
+	 * Defines the position of the element.
+	 */
+	float x, y;
+	/**
+	 * Defines the position of the parent menu.
+	 */
+	float parentX, parentY;
+	/**
+	 * Widht and height of the element.
+	 */
+	float width, height;
+	/**
+	 * Variables for rendering. alpha is for the alpha of RGBA, heightProgress defines the height of the mouseOver effect.
+	 */
+	float alpha, heightProgress;
+	/**
+	 * Defines the parent object.
+	 */
 	private GuiObject parentObject;
+	/**
+	 * List of children objects.
+	 */
 	private ArrayList<GuiObject> children;
+	/**
+	 * Defines the parent menu.
+	 */
 	Menu parent;
+	/**
+	 * Denfines the name of the object.
+	 */
 	String name;
+/**
+ * Creates a new GuiObject.
+ * @param name
+ */
 	public GuiObject(String name) {
 		children = new ArrayList<GuiObject>();
 		this.name = name;
-	}
-	public GuiObject(String name, GuiObject parentObject) {
-		children = new ArrayList<GuiObject>();
-		this.parentObject = parentObject;
-		this.name = name;
-	}
-
-	public void addChildren(GuiObject child){
-		this.children.add(child);
-	}
-	public ArrayList<GuiObject> getChildren(){
-		return children;
+		this.selectAble = true;
 	}
 	/**
-	 * 
-	 * @return Returns the name of the selected Child.
+	 * Sets the parent object. Adds this GuiObject instance as a child to the GuiObject given in the constructor.
+	 * @param parentObject
+	 */
+	public void setParentObject(GuiObject parentObject) {
+		this.isChild = true;
+		this.selectAble = true;
+		this.parentObject = parentObject;
+		parentObject.addChild(this);
+	}
+	/**
+	 * Sets selectAble to true or false.
+	 * @param selectAble
+	 */
+	public void setSelectAble(boolean selectAble){
+		this.selectAble = selectAble;
+	}
+	/**
+	 * Adds a child to this object.
+	 * @param child
+	 */
+	private void addChild(GuiObject child) {
+		this.children.add(child);
+	}
+	/**
+	 * Returns a list of all children of this Object.
+	 * @return
+	 */
+	private ArrayList<GuiObject> getChildren() {
+		return children;
+	}
+
+	/**
+	 * Returns the instance of the selected child.
+	 * @return .
+	 */
+	public String getSelectedChild() {
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i).selected()) {
+				return children.get(i).getName();
+			}
+		}
+		return null;
+	}
+	/**
+	 * Return the name of the object.
+	 * @return
 	 */
 	public String getName() {
 		return name;
 	}
-
+/**
+ * Sets the position and the size of the GuiObject.
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ */
 	public void setDimensions(float x, float y, float width, float height) {
-		System.out.println(x + ". " + y);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
-
+/**
+ * Sets the parent position of the GuiObject. 
+ * The parent position defines the x and y distance from the botto,-left cornor of the screen
+ * @param x
+ * @param y
+ */
 	public void setParentPosition(float x, float y) {
-		px = x;
-		py = y;
+		parentX = x;
+		parentY = y;
 	}
-
-	public void setParentAlpha(float a) {
-
+	/**
+	 * Sets the alpha value of the GuiObject.
+	 * @param a
+	 */
+	public void setAlpha(float a) {
 		alpha = a;
+		if(alpha<0){
+			alpha=0;
+		}
 	}
-	public void setSelected(boolean selected){
-		mouseOver = selected;
+	/**
+	 * Sets the selected to true or false. Important for updating child objects.
+	 * @param selected
+	 */
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-	@Override
+
 	/**
-	 * Updates the Object and returns true, if the the mouse is over the elemnt and is clicked
+	 * 	 * Updates the Object and their children with the mouse input of the user.
+	 * The clicked and selected element(s) can be fetch via the menu.
+	 * @param x x-position of the mouse
+	 * @param y y-position of the mouse
+	 * @param mouseDown boolean value for the state of the left mouse button.
 	 */
 	public void update(float x, float y, boolean mouseDown) {
-		// when the mouse has been pressed, the object can no longer be selected
-		// (apart from the situation in which the is clicked, when it is
-		// allready selected)
-		// difference between clicked and selected: clicked is only true, when
-		// the element has been clicked. selected is true while the element has
-		// been clicked and
-		// the mousebutton has not been pressed again
+
 		clicked = false;
 		mouseOver = (x > this.x && x < this.x + this.width && y > this.y && y < this.y
 				+ this.height);
-		if (mouseDown && mouseOver) {
-			clicked = true;
-			selected = true;
-		}
-		if (mouseDown && !mouseOver) {
-			selected = false;
-		}
-
-	}
-	public abstract boolean newSelectedObject();
-	public abstract void updateMembers();
-	public float realX() {
-		return px + x;
-	}
-
-	public float realY() {
-		if (this.mouseOver) {
-			if (this.heightProgress < height) {
-				this.heightProgress += GuiObject.mouseOverEffectSpeed;
+		
+		if (mouseDown) {
+			/**
+			 * If the object is a child of an other object and has been clicked, 
+			 * tell all other children, that they are no longer selected.
+			 */
+			if (isChild) {
+				if (mouseOver) {
+					for (int i = 0; i < parentObject.getChildren().size(); i++) {
+						parentObject.getChildren().get(i).setSelected(false);
+					}
+					clicked = true;
+					selected = true;
+				}
+				parentObject.setSelected(true);
 			} else {
-				this.heightProgress = height;
+				if (mouseOver) {
+					clicked = true;
+					if(selectAble){
+						selected = true;
+					}
+					
+				} else {
+
+					selected = false;
+				}
 			}
-		} else {
-			if (this.heightProgress > 0) {
-				this.heightProgress -= GuiObject.mouseOverEffectSpeed;
-			} else {
-				this.heightProgress = 0;
-			}
+
 		}
-		return py + y;
 	}
-
-	@Override
-	public boolean focused() {
-		// TODO Auto-generated method stub
-		return mouseOver;
-	}
-
-	@Override
+	/**
+	 * Returns whether the GuiObject is selected or not.
+	 * @return
+	 */
 	public boolean selected() {
-		return selected;
+			return selected;
 	}
 
-	@Override
+	/**
+	 * Returns whether the GuiObject has been clicked last loop.
+	 * @return
+	 */
 	public boolean clicked() {
 		return clicked;
 	}
 
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	@Override
+	
+	/**
+	 * Draws the background of the GuiObject. Uses the LIBGdx ShapeRenderer.
+	 * @param shapes
+	 */
 	public void shapesDraw(ShapeRenderer shapes) {
-		if (this.mouseOver) {
+		if (selected || mouseOver) {
+
 			if (this.heightProgress < height) {
 				this.heightProgress += GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = height;
 			}
 		} else {
+
 			if (this.heightProgress > 0) {
 				this.heightProgress -= GuiObject.mouseOverEffectSpeed;
 			} else {
 				this.heightProgress = 0;
 			}
 		}
-		shapes.setColor(GuiObject.R, GuiObject.G, GuiObject.B, alpha);
-		shapes.rect(realX(), realY(), width, height);
+		shapes.setColor(COLOR[0], COLOR[1], COLOR[2], alpha);
+
+		shapes.rect(x, y, width, height);
 		if (heightProgress > 0) {
-			shapes.setColor(GuiObject.MOUSEOVER_R, GuiObject.MOUSEOVER_G,
-					GuiObject.MOUSEOVER_B, alpha);
-			shapes.rect(realX(), realY(), width, heightProgress);
+			shapes.setColor(MOUSEOVER_COLOR[0], MOUSEOVER_COLOR[1],	MOUSEOVER_COLOR[2], alpha);
+			shapes.rect(x, y, width, heightProgress);
 		}
 
 	}
 
-	@Override
-	public void batchDraw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
-	}
+	/**
+	 * Abstract method for using the LIBGdx SpriteBatch. Used for rendering text.
+	 * @param batch
+	 */
+	public abstract void batchDraw(SpriteBatch batch);
 }

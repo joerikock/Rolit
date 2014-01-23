@@ -117,6 +117,8 @@ public class Game {
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
 		Menu active = menus.getActiveMenu();
+
+		menus.update(x, y, mouseDown, input);
 		if (active == inGameMenu) {
 			gameActive = true;
 			if (active.lastClickedElement() == "Back") {
@@ -128,7 +130,6 @@ public class Game {
 		} else {
 			bg.update();
 		}
-		menus.update(x, y, mouseDown, input);
 		/**
 		 * If a game is not in progress render a dummy field that randomly
 		 * changes colors so the menu looks better.
@@ -183,20 +184,20 @@ public class Game {
 			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
 			for (int i = 0; i < 4; i++) {
 
-				if (active.getSelectedChild(playerColors[i]) == "Human Player") {
-					System.out.println("Human");
+				if (active.getSelectedChild(playerColors[i]).equals("Human Player")) {
+
 					players[i] = new HumanPlayer("Max", i, boardPainter);
 				}
-				if (active.getSelectedChild(playerColors[i]) == "Simple AI") {
-					System.out.println("Dumb");
+				if (active.getSelectedChild(playerColors[i]).equals("Simple AI")) {
+
 					players[i] = new DumbPlayer(i);
 				}
-				if (active.getSelectedChild(playerColors[i]) == "Smart AI") {
-					System.out.println("Smart");
+				if (active.getSelectedChild(playerColors[i]).equals("Smart AI")) {
+
 					players[i] = new SmartPlayer(i);
 				}
-				if (active.getSelectedChild(playerColors[i]) == "No Player") {
-					System.out.println("Smart");
+				if (active.getSelectedChild(playerColors[i]).equals("No Player")) {
+
 					players[i] = null;
 				}
 			}

@@ -7,14 +7,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class MenuManager {
-	public static final int animationType = 1;
+	/**
+	 * Defines the speed of the animation when switching between menus.
+	 */
 	public static final float ANIMATION_SPEED = 10f;
+	/**
+	 * Defines the maximum alpha value for all menus and their GuiObjects.
+	 */
 	public static final float MAX_ALPHA = .4f;
+	/**
+	 * ArrayList for menus managed by this manager.
+	 */
 	ArrayList<Menu> menus;
-	private int currentMenuIndex, lastMenuIndex;
-
-	float animationX, alpha;
-	int animationDir;
+	/**
+	 * Index of the currently active menu in the ArrayList menus.
+	 */
+	private int currentMenuIndex;
+	/**
+	 * Index of the previously active menu. Used to blend the old menu out.
+	 */
+	private int lastMenuIndex;
+	/**
+	 * Alpha value for rendering.
+	 */
+	float alpha;
+	/**
+	 * Boolean preventing an update of the menus during animation.
+	 */
 	boolean animationDone;
 
 	/**
@@ -27,29 +46,21 @@ public class MenuManager {
 		this.menus = new ArrayList<Menu>();
 	}
 
+	/**
+	 * Adds a menu to the manager and marks it as active.
+	 * 
+	 * @param menu
+	 */
 	public void addMenu(Menu menu) {
 		this.menus.add(menu);
 		this.currentMenuIndex = menus.size() - 1;
 	}
 
 	/**
-	 * sets the current menu to the previous one (atm: "previous": added to
-	 * menus before this one) If the current menu is the first in the list, the
-	 * new menu will be the last in the list 0-------- -> --------0 (0 = current
-	 * menu)
+	 * Switches to the given menu.
+	 * 
+	 * @param m
 	 */
-	public void previousMenu() {
-		this.lastMenuIndex = currentMenuIndex;
-		this.currentMenuIndex--;
-		alpha = 0;
-		animationX = -Gdx.graphics.getWidth();
-		animationDir = 1;
-		if (this.currentMenuIndex < 0) {
-			this.currentMenuIndex = menus.size() - 1;
-		}
-		alpha = 0;
-	}
-
 	public void setActiveMenu(Menu m) {
 		for (int i = 0; i < this.menus.size(); i++) {
 			if (menus.get(i) == m) {
@@ -62,103 +73,92 @@ public class MenuManager {
 	}
 
 	/**
-	 * sets the current menu to the previous one (atm: "next": added to menus
-	 * after this one) If the current menu is the last in the list, the new menu
-	 * will be the first in the list --------0 -> 0-------- (0 = current menu)
+	 * Updated the menus and their GuiObject with user input
+	 * 
+	 * @param x
+	 *            mouse x
+	 * @param y
+	 *            mouse y
+	 * @param mouseDown
+	 * @param input
+	 *            Last realeased key from keyboard
 	 */
-	public void nextMenu() {
-		this.lastMenuIndex = currentMenuIndex;
-		this.currentMenuIndex++;
-		animationX = Gdx.graphics.getWidth();
-		animationDir = -1;
-		if (this.currentMenuIndex > menus.size() - 1) {
-			this.currentMenuIndex = 0;
-		}
-		alpha = 0;
-	}
-
 	public void update(float x, float y, boolean mouseDown, char input) {
 		// TODO Auto-generated method stub
 
 		if (menus.size() > 0 && currentMenuIndex >= 0) {
 			menus.get(currentMenuIndex).update(x, y, mouseDown, input);
-			// menus.get(currentMenuIndex).action();
 		}
+		this.updateAnimation();
 
 	}
 
+	/**
+	 * Returns true if the manager is not in a transition between menus.
+	 * 
+	 * @return
+	 */
 	public boolean animationCompleted() {
 		return animationDone;
 	}
 
+	/**
+	 * Calls the shapesDraw function for the menus.
+	 * 
+	 * @param shapes
+	 */
+	private void updateAnimation() {
+		animationDone = true;
+		if (menus.size() > 0 && currentMenuIndex >= 0) {
+
+			if (alpha < MAX_ALPHA) {
+				animationDone = false;
+				alpha += 0.03f;
+			} else {
+				alpha = MAX_ALPHA;
+			}
+			
+
+			if (lastMenuIndex != -1) {
+
+				menus.get(lastMenuIndex).setAlpha(MAX_ALPHA - alpha);
+
+			}
+		}
+		menus.get(currentMenuIndex).setAlpha(alpha);
+	}
+
 	public void shapesDraw(ShapeRenderer shapes) {
 
-		if (menus.size() > 0 && currentMenuIndex >= 0) {
-			animationDone = true;
-			if (MenuManager.animationType == 0) {
-
-				if (animationX != 0) {
-					animationDone = false;
-					if (animationDir > 0) {
-						animationX += animationDir
-								* MenuManager.ANIMATION_SPEED;
-						if (animationX > 0) {
-							animationX = 0;
-						}
-					} else {
-						animationX += animationDir
-								* MenuManager.ANIMATION_SPEED;
-						if (animationX < 0) {
-							animationX = 0;
-						}
-					}
-
-				}
-				menus.get(currentMenuIndex).setPosition(animationX, 0);
-			}
-			if (MenuManager.animationType == 1) {
-				if (alpha < MAX_ALPHA) {
-					animationDone = false;
-					alpha += 0.03f;
-					menus.get(currentMenuIndex).setAlpha(alpha);
-
-					if (lastMenuIndex != -1) {
-
-						menus.get(lastMenuIndex).setAlpha(MAX_ALPHA - alpha);
-						menus.get(lastMenuIndex).shapesDraw(shapes);
-					}
-
-				}
-			}
-			// System.out.println(lastMenuIndex+", "+currentMenuIndex);
-			menus.get(currentMenuIndex).setAlpha(alpha);
-			menus.get(currentMenuIndex).shapesDraw(shapes);
+		if (!animationDone&&lastMenuIndex != -1) {
+			menus.get(lastMenuIndex).shapesDraw(shapes);
 		}
+		menus.get(currentMenuIndex).setAlpha(alpha);
+		menus.get(currentMenuIndex).shapesDraw(shapes);
 
 	}
 
+	/**
+	 * Draw the fonts of the menus.
+	 * 
+	 * @param batch
+	 */
 	public void batchDraw(SpriteBatch batch) {
 		batch.begin();
+		if (!animationDone) {
+			if (lastMenuIndex != -1) {
+				menus.get(lastMenuIndex).batchDraw(batch);
+			}
+		}
 		menus.get(currentMenuIndex).batchDraw(batch);
 		batch.end();
 	}
-
+	/**
+	 * Returns the instance of the currently active menu.
+	 * @return
+	 */
 	public Menu getActiveMenu() {
 		return menus.get(currentMenuIndex);
-	}
-
-
-	public void print() {
-		System.out
-				.println("##################### PRINTING MENU MANANGER #######################");
-		for (int i = 0; i < this.menus.size(); i++) {
-			System.out.println();
-			System.out.println("MENU " + i);
-			menus.get(i).print();
-			
-		}
-		System.out.println("############################################");
-
 	}
 
 }
