@@ -86,7 +86,6 @@ public class Board {
 		if (currentPlayer == players.length) {
 			currentPlayer = 0;
 		}
-		System.out.println("New current player: "+players[currentPlayer]);
 	}
 
 	/**

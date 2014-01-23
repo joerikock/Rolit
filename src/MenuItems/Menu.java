@@ -222,7 +222,12 @@ public abstract class Menu {
 	public String selectedChild(){
 		return this.guiObjects.get(lastClickedElementIndex).getSelectedChild();
 	}
-
+//	public String getSelectedChild(String parentName){
+//		
+//	}
+//	private GuiObject getElement(String name){
+//		for(int i=0; i<)
+//	}
 	public void print() {
 		System.out.println("----------- MENU -------------");
 		System.out.println("Buttons: " + this.buttonIndexList.size());
@@ -237,5 +242,4 @@ public abstract class Menu {
 	public String getName() {
 		return name;
 	}
-
 }
