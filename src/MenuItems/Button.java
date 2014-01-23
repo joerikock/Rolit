@@ -59,12 +59,6 @@ public class Button extends GuiObject {
 	}
 
 	@Override
-	public String getSelectedChild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean newSelectedObject() {
 		// TODO Auto-generated method stub
 		return false;

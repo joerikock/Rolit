@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
@@ -176,36 +178,48 @@ public class Game {
 
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
-			board = new Board();
-			board.newGame(players);
-			boardPainter.setBoard(board);
-			boardPainter.setUpBalls();
-			menus.setActiveMenu(inGameMenu);
+		
+			//Fetch Players
+			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
+			for (int i = 0; i < 4; i++) {
 
-		}
-		// Get the desired Player type for the Red player
-		String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
-		for (int i = 0; i < 4; i++) {
-			if (active.lastClickedElement() == playerColors[i]
-					&& active.lastClickedElementInstace().newSelectedObject()) {
-				if (active.selectedChild() == "Human Player") {
+				if (active.getSelectedChild(playerColors[i]) == "Human Player") {
 					System.out.println("Human");
 					players[i] = new HumanPlayer("Max", i, boardPainter);
 				}
-				if (active.selectedChild() == "Simple AI") {
+				if (active.getSelectedChild(playerColors[i]) == "Simple AI") {
 					System.out.println("Dumb");
 					players[i] = new DumbPlayer(i);
 				}
-				if (active.selectedChild() == "Smart AI") {
+				if (active.getSelectedChild(playerColors[i]) == "Smart AI") {
 					System.out.println("Smart");
 					players[i] = new SmartPlayer(i);
 				}
-				if (active.selectedChild() == "No Player") {
+				if (active.getSelectedChild(playerColors[i]) == "No Player") {
 					System.out.println("Smart");
 					players[i] = null;
 				}
 			}
+			ArrayList<Player> playerList = new ArrayList<Player>();
+			for(int i=0; i<4;i++){
+				if(players[i]!=null){
+					playerList.add(players[i]);
+				}
+			}
+			if(playerList.size()>1){
+				board = new Board();
+				board.newGame(playerList);
+				boardPainter.setBoard(board);
+				boardPainter.setUpBalls();
+				menus.setActiveMenu(inGameMenu);
+			}
+
+
 		}
+		// Get the desired Player type for the Red player
+
+
+		
 
 	}
 

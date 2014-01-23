@@ -30,10 +30,7 @@ public class MultiChoiceButton extends GuiObject implements ParentObject{
 		
 	
 	}
-	@Override
-	public String getSelectedChild(){
-		return this.selectedButton.getName();
-	}
+	
 	/**
 	 * Updated the Button of the "Choicebox".
 	 */

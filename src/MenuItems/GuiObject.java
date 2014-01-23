@@ -17,12 +17,17 @@ public abstract class GuiObject implements GuiElement {
 	static final float mouseOverEffectSpeed = .5f;
 	boolean mouseOver, selected, clicked;
 	float x, y, px, py, width, height, alpha, heightProgress;
+	private GuiObject parentObject;
 	private ArrayList<GuiObject> children;
 	Menu parent;
 	String name;
-
 	public GuiObject(String name) {
 		children = new ArrayList<GuiObject>();
+		this.name = name;
+	}
+	public GuiObject(String name, GuiObject parentObject) {
+		children = new ArrayList<GuiObject>();
+		this.parentObject = parentObject;
 		this.name = name;
 	}
 
@@ -36,7 +41,6 @@ public abstract class GuiObject implements GuiElement {
 	 * 
 	 * @return Returns the name of the selected Child.
 	 */
-	public abstract String getSelectedChild();
 	public String getName() {
 		return name;
 	}

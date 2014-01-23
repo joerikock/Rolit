@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 /**
  * A test for the AI in Rolit. Creates 2 AI DumbPlayers that play a game of
  * Rolit against each other using a naive strategy.
@@ -20,9 +22,9 @@ public class AITest {
 		/**
 		 * Create two DumbPlayers (who are using a naive/random strategy)
 		 */
-		Player p1 = new DumbPlayer(0);
-		Player p2 = new DumbPlayer(1);
-		Player[] players = { p1, p2 };
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(new DumbPlayer(0));
+		players.add(new DumbPlayer(1));
 		Board b = new Board();
 		b.newGame(players);
 		b.print();

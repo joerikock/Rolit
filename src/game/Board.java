@@ -12,7 +12,7 @@ public class Board {
 	private int newBallX, newBallY, newBallColor, playerCount, currentPlayer;
 	private ArrayList<int[]> changes;
 	ArrayList<int[]> modifiedBalls, validMovesForNextPlayer;
-	private Player[] players;
+	private ArrayList<Player> players;
 
 	public Board() {
 		this.field = new int[FIELD_WIDTH][FIELD_HEIGHT];
@@ -25,24 +25,8 @@ public class Board {
 	 * Sets the board up for a new game. 
 	 * @param players Array of Player instances that will participate in the round.
 	 */
-	public void newGame(Player[] playerData){
-		int playerCount = 0;
-		ArrayList<Integer> indexList = new ArrayList<Integer>();
-		for(int i=0;i<playerData.length;i++){
-			
-			if(playerData[i] != null){
-				System.out.println(i+" ,"+playerData[i]);
-				indexList.add(i);
-			}
-		}
-		this.players = new Player[indexList.size()];
-		System.out.println("Initializing new Game");
-		for(int i=0; i<indexList.size();i++){
-			System.out.println("Index:"+i+", "+indexList.get(i));
-			players[i] = playerData[indexList.get(i)];
-		}
-		this.currentPlayer=0;
-		this.reset();
+	public void newGame(ArrayList<Player> playerData){
+		this.players = playerData;
 	}
 	/**
 	 * Resets the board to the standart rollit board.
@@ -67,7 +51,7 @@ public class Board {
 	 * @return Returns the colorID(0,1,2,3) of the current player.
 	 */
 	public int currentPlayerColor() {
-		return currentPlayer;
+		return players.get(currentPlayer).getID();
 	}
 
 	/**
@@ -75,7 +59,7 @@ public class Board {
 	 * @return The instance of the current player.
 	 */
 	public Player currentPlayer() {
-		return players[currentPlayer];
+		return players.get(currentPlayer);
 	}
 
 	/**
@@ -83,7 +67,7 @@ public class Board {
 	 */
 	private void nextPlayer() {
 		currentPlayer++;
-		if (currentPlayer == players.length) {
+		if (currentPlayer == players.size()) {
 			currentPlayer = 0;
 		}
 	}
@@ -120,7 +104,7 @@ public class Board {
 	 * @return Returns true if the move x,y has to be made.
 	 */
 	private boolean forcedMove(int x, int y) {
-		if (this.resultingChangesForMove(x, y, currentPlayer).size() > 0) {
+		if (this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0) {
 			return true;
 		}
 		return false;
@@ -219,7 +203,7 @@ public class Board {
 	 */
 	public Player getWinner() {
 		if (finished()) {
-			int[] ballCount = new int[players.length];
+			int[] ballCount = new int[players.size()];
 			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 					ballCount[this.getField(x, y)]++;
@@ -227,13 +211,13 @@ public class Board {
 			}
 			int max = 0;
 			int currentBest = 0;
-			for (int index = 0; index < players.length; index++) {
+			for (int index = 0; index < players.size(); index++) {
 				if (ballCount[index] > max) {
 					max = ballCount[index];
 					currentBest = index;
 				}
 			}
-			return players[currentBest];
+			return players.get(currentBest);
 		}
 		return null;
 	}
