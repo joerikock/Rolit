@@ -147,9 +147,12 @@ public class Board {
 	}
 
 	/**
+	 * Test if a given field is existing on the field or not.
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the field.
 	 * @param y
+	 * 			the Y-coordinate of the field.
 	 * @return True if the position x, y is not out of bounds.
 	 */
 	public boolean boundTest(int x, int y) {
@@ -157,9 +160,13 @@ public class Board {
 	}
 
 	/**
+	 * Method for checking whether a given move MUST be made, meaning no other
+	 * moves are possible.
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the field.
 	 * @param y
+	 * 			the Y-coordinate of the field.
 	 * @return Returns true if the move x,y has to be made.
 	 */
 	private boolean forcedMove(int x, int y) {
@@ -171,6 +178,8 @@ public class Board {
 	}
 
 	/**
+	 * Generates a list of {x, y} coordinates containing all the possible valid
+	 * moves.
 	 * 
 	 * @return A list of all possible moves of the current player.
 	 */
@@ -182,6 +191,8 @@ public class Board {
 	}
 
 	/**
+	 * Generates a list of {x, y} coordinates containing all the possible valid
+	 * moves.
 	 * 
 	 * @return Creates a list of legal moves for the current player. Is used
 	 *         when the game just started or a turn has been made.
@@ -198,7 +209,6 @@ public class Board {
 						int[] freeField = { x, y };
 						freeMoves.add(freeField);
 					}
-
 				}
 			}
 		}
