@@ -2,18 +2,71 @@ package game;
 
 import java.util.ArrayList;
 
+/**
+ * Class for modelling the board for the Rolit game.
+ * 
+ * @author Max Messerich en Joeri Kock
+ */
+
 public class Board {
+	
+	// Instance variables --------------------------------------------------------
+	
+	/**
+	 * The vectors used for checking all directions from a desired field on the board.
+	 */
 	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
 			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
+	
+	/**
+	 * The width of the field.
+	 */
 	public static final int FIELD_WIDTH = 8;
+	
+	/**
+	 * The height of the field.
+	 */
 	public static final int FIELD_HEIGHT = 8;
+	
+	/**
+	 * Two-dimensional array for the fields on the board.
+	 */
 	private int[][] field;
+	
+	/**
+	 * Booleans for telling if a player has a new ball or modified a ball.
+	 */
 	private boolean newBall, modified;
-	private int newBallX, newBallY, newBallColor, playerCount, currentPlayer;
+	
+	/**
+	 * X and Y coordinates and the colour of a new ball.
+	 */
+	private int newBallX, newBallY, newBallColor;
+	
+	/**
+	 * Variable indicating the current player.
+	 */
+	private int currentPlayer;
+	
+	/**
+	 * The changes represented in a field. A list of X and Y coordinates.
+	 */
 	private ArrayList<int[]> changes;
+	
+	/**
+	 * Lists indicating the modified balls and the valid moves a certain player
+	 * can make.
+	 */
 	ArrayList<int[]> modifiedBalls, validMovesForNextPlayer;
+	
+	/**
+	 * A list containing all players.
+	 */
 	private ArrayList<Player> players;
 
+	/**
+	 * Create the board and reset it to its initial state.
+	 */
 	public Board() {
 		this.field = new int[FIELD_WIDTH][FIELD_HEIGHT];
 		this.newBall = false;
@@ -22,14 +75,15 @@ public class Board {
 		
 	}
 	/**
-	 * Sets the board up for a new game. 
+	 * Sets the board up for a new game.
+	 *  
 	 * @param players Array of Player instances that will participate in the round.
 	 */
 	public void newGame(ArrayList<Player> playerData){
 		this.players = playerData;
 	}
 	/**
-	 * Resets the board to the standart rollit board.
+	 * Resets the board to the initial Rolit state.
 	 */
 	private void reset() {
 		changes = new ArrayList<int[]>();
@@ -47,6 +101,7 @@ public class Board {
 	}
 	
 	/**
+	 * Method for retrieving the color of the current player.
 	 * 
 	 * @return Returns the colorID(0,1,2,3) of the current player.
 	 */
@@ -55,6 +110,7 @@ public class Board {
 	}
 
 	/**
+	 * Method for retrieving the current player.
 	 * 
 	 * @return The instance of the current player.
 	 */
@@ -63,7 +119,7 @@ public class Board {
 	}
 
 	/**
-	 * Next Players turn.
+	 * Passing the turn to the next player.
 	 */
 	private void nextPlayer() {
 		currentPlayer++;
@@ -73,18 +129,21 @@ public class Board {
 	}
 
 	/**
-	 * 
+	 * Method for retrieving the colour of a given field.
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the field.
 	 * @param y
+	 * 			the Y-coordinate of the field.
 	 * @return Returns the ID of the color occupying the field at x, y. If the
 	 *         field is empty or out of bounds, -1 is returned.
 	 */
 	public int getField(int x, int y) {
 		if (boundTest(x, y)) {
 			return field[x][y];
+		} else {
+			return -1;
 		}
-		return -1;
 	}
 
 	/**

@@ -31,10 +31,10 @@ public class SocketClient {
 			BufferedOutputStream bos = new BufferedOutputStream(connection.
 					getOutputStream());
 
-			/** Instantiate an OutputStreamWriter object with the optional character
-			 * encoding.
+			/** 
+			 * Instantiate an OutputStreamWriter object.
 			 */
-			OutputStreamWriter osw = new OutputStreamWriter(bos, "US-ASCII");
+			OutputStreamWriter osw = new OutputStreamWriter(bos);
 			
 			TimeStamp = new java.util.Date().toString();
 		    String process = "Calling the Socket Server on "+ 
@@ -59,7 +59,7 @@ public class SocketClient {
 		    /**Read the socket's InputStream and append to a StringBuffer */
 		    int c;
 		    while ( (c = isr.read()) != 13)
-		    	instr.append( (char) c);
+		    	instr.append((char) c);
 
 		    /** Close the socket connection. */
 		    connection.close();
