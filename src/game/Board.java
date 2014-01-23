@@ -251,6 +251,7 @@ public class Board {
 	}
 
 	/**
+	 * Method for checking if the game has ended.
 	 * 
 	 * @return true if no additional balls can be added to the board
 	 */
@@ -269,6 +270,7 @@ public class Board {
 	}
 
 	/**
+	 * Method for returning the winner of the game.
 	 * 
 	 * @return Returns the player instance that won the game.
 	 */
@@ -294,9 +296,12 @@ public class Board {
 	}
 
 	/**
+	 * Method for checking if a certain move is valid.
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the move.
 	 * @param y
+	 * 			the Y-coordinate of the move.
 	 * @return Returns true if the move x,y is valid.
 	 */
 	private boolean validateMove(int x, int y) {
@@ -362,6 +367,7 @@ public class Board {
 	}
 
 	/**
+	 * Method for checking if the board has been modified since last move.
 	 * 
 	 * @return True if the board has been modified last loop (=> new Ball
 	 *         placed)
@@ -371,6 +377,7 @@ public class Board {
 	}
 
 	/**
+	 * Method for retrieving a list of the recent changes in the board.
 	 * 
 	 * @return A list of the most recent changes of the ball. The list contains
 	 *         arrays that represent x,y-positions of the a ball and its color.
