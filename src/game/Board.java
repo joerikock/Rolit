@@ -27,18 +27,19 @@ public class Board {
 	 */
 	public void newGame(Player[] playerData){
 		int playerCount = 0;
+		ArrayList<Integer> indexList = new ArrayList<Integer>();
 		for(int i=0;i<playerData.length;i++){
 			
 			if(playerData[i] != null){
-				System.out.println("PLAYER: "+i);
-				playerCount++;
+				System.out.println(i+" ,"+playerData[i]);
+				indexList.add(i);
 			}
 		}
-		this.players = new Player[playerCount];
+		this.players = new Player[indexList.size()];
 		System.out.println("Initializing new Game");
-		for(int i=0; i<playerCount;i++){
-			
-			players[i] = playerData[i];
+		for(int i=0; i<indexList.size();i++){
+			System.out.println("Index:"+i+", "+indexList.get(i));
+			players[i] = playerData[indexList.get(i)];
 		}
 		this.currentPlayer=0;
 		this.reset();
@@ -85,6 +86,7 @@ public class Board {
 		if (currentPlayer == players.length) {
 			currentPlayer = 0;
 		}
+		System.out.println("New current player: "+players[currentPlayer]);
 	}
 
 	/**
