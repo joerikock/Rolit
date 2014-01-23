@@ -9,56 +9,56 @@ import java.util.ArrayList;
  */
 
 public class Board {
-	
+
 	// Instance variables --------------------------------------------------------
-	
+
 	/**
 	 * The vectors used for checking all directions from a desired field on the board.
 	 */
 	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
-			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
-	
+		{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
+
 	/**
 	 * The width of the field.
 	 */
 	public static final int FIELD_WIDTH = 8;
-	
+
 	/**
 	 * The height of the field.
 	 */
 	public static final int FIELD_HEIGHT = 8;
-	
+
 	/**
 	 * Two-dimensional array for the fields on the board.
 	 */
 	private int[][] field;
-	
+
 	/**
 	 * Booleans for telling if a player has a new ball or modified a ball.
 	 */
 	private boolean newBall, modified;
-	
+
 	/**
 	 * X and Y coordinates and the colour of a new ball.
 	 */
 	private int newBallX, newBallY, newBallColor;
-	
+
 	/**
 	 * Variable indicating the current player.
 	 */
 	private int currentPlayer;
-	
+
 	/**
 	 * The changes represented in a field. A list of X and Y coordinates.
 	 */
 	private ArrayList<int[]> changes;
-	
+
 	/**
 	 * Lists indicating the modified balls and the valid moves a certain player
 	 * can make.
 	 */
 	ArrayList<int[]> modifiedBalls, validMovesForNextPlayer;
-	
+
 	/**
 	 * A list containing all players.
 	 */
@@ -72,7 +72,7 @@ public class Board {
 		this.newBall = false;
 		this.modified = false;
 		this.reset();
-		
+
 	}
 	/**
 	 * Sets the board up for a new game.
@@ -99,7 +99,7 @@ public class Board {
 		field[4][4] = 2;
 		field[4][3] = 3;
 	}
-	
+
 	/**
 	 * Method for retrieving the color of the current player.
 	 * 
@@ -231,11 +231,13 @@ public class Board {
 	}
 
 	/**
-	 * Checks whether the the field x, y has neighbours.
+	 * Checks whether a given field x, y has neighbours.
 	 * 
 	 * @param x
+	 * 			the X-coordinate of the field.
 	 * @param y
-	 * @return
+	 * 			the Y-coordinate of the field.
+	 * @return	true if the field has neighbours.
 	 */
 	private boolean hasNeighbours(int x, int y) {
 		if (boundTest(x, y)) {
@@ -258,7 +260,7 @@ public class Board {
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (this.getField(x, y) == -1) {
-					
+
 					return false;
 				}
 			}
@@ -301,9 +303,9 @@ public class Board {
 		int[] pos = { x, y };
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
-		
+
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
-				
+
 				return true;
 			}
 
@@ -339,7 +341,7 @@ public class Board {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Count all the fields a given player has.
 	 * 
@@ -348,16 +350,16 @@ public class Board {
 	 * @return the number of fields the player has.
 	 */
 	public int occupiedFields(int id) {
-    	int result = 0;
-    	for (int i = 0; i < FIELD_WIDTH; i++) {
-    		for (int j = 0; j < FIELD_HEIGHT; j++) {
-    			if (field[i][j] == id) {
-    				result += 1;
-    			}
-    		}
+		int result = 0;
+		for (int i = 0; i < FIELD_WIDTH; i++) {
+			for (int j = 0; j < FIELD_HEIGHT; j++) {
+				if (field[i][j] == id) {
+					result += 1;
+				}
+			}
 		}
-    	return result;
-    }
+		return result;
+	}
 
 	/**
 	 * 
@@ -457,12 +459,12 @@ public class Board {
 					newBallColor);
 			for (int i = 0; i < changes.size(); i++) {
 				System.out
-						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
+				.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
 			int[] newBallData = { newBallX, newBallY, newBallColor };
 
 			modifiedBalls.add(newBallData);
-		
+
 			// Execute the changes
 			if (changes.size() > 0) {
 				for (int i = 0; i < changes.size(); i++) {
@@ -473,7 +475,7 @@ public class Board {
 
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
-								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
+								     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
 						int[] s = new int[3];
 						s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
 								* d;
