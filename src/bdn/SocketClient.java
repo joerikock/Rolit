@@ -62,7 +62,7 @@ public class SocketClient {
 				instr.append((char) c);
 
 			/** Close the socket connection. */
-			connection.close();
+//			connection.close();
 			System.out.println(instr);
 		} catch (IOException f) {
 			System.out.println("IOException: " + f.getMessage());
