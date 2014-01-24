@@ -214,14 +214,7 @@ public class Game {
 				boardPainter.setUpBalls();
 				menus.setActiveMenu(inGameMenu);
 			}
-
-
 		}
-		// Get the desired Player type for the Red player
-
-
-		
-
 	}
 
 	/**
