@@ -18,17 +18,13 @@ public class Client extends Thread implements ActionListener {
 	private boolean AI;
 	private Integer playerCount;
 
-<<<<<<< HEAD
 	private ClientGUI gui;
-=======
 	private BoardGUI gui;
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 
 	private Socket sock;
 	private BufferedReader in;
 	private BufferedWriter out;
 
-<<<<<<< HEAD
 	public Client(InetAddress host, Integer port, String name, boolean AI,
 			int playerCount) throws IOException {
 		this.sock = new Socket(host, port);
@@ -36,12 +32,10 @@ public class Client extends Thread implements ActionListener {
 				sock.getInputStream()));
 		this.out = new BufferedWriter(new OutputStreamWriter(
 				sock.getOutputStream()));
-=======
 	public Client(InetAddress host, Integer port, String name, boolean AI, int playerCount) throws IOException {
 		this.sock = new Socket(host, port);
 		this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		this.out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 		this.name = name;
 		this.AI = AI;
 		this.playerCount = new Integer(playerCount);
@@ -66,24 +60,17 @@ public class Client extends Thread implements ActionListener {
 	private void readString(String lineIn) {
 		String[] splitLine = lineIn.toLowerCase().split("\\s");
 		String command = splitLine[0];
-<<<<<<< HEAD
 		List<String> args = Arrays.asList(splitLine).subList(1,
 				splitLine.length);
-=======
 		List<String> args = Arrays.asList(splitLine).subList(1, splitLine.length);
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 
 		if (command.equals("ackconnect")) {
 			name = args.get(0);
 			sendCommand("join", playerCount.toString());
 		} else if (command.equals("startgame")) {
 			Player p1, p2, p3, p4;
-
-<<<<<<< HEAD
 			p1 = new Player(args.get(0), BColor.RED);
-=======
 			p1 = new Player(args.get(0), 0);
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 			if (args.size() == 2) {
 				p2 = new Player(args.get(1), BColor.GREEN);
 				game = new Game(p1, p2);
@@ -124,16 +111,13 @@ public class Client extends Thread implements ActionListener {
 
 	/**
 	 * Stuurt een bericht naar de Server.
-<<<<<<< HEAD
 	 * 
 	 * @param cmd
 	 *            Commando dat verstuurd wordt
 	 * @param arg
 	 *            De met het commando meegestuurde argument
-=======
 	 * @param cmd Commando dat verstuurd wordt
 	 * @param arg De met het commando meegestuurde argument
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 	 */
 	public void sendCommand(String cmd, String arg) {
 		String[] args = { arg };
@@ -142,16 +126,13 @@ public class Client extends Thread implements ActionListener {
 
 	/**
 	 * Stuurt een bericht naar de Server.
-<<<<<<< HEAD
 	 * 
 	 * @param cmd
 	 *            Commando dat verstuurd wordt
 	 * @param args
 	 *            De met het commando meegestuurde argumenten
-=======
 	 * @param cmd Commando dat verstuurd wordt
 	 * @param args De met het commando meegestuurde argumenten
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 	 */
 	public void sendCommand(String cmd, String[] args) {
 		String send = cmd;
@@ -190,18 +171,15 @@ public class Client extends Thread implements ActionListener {
 		if (e.getSource() instanceof JButton) {
 			JButton button = (JButton) e.getSource();
 			if (!AI && button.getName().equals("move") && game != null) {
-<<<<<<< HEAD
 				int move = Integer.valueOf(button.getActionCommand())
 						.intValue();
 				if (name.equals(game.getCurrentPlayer().getName())
 						&& (move >= 0 && move < Board.DIM * Board.DIM)
 						&& game.getBoard().isValidMove(move,
 								game.getCurrentPlayer().getColor())) {
-=======
 				int move = Integer.valueOf(button.getActionCommand()).intValue();
 				if (name.equals(game.getCurrent()).getName()) && (move >= 0 && move < Board.DIM * Board.DIM) && 
 				game.getBoard().isValidMove(move, game.getCurrentPlayer().getColor())) {
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 					sendCommand("domove", Integer.toString(move));
 				}
 			} else if (button.getName().equals("reset")) {
