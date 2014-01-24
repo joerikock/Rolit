@@ -1,10 +1,10 @@
 package network;
 
+import game.Game;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
-import rolit.game.*;
 
 public class ClientHandler extends Thread {
 	private Game game;
@@ -175,7 +175,7 @@ public class ClientHandler extends Thread {
 			if (partySize > 1 && partySize <= 4) {
 				server.addMessage("[" + name + " wil meedoen aan een spel met " + partySize + " spelers]");
 				if (server.tryStartGame(partySize, this)) {
-					String[] turnArgs = {game.getCurrentPlayer().getName()};
+					String[] turnArgs = {game.getBoard().currentPlayer().getName()};
 					server.addMessage("[" + turnArgs[0] + " is aan de beurt]");
 					party.broadcast("turn", turnArgs);
 				}
@@ -189,7 +189,7 @@ public class ClientHandler extends Thread {
 	public void makeMove(String arg0) {
 		Integer move = Integer.parseInt(arg0);
 		if (game.getBoard().isTile(move) &&
-				game.getCurrentPlayer().getName().equals(name) &&
+				game.getBoard().currentPlayer().getName().equals(name) &&
 				game.getBoard().isValidMove(move, game.getPlayers().getByName(name).getColor())) {
 			game.makeMove(move);
 			String[] moveArgs = {name, move.toString()};
@@ -206,7 +206,7 @@ public class ClientHandler extends Thread {
 				party.broadcast("endgame", punten);
 				party.reset();
 			} else {
-				String[] turnArgs = {game.getCurrentPlayer().getName()};
+				String[] turnArgs = {game.getBoard().currentPlayer().getName()};
 				server.addMessage("[" + turnArgs[0] + " is aan de beurt]");
 				party.broadcast("turn", turnArgs);
 			}

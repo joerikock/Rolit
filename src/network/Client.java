@@ -62,7 +62,7 @@ public class Client extends Thread implements ActionListener {
 		} else if (command.equals("startgame")) {
 			Player p1, p2, p3, p4;
 			
-			p1 = new Player(args.get(0), BColor.RED);
+			p1 = new Player(args.get(0), 0);
 			if (args.size() == 2) {
 				p2 = new Player(args.get(1), BColor.GREEN);
 				game = new Game(p1, p2);
@@ -152,7 +152,7 @@ public class Client extends Thread implements ActionListener {
 			JButton button = (JButton)e.getSource();
 			if (!AI && button.getName().equals("move") && game != null) {
 				int move = Integer.valueOf(button.getActionCommand()).intValue();
-				if (name.equals(game.getCurrentPlayer().getName()) && (move >= 0 && move < Board.DIM * Board.DIM) && 
+				if (name.equals(game.getCurrent()).getName()) && (move >= 0 && move < Board.DIM * Board.DIM) && 
 						game.getBoard().isValidMove(move, game.getCurrentPlayer().getColor())) {
 		        	sendCommand("domove", Integer.toString(move));
 				}

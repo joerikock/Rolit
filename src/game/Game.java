@@ -100,6 +100,10 @@ public class Game {
 		bg = new AnimatedBackGround(3, 200);
 		players = new Player[4];
 	}
+	
+	public Board getBoard() {
+		return board;
+	}
 
 	/**
 	 * Updates the Menus and the game. Passes user input.
