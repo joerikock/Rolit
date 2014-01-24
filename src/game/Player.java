@@ -41,6 +41,10 @@ public abstract class Player {
 	public int getID() {
 		return id;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	/**
 	 * Method

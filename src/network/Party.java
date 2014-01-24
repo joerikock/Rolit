@@ -1,6 +1,10 @@
 package network;
 
+import game.Game;
+import game.Player;
+
 import java.util.*;
+
 import rolit.game.*;
 
 /**
