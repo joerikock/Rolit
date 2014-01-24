@@ -58,7 +58,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 	public void render() {
 		// System.out.println(camera.position.x+","+camera.position.y);
 		// camera.update();
-		Gdx.gl.glClearColor(.3f, .3f, .3f, 1);
+		Gdx.gl.glClearColor(.2f, .2f,.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);

@@ -14,7 +14,7 @@ public abstract class GuiObject{
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = {.1f, .1f, .1f};
+	public static final float[] COLOR = {.5f, .5f, .5f};
 	/**
 	 * Defines the font color.
 	 */

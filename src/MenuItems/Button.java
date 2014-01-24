@@ -33,7 +33,7 @@ public class Button extends GuiObject {
 		this.heightProgress = 0;
 		
 		RollIt.FONT.getBounds(text);
-		super.setDimensions(x, y, 100, 34);
+		super.setDimensions(x, y, 100, 44);
 		super.setSelectAble(false);
 	}
 

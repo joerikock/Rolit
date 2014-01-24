@@ -10,11 +10,11 @@ public class MenuManager {
 	/**
 	 * Defines the speed of the animation when switching between menus.
 	 */
-	public static final float ANIMATION_SPEED = 10f;
+	public static final float ANIMATION_SPEED = 20f;
 	/**
 	 * Defines the maximum alpha value for all menus and their GuiObjects.
 	 */
-	public static final float MAX_ALPHA = .4f;
+	public static final float MAX_ALPHA = .8f;
 	/**
 	 * ArrayList for menus managed by this manager.
 	 */
