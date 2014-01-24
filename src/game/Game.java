@@ -179,16 +179,18 @@ public class Game {
 
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
-		
-			//Fetch Players
+
+			// Fetch Players
 			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
 			for (int i = 0; i < 4; i++) {
 
-				if (active.getSelectedChild(playerColors[i]).equals("Human Player")) {
+				if (active.getSelectedChild(playerColors[i]).equals(
+						"Human Player")) {
 
 					players[i] = new HumanPlayer("Max", i, boardPainter);
 				}
-				if (active.getSelectedChild(playerColors[i]).equals("Simple AI")) {
+				if (active.getSelectedChild(playerColors[i])
+						.equals("Simple AI")) {
 
 					players[i] = new DumbPlayer(i);
 				}
@@ -196,18 +198,19 @@ public class Game {
 
 					players[i] = new SmartPlayer(i);
 				}
-				if (active.getSelectedChild(playerColors[i]).equals("No Player")) {
+				if (active.getSelectedChild(playerColors[i])
+						.equals("No Player")) {
 
 					players[i] = null;
 				}
 			}
 			ArrayList<Player> playerList = new ArrayList<Player>();
-			for(int i=0; i<4;i++){
-				if(players[i]!=null){
+			for (int i = 0; i < 4; i++) {
+				if (players[i] != null) {
 					playerList.add(players[i]);
 				}
 			}
-			if(playerList.size()>1){
+			if (playerList.size() > 1) {
 				board = new Board();
 				board.newGame(playerList);
 				boardPainter.setBoard(board);

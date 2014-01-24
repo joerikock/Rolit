@@ -37,7 +37,7 @@ public abstract class Player {
 		this.name = name;
 		this.id = id;
 	}
-	
+
 	public int getID() {
 		return id;
 	}

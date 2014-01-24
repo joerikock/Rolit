@@ -50,15 +50,20 @@ public abstract class Menu {
 		this.textInputFieldIndexList = new ArrayList<Integer>();
 		this.name = name;
 	}
+
 	/**
-	 * Sets the manager. Builds relationship between the menuManager and the menu.
+	 * Sets the manager. Builds relationship between the menuManager and the
+	 * menu.
+	 * 
 	 * @param manager
 	 */
 	public void setManager(MenuManager manager) {
 		this.manager = manager;
 	}
+
 	/**
 	 * Adds a specific GuiObject(Button, TextField, etc) to the menu.
+	 * 
 	 * @param obj
 	 */
 	private void addInternal(GuiObject obj) {
@@ -71,12 +76,14 @@ public abstract class Menu {
 			textInputFieldIndexList.add(guiObjects.size() - 1);
 		}
 	}
+
 	/**
 	 * Resets the menu to its unused state.
 	 */
-	public void activate(){
+	public void activate() {
 		lastClickedElementIndex = -1;
 	}
+
 	/**
 	 * Adds a new GuiObject to the menu.
 	 * 
@@ -88,8 +95,11 @@ public abstract class Menu {
 		isParent.put(guiObjects.size() - 1, true);
 
 	}
+
 	/**
-	 * Adds a new GuiObject to the menu and marks is as a child of another element.
+	 * Adds a new GuiObject to the menu and marks is as a child of another
+	 * element.
+	 * 
 	 * @param obj
 	 * @param parent
 	 */
@@ -98,8 +108,10 @@ public abstract class Menu {
 		isParent.put(guiObjects.size() - 1, false);
 
 	}
+
 	/**
 	 * Calls the shapesDraw function for all GuiObject of the menu.
+	 * 
 	 * @param shapes
 	 */
 	public void shapesDraw(ShapeRenderer shapes) {
@@ -110,8 +122,10 @@ public abstract class Menu {
 			// shapes.end();
 		}
 	}
+
 	/**
 	 * Calls the batchDraw function for all GUIObejcts of the menu.
+	 * 
 	 * @param batch
 	 */
 	public void batchDraw(SpriteBatch batch) {
@@ -119,10 +133,13 @@ public abstract class Menu {
 		for (int i = 0; i < guiObjects.size(); i++) {
 			// System.out.println();
 			guiObjects.get(i).batchDraw(batch);
+			guiObjects.get(i).drawOverLay(batch);
 		}
 	}
+
 	/**
 	 * Sets the position of the menu relative to the down-left cornor.
+	 * 
 	 * @param x
 	 * @param y
 	 */
@@ -131,8 +148,10 @@ public abstract class Menu {
 			guiObjects.get(i).setParentPosition(x, y);
 		}
 	}
+
 	/**
 	 * Sets the alpha value of all GuiObjects.
+	 * 
 	 * @param a
 	 */
 	public void setAlpha(float a) {
@@ -140,21 +159,24 @@ public abstract class Menu {
 			guiObjects.get(i).setAlpha(a);
 		}
 	}
+
 	/**
-	 * Updates all GuiObjects and their children of the menu with userInput. Updates which elements have been selected.
+	 * Updates all GuiObjects and their children of the menu with userInput.
+	 * Updates which elements have been selected.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param mouseDown
 	 * @param input
 	 */
 	public void update(float x, float y, boolean mouseDown, char input) {
-		//Reset lastClickedElement
+		// Reset lastClickedElement
 		this.lastClickedElementIndex = -1;
 		// Update all guiObjects with their needed data
-//		System.out.println("MENU UPDATE. SELECTED ITEMS: ");
+		// System.out.println("MENU UPDATE. SELECTED ITEMS: ");
 		for (int i = 0; i < guiObjects.size(); i++) {
 			guiObjects.get(i).update(x, y, mouseDown);
-			
+
 			if (guiObjects.get(i) instanceof TextInput) {
 				TextInput t = (TextInput) guiObjects.get(i);
 				t.updateKeys(input);
@@ -164,7 +186,8 @@ public abstract class Menu {
 			// is x
 			if (isParent.get(i)) {
 				if (guiObjects.get(i).clicked()) {
-					 System.out.println("parent +"+guiObjects.get(i).getName());
+					System.out
+							.println("parent +" + guiObjects.get(i).getName());
 					this.lastClickedElementIndex = i;
 				}
 			}
@@ -201,19 +224,21 @@ public abstract class Menu {
 	}
 
 	/**
-	 * Returns the name of the selected child of the GuiObject given as argument.
-	 * Returns null if the the GuiObject does not exist or does not have children.
+	 * Returns the name of the selected child of the GuiObject given as
+	 * argument. Returns null if the the GuiObject does not exist or does not
+	 * have children.
+	 * 
 	 * @param parentName
 	 * @return
 	 */
 	public String getSelectedChild(String parentName) {
 		GuiObject temp = getElement(parentName);
 		if (temp != null) {
-//			System.out.println(temp.getName()+", "+temp.getChildren().size());
-			if(temp.getSelectedChild()!=null){
+			// System.out.println(temp.getName()+", "+temp.getChildren().size());
+			if (temp.getSelectedChild() != null) {
 				return temp.getSelectedChild();
 			}
-			
+
 		}
 		return null;
 	}
@@ -234,8 +259,10 @@ public abstract class Menu {
 		}
 		return null;
 	}
+
 	/**
 	 * Return the name of the menu.
+	 * 
 	 * @return
 	 */
 	public String getName() {

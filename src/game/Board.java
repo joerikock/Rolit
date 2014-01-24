@@ -10,13 +10,15 @@ import java.util.ArrayList;
 
 public class Board {
 
-	// Instance variables --------------------------------------------------------
+	// Instance variables
+	// --------------------------------------------------------
 
 	/**
-	 * The vectors used for checking all directions from a desired field on the board.
+	 * The vectors used for checking all directions from a desired field on the
+	 * board.
 	 */
 	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
-		{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
+			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
 
 	/**
 	 * The width of the field.
@@ -74,14 +76,17 @@ public class Board {
 		this.reset();
 
 	}
+
 	/**
 	 * Sets the board up for a new game.
-	 *  
-	 * @param players Array of Player instances that will participate in the round.
+	 * 
+	 * @param players
+	 *            Array of Player instances that will participate in the round.
 	 */
-	public void newGame(ArrayList<Player> playerData){
+	public void newGame(ArrayList<Player> playerData) {
 		this.players = playerData;
 	}
+
 	/**
 	 * Resets the board to the initial Rolit state.
 	 */
@@ -132,9 +137,9 @@ public class Board {
 	 * Method for retrieving the colour of a given field.
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the field.
+	 *            the X-coordinate of the field.
 	 * @param y
-	 * 			the Y-coordinate of the field.
+	 *            the Y-coordinate of the field.
 	 * @return Returns the ID of the color occupying the field at x, y. If the
 	 *         field is empty or out of bounds, -1 is returned.
 	 */
@@ -150,9 +155,9 @@ public class Board {
 	 * Test if a given field is existing on the field or not.
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the field.
+	 *            the X-coordinate of the field.
 	 * @param y
-	 * 			the Y-coordinate of the field.
+	 *            the Y-coordinate of the field.
 	 * @return True if the position x, y is not out of bounds.
 	 */
 	public boolean boundTest(int x, int y) {
@@ -164,9 +169,9 @@ public class Board {
 	 * moves are possible.
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the field.
+	 *            the X-coordinate of the field.
 	 * @param y
-	 * 			the Y-coordinate of the field.
+	 *            the Y-coordinate of the field.
 	 * @return Returns true if the move x,y has to be made.
 	 */
 	private boolean forcedMove(int x, int y) {
@@ -234,10 +239,10 @@ public class Board {
 	 * Checks whether a given field x, y has neighbours.
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the field.
+	 *            the X-coordinate of the field.
 	 * @param y
-	 * 			the Y-coordinate of the field.
-	 * @return	true if the field has neighbours.
+	 *            the Y-coordinate of the field.
+	 * @return true if the field has neighbours.
 	 */
 	private boolean hasNeighbours(int x, int y) {
 		if (boundTest(x, y)) {
@@ -299,9 +304,9 @@ public class Board {
 	 * Method for checking if a certain move is valid.
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the move.
+	 *            the X-coordinate of the move.
 	 * @param y
-	 * 			the Y-coordinate of the move.
+	 *            the Y-coordinate of the move.
 	 * @return Returns true if the move x,y is valid.
 	 */
 	private boolean validateMove(int x, int y) {
@@ -351,7 +356,7 @@ public class Board {
 	 * Count all the fields a given player has.
 	 * 
 	 * @param id
-	 * 			the player.
+	 *            the player.
 	 * @return the number of fields the player has.
 	 */
 	public int occupiedFields(int id) {
@@ -387,15 +392,15 @@ public class Board {
 	}
 
 	/**
-	 * Method that at first makes a given move on the board, then checks in
-	 * all directions of VECTORS and makes the changes when a ball is "captured".
+	 * Method that at first makes a given move on the board, then checks in all
+	 * directions of VECTORS and makes the changes when a ball is "captured".
 	 * 
 	 * @param x
-	 * 			the X-coordinate of the move.
+	 *            the X-coordinate of the move.
 	 * @param y
-	 * 			the Y-coordinate of the move.
+	 *            the Y-coordinate of the move.
 	 * @param color
-	 * 			the colour to change the field into.
+	 *            the colour to change the field into.
 	 * @return A list of changes that have to be executed, if a ball is placed
 	 *         on x,y with the color "color".
 	 */
@@ -469,12 +474,11 @@ public class Board {
 		}
 		if (newBall) {
 
-
 			changes = this.resultingChangesForMove(newBallX, newBallY,
 					newBallColor);
 			for (int i = 0; i < changes.size(); i++) {
 				System.out
-				.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
+						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
 			int[] newBallData = { newBallX, newBallY, newBallColor };
 
@@ -490,7 +494,7 @@ public class Board {
 
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
-								     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
+								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
 						int[] s = new int[3];
 						s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
 								* d;

@@ -32,9 +32,9 @@ public class AITest {
 		 * After every move, print the board again.
 		 */
 		while (!b.finished()) {
-				b.currentPlayer().makeMove(b);
-				b.update();
-				b.print();
+			b.currentPlayer().makeMove(b);
+			b.update();
+			b.print();
 		}
 		System.out.println("WINNER IS " + b.getWinner());
 	}

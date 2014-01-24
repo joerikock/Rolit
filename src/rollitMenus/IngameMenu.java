@@ -6,6 +6,7 @@ import MenuItems.MenuManager;
 
 public class IngameMenu extends Menu {
 	Button back;
+
 	public IngameMenu(MenuManager m) {
 		super("Ingame");
 		super.setManager(m);

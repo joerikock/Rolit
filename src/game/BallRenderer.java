@@ -96,10 +96,11 @@ public class BallRenderer {
 		renderColor = new float[3];
 		reset();
 	}
+
 	/**
 	 * Sets the initial state of the BallRenderer
 	 */
-	public void reset(){
+	public void reset() {
 		this.colorID = -1;
 		this.alpha = 0;
 		this.animationStep = 1;
@@ -107,6 +108,7 @@ public class BallRenderer {
 		this.isChoice = false;
 		this.mouseOver = false;
 	}
+
 	/**
 	 * 
 	 * @return true if the field is empty, false if there is a ball.

@@ -221,7 +221,7 @@ public class BoardGUI {
 		 * 
 		 */
 		if (board.modified()) {
-			
+
 			boardChanges = new ArrayList<int[]>();
 			boardChanges.addAll(board.getChanges());
 
@@ -231,12 +231,12 @@ public class BoardGUI {
 			for (int i = 0; i < choices.size(); i++) {
 				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
 			}
-			animationInProgress = (boardChanges.size()>0);
+			animationInProgress = (boardChanges.size() > 0);
 			this.changinsBallInit = false;
 			this.choicesInit = false;
-//			if(choices.size()>0){
-//				animationInProgress = true;
-//			}
+			// if(choices.size()>0){
+			// animationInProgress = true;
+			// }
 
 		}
 		/**
@@ -254,11 +254,11 @@ public class BoardGUI {
 				}
 				// System.out.println("animation in progress");
 				// System.out.println(this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]].animationDone());
-				if(this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]].animationDone()){
+				if (this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]]
+						.animationDone()) {
 					animationInProgress = false;
 					choicesInit = false;
 				}
-
 
 			}
 

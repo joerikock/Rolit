@@ -117,7 +117,6 @@ public class MenuManager {
 			} else {
 				alpha = MAX_ALPHA;
 			}
-			
 
 			if (lastMenuIndex != -1) {
 
@@ -130,7 +129,7 @@ public class MenuManager {
 
 	public void shapesDraw(ShapeRenderer shapes) {
 
-		if (!animationDone&&lastMenuIndex != -1) {
+		if (!animationDone && lastMenuIndex != -1) {
 			menus.get(lastMenuIndex).shapesDraw(shapes);
 		}
 		menus.get(currentMenuIndex).setAlpha(alpha);
@@ -153,8 +152,10 @@ public class MenuManager {
 		menus.get(currentMenuIndex).batchDraw(batch);
 		batch.end();
 	}
+
 	/**
 	 * Returns the instance of the currently active menu.
+	 * 
 	 * @return
 	 */
 	public Menu getActiveMenu() {

@@ -20,8 +20,6 @@ public class LoginMenu extends Menu {
 		this.addGuiObject(username);
 		this.addGuiObject(password);
 
-
-
 	}
 
 	public String getPassword() {
