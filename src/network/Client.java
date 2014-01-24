@@ -63,7 +63,7 @@ public class Client extends Thread implements ActionListener {
 		}
 	}
 
-	private void readCommand(String lineIn) {
+	private void readString(String lineIn) {
 		String[] splitLine = lineIn.toLowerCase().split("\\s");
 		String command = splitLine[0];
 <<<<<<< HEAD
