@@ -1,6 +1,6 @@
 package MenuItems;
 
-public class TextField exte{
+public class TextField {
 
 	/**
 	 * @param args
