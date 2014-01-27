@@ -15,7 +15,7 @@ public class MultipleSocketServer implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		int port = Integer.parseInt(args[1]);
+		int port = Integer.parseInt(args[0]);
 		int count = 0;
 		try {
 			ServerSocket socket1 = new ServerSocket(port);

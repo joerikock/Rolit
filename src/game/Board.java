@@ -261,17 +261,15 @@ public class Board {
 	 * @return true if no additional balls can be added to the board
 	 */
 	public boolean finished() {
-		// TODO: Not correct. Check whether balls can be played instead for free
-		// spaces.
+		boolean result = true;
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (this.getField(x, y) == -1) {
-
-					return false;
+					result = false;
 				}
 			}
 		}
-		return true;
+		return result;
 	}
 
 	/**

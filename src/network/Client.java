@@ -21,6 +21,10 @@ public class Client extends Thread implements ActionListener {
 	private Integer playerCount;
 
 	private ClientGUI gui;
+<<<<<<< HEAD
+=======
+	private BoardGUI gui;
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 
 	private Socket sock;
 	private BufferedReader in;
@@ -33,6 +37,13 @@ public class Client extends Thread implements ActionListener {
 				sock.getInputStream()));
 		this.out = new BufferedWriter(new OutputStreamWriter(
 				sock.getOutputStream()));
+<<<<<<< HEAD
+=======
+	public Client(InetAddress host, Integer port, String name, boolean AI, int playerCount) throws IOException {
+		this.sock = new Socket(host, port);
+		this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		this.out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 		this.name = name;
 		this.AI = AI;
 		this.playerCount = new Integer(playerCount);
@@ -59,6 +70,10 @@ public class Client extends Thread implements ActionListener {
 		String command = splitLine[0];
 		List<String> args = Arrays.asList(splitLine).subList(1,
 				splitLine.length);
+<<<<<<< HEAD
+=======
+		List<String> args = Arrays.asList(splitLine).subList(1, splitLine.length);
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 
 		if (command.equals("ackconnect")) {
 			name = args.get(0);
@@ -66,12 +81,17 @@ public class Client extends Thread implements ActionListener {
 		} else if (command.equals("startgame")) {
 			Player p1, p2, p3, p4;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			
 			p1 = new Player(args.get(0), 0);
 =======
 
 			p1 = new Player(args.get(0), BColor.RED);
 >>>>>>> ui
+=======
+			p1 = new Player(args.get(0), BColor.RED);
+			p1 = new Player(args.get(0), 0);
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 			if (args.size() == 2) {
 				p2 = new Player(args.get(1), BColor.GREEN);
 				game = new Game(p1, p2);
@@ -117,6 +137,11 @@ public class Client extends Thread implements ActionListener {
 	 *            Commando dat verstuurd wordt
 	 * @param arg
 	 *            De met het commando meegestuurde argument
+<<<<<<< HEAD
+=======
+	 * @param cmd Commando dat verstuurd wordt
+	 * @param arg De met het commando meegestuurde argument
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 	 */
 	public void sendCommand(String cmd, String arg) {
 		String[] args = { arg };
@@ -130,6 +155,11 @@ public class Client extends Thread implements ActionListener {
 	 *            Commando dat verstuurd wordt
 	 * @param args
 	 *            De met het commando meegestuurde argumenten
+<<<<<<< HEAD
+=======
+	 * @param cmd Commando dat verstuurd wordt
+	 * @param args De met het commando meegestuurde argumenten
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 	 */
 	public void sendCommand(String cmd, String[] args) {
 		String send = cmd;
@@ -169,17 +199,26 @@ public class Client extends Thread implements ActionListener {
 			JButton button = (JButton) e.getSource();
 			if (!AI && button.getName().equals("move") && game != null) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				int move = Integer.valueOf(button.getActionCommand()).intValue();
 				if (name.equals(game.getCurrent()).getName()) && (move >= 0 && move < Board.DIM * Board.DIM) && 
 						game.getBoard().isValidMove(move, game.getCurrentPlayer().getColor())) {
 		        	sendCommand("domove", Integer.toString(move));
 =======
+=======
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 				int move = Integer.valueOf(button.getActionCommand())
 						.intValue();
 				if (name.equals(game.getCurrentPlayer().getName())
 						&& (move >= 0 && move < Board.DIM * Board.DIM)
 						&& game.getBoard().isValidMove(move,
 								game.getCurrentPlayer().getColor())) {
+<<<<<<< HEAD
+=======
+				int move = Integer.valueOf(button.getActionCommand()).intValue();
+				if (name.equals(game.getCurrent()).getName()) && (move >= 0 && move < Board.DIM * Board.DIM) && 
+				game.getBoard().isValidMove(move, game.getCurrentPlayer().getColor())) {
+>>>>>>> ee6e528334977e4c51046311bd6a91ee973a5b56
 					sendCommand("domove", Integer.toString(move));
 >>>>>>> ui
 				}

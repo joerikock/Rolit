@@ -211,16 +211,13 @@ public class ClientHandler extends Thread {
 
 	public void makeMove(String arg0) {
 		Integer move = Integer.parseInt(arg0);
-<<<<<<< HEAD
 		if (game.getBoard().isTile(move)
 				&& game.getCurrentPlayer().getName().equals(name)
 				&& game.getBoard().isValidMove(move,
 						game.getPlayers().getByName(name).getColor())) {
-=======
 		if (game.getBoard().isTile(move) &&
 				game.getBoard().currentPlayer().getName().equals(name) &&
 				game.getBoard().isValidMove(move, game.getPlayers().getByName(name).getColor())) {
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 			game.makeMove(move);
 			String[] moveArgs = { name, move.toString() };
 			server.addMessage("[" + name + " doet zet " + moveArgs[1] + "]");
@@ -238,11 +235,8 @@ public class ClientHandler extends Thread {
 				party.broadcast("endgame", punten);
 				party.reset();
 			} else {
-<<<<<<< HEAD
 				String[] turnArgs = { game.getCurrentPlayer().getName() };
-=======
 				String[] turnArgs = {game.getBoard().currentPlayer().getName()};
->>>>>>> 2458e483fbfe7d3a621c37dc5005adf81ff2a1f9
 				server.addMessage("[" + turnArgs[0] + " is aan de beurt]");
 				party.broadcast("turn", turnArgs);
 			}
