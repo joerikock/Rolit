@@ -105,7 +105,6 @@ public class Board {
 		this.newBall = false;
 		this.modified = false;
 		this.reset();
-
 	}
 
 	// Queries ------------------------------------------------------------

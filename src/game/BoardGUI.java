@@ -13,57 +13,91 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class BoardGUI {
 
-	// Instance variables -----------------------------------------------------
+	// Constants ------------------------------------------------------------
 
 	/**
 	 * The size of the ball.
 	 */
-	public static float BALL_SIZE = 600 / 8;
+	public static final float BALL_SIZE = 600 / 8;
 
+	// Instance variables -----------------------------------------------------
+	
+	/*
+	 * private invariant board != null;
+	 */
 	/**
 	 * The board.
 	 */
 	private Board board;
 
+	/*
+	 * private invariant balls != null;
+	 */
 	/**
 	 * The balls.
 	 */
 	private BallRenderer[][] balls;
 
+	/*
+	 * private invariant boardChanges != null;
+	 */
 	/**
 	 * List that keeps up the changes made to the board.
 	 */
 	private ArrayList<int[]> boardChanges;
+	
+	/*
+	 * private invariant choices != null;
+	 */
 	/**
 	 * List that keeps the possible Moves for the current player.
 	 */
 	private ArrayList<int[]> choices;
+	
+	/*
+	 * private invariant offSetX != null && offSetY != null;
+	 */
 	/**
 	 * The x and y coordinates for the balls.
 	 */
 	private float offSetX, offSetY;
 
+	/*
+	 * private invariant animationInProgress != null && changinsBallInit != null
+	 * && newSelectedField != null && choicesInit != null;
+	 */
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, changinsBallInit, newSelectedField,
-			choicesInit;
+	private boolean animationInProgress, changinsBallInit, 
+	newSelectedField, choicesInit;
 
+	/*
+	 * private invariant newBall != null;
+	 */
 	/**
 	 * Array neccesary for the animation of a new ball.
 	 */
-	int[] newBall;
+	private int[] newBall;
 
+	/*
+	 * private invariant selectedField != null;
+	 */
 	/**
 	 * Array neccesary for which field/ball is currently selected.
 	 */
-	int[] selectedField;
+	private int[] selectedField;
 
+	/*
+	 * private invariant w != null && h != null;
+	 */
 	/**
 	 * The number of balls in the x and y direction.
 	 */
-	int w, h;
+	private int w, h;
 
+	// Constructors -------------------------------------------------------------
+	
 	/**
 	 * Creates a new BoardGUI.
 	 */
@@ -75,6 +109,11 @@ public class BoardGUI {
 
 	}
 
+	// Queries ------------------------------------------------------------------
+	
+	/*
+	 * requires b != null;
+	 */
 	/**
 	 * Sets the board to the initial position.
 	 * 
@@ -83,7 +122,6 @@ public class BoardGUI {
 	 */
 	public void setBoard(Board b) {
 		this.board = b;
-
 		init();
 		setUpBalls();
 	}
@@ -91,14 +129,14 @@ public class BoardGUI {
 	/**
 	 * Creates a new BoardGUI using a defined width and height.
 	 * 
-	 * @param w
+	 * @param width
 	 *            the desired width of the board.
-	 * @param h
+	 * @param height
 	 *            the desired height of the board.
 	 */
-	public BoardGUI(int w, int h) {
-		this.w = w;
-		this.h = h;
+	public BoardGUI(int width, int height) {
+		this.w = width;
+		this.h = height;
 		this.balls = new BallRenderer[w][h];
 		init();
 	}
