@@ -12,7 +12,7 @@ public class Board {
 
 	// Constants -------------------------------------------------------------
 	
-	/*
+	/*@
 	 * private invariant VECTORS.length == 8;			
 	 */
 	/**
@@ -47,7 +47,7 @@ public class Board {
 	 */
 	private int[][] field;
 
-	/*
+	/*@
 	 * private invariant newBall == true || newBall == false;
 	 * private invariant modified == true || modified == false;
 	 */
@@ -56,7 +56,7 @@ public class Board {
 	 */
 	private boolean newBall, modified;
 
-	/*
+	/*@
 	 * private invariant newBallX >= 0 && newBallX < FIELD_WIDTH;
 	 * private invariant newBallY >= 0 && newBallY < FIELD_HEIGHT;
 	 * private invariant newBallColor >= 0 && newBallColor < 3;
@@ -66,7 +66,7 @@ public class Board {
 	 */
 	private int newBallX, newBallY, newBallColor;
 
-	/*
+	/*@
 	 * private invariant currentPlayer >= 0 && currentPlayer < 4;
 	 */
 	/**
@@ -90,6 +90,13 @@ public class Board {
 	 */
 	private ArrayList<Player> players;
 
+	// Constructors -------------------------------------------------------
+	
+	/*@
+	 * ensures 	this.newBall == false && this.modified == false &&
+	 * 			getField(3, 3) == 0 && getField(3, 4) == 1 &&
+	 * 			getField(4, 4) == 2 && getField(4, 3) == 3;
+	 */
 	/**
 	 * Create the board and reset it to its initial state.
 	 */
@@ -101,16 +108,30 @@ public class Board {
 
 	}
 
+	// Queries ------------------------------------------------------------
+	
+	/*@
+	 * requires playerDate != null;
+	 */
 	/**
 	 * Sets the board up for a new game.
 	 * 
 	 * @param players
-	 *            Array of Player instances that will participate in the round.
+	 *            Array of Player instances that will participate in the game.
 	 */
 	public void newGame(ArrayList<Player> playerData) {
 		this.players = playerData;
 	}
 
+	/*@
+	 * ensures changes != null && modifiedBalls != null;
+	 * ensures	getField(3, 3) == 0 && getField(3, 4) == 1 &&
+	 * 			getField(4, 4) == 2 && getField(4, 3) == 3;
+	 * 
+	 * loop_invariant int i, i >= 0 && i <= FIELD_WIDTH;
+	 * loop_invariant \forall (int j, j >= 0 && j < i;
+	 * 					getfield(j) == -1;
+	 */
 	/**
 	 * Resets the board to the initial Rolit state.
 	 */
