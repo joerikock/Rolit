@@ -154,7 +154,7 @@ public class Game {
 		}
 		if (active == newGameMenu) {
 			updateNewGameMenu(active);
-
+			
 		}
 		if (active == login) {
 			if (active.lastClickedElement() == "Login") {
@@ -169,7 +169,6 @@ public class Game {
 	}
 
 	private void updateGame(float x, float y, boolean mouseDown) {
-		showHints = false;
 		boardPainter.update(x, y, mouseDown, showHints);
 
 		gameActive = true;
@@ -189,8 +188,15 @@ public class Game {
 
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
+			if (active.getSelectedChild("Show hints") == "On") {
+				System.out.println("Hints activated");
+				showHints = true;
+			} else if (active.getSelectedChild("Show hints") == "Off") {
+				System.out.println("Hints deactivated");
+				showHints = false;
+			}
 
-			// Fetch Players
+			// Fetch Players & hints
 			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
 			for (int i = 0; i < 4; i++) {
 
@@ -208,9 +214,7 @@ public class Game {
 
 					players[i] = new SmartPlayer(i);
 				}
-				if (active.getSelectedChild(playerColors[i])
-						.equals("No Player")) {
-
+				if (active.getSelectedChild(playerColors[i]).equals("No Player")) {
 					players[i] = null;
 				}
 			}
