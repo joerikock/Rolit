@@ -266,7 +266,7 @@ public class Board {
 	}
 
 	/*@
-	 * 
+	 * ensures \result != null;
 	 */
 	/**
 	 * Generates a list of {x, y} coordinates containing all the possible valid
@@ -301,6 +301,13 @@ public class Board {
 		return validMoves;
 	}
 
+	/*@
+	 * ensures 	\result == (boundTest(x, y) ? (;
+	 * 				loop_invariant 	\forall (int[] vec : VECTORS);
+	 * 					getField(x + vec[0], y + vec[1]) != -1 ?
+	 * 					\result == true;
+	 * 			) : false);
+	 */
 	/**
 	 * Checks whether a given field x, y has neighbours.
 	 * 
@@ -321,6 +328,9 @@ public class Board {
 		return false;
 	}
 
+	/*@
+	 * ensures \result == true || \result == false;
+	 */
 	/**
 	 * Method for checking if the game has ended.
 	 * 
