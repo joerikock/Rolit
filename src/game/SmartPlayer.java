@@ -36,7 +36,7 @@ public class SmartPlayer extends Player {
 		System.out.println();
 		int numberOfFields = -1;
 		int fieldCounter = -1;
-		int[] result = { -1, -1 };
+		int[] result = {-1, -1};
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
 				result[0] = 0;
@@ -58,14 +58,10 @@ public class SmartPlayer extends Player {
 				result[1] = 7;
 				return result;
 			} else {
-				// Board copy = b.deepCopy();
 				fieldCounter = b.resultingChangesForMove(
-						possibleMoves.get(i)[0], possibleMoves.get(i)[1],
-						this.getID()).size();
-				// copy.tryMove(possibleMoves.get(i)[0],
-				// possibleMoves.get(i)[1], this.getID());
-				// b.update();
-				System.out.println(fieldCounter);
+					possibleMoves.get(i)[0], possibleMoves.get(i)[1],
+					this.getID()).size();
+				System.out.println("Fieldcounter: " + fieldCounter);
 				if (fieldCounter > numberOfFields) {
 					System.out.println("Move: " + possibleMoves.get(i)[0]
 							+ ", " + possibleMoves.get(i)[1]);

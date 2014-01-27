@@ -22,7 +22,7 @@ public class BoardGUI {
 
 	// Instance variables -----------------------------------------------------
 	
-	/*
+	/*@
 	 * private invariant board != null;
 	 */
 	/**
@@ -30,7 +30,7 @@ public class BoardGUI {
 	 */
 	private Board board;
 
-	/*
+	/*@
 	 * private invariant balls != null;
 	 */
 	/**
@@ -38,7 +38,7 @@ public class BoardGUI {
 	 */
 	private BallRenderer[][] balls;
 
-	/*
+	/*@
 	 * private invariant boardChanges != null;
 	 */
 	/**
@@ -46,7 +46,7 @@ public class BoardGUI {
 	 */
 	private ArrayList<int[]> boardChanges;
 	
-	/*
+	/*@
 	 * private invariant choices != null;
 	 */
 	/**
@@ -54,7 +54,7 @@ public class BoardGUI {
 	 */
 	private ArrayList<int[]> choices;
 	
-	/*
+	/*@
 	 * private invariant offSetX != null && offSetY != null;
 	 */
 	/**
@@ -62,7 +62,7 @@ public class BoardGUI {
 	 */
 	private float offSetX, offSetY;
 
-	/*
+	/*@
 	 * private invariant animationInProgress != null && changinsBallInit != null
 	 * && newSelectedField != null && choicesInit != null;
 	 */
@@ -72,7 +72,7 @@ public class BoardGUI {
 	private boolean animationInProgress, changinsBallInit, 
 	newSelectedField, choicesInit;
 
-	/*
+	/*@
 	 * private invariant newBall != null;
 	 */
 	/**
@@ -80,7 +80,7 @@ public class BoardGUI {
 	 */
 	private int[] newBall;
 
-	/*
+	/*@
 	 * private invariant selectedField != null;
 	 */
 	/**
@@ -88,7 +88,7 @@ public class BoardGUI {
 	 */
 	private int[] selectedField;
 
-	/*
+	/*@
 	 * private invariant w != null && h != null;
 	 */
 	/**
@@ -106,7 +106,24 @@ public class BoardGUI {
 		this.h = Board.FIELD_HEIGHT;
 		this.balls = new BallRenderer[w][h];
 		this.selectedField = null;
-
+	}
+	
+	/*@
+	 * ensures width == this.w && height == this.h;
+	 */
+	/**
+	 * Creates a new BoardGUI using a defined width and height.
+	 * 
+	 * @param width
+	 *            the desired width of the board.
+	 * @param height
+	 *            the desired height of the board.
+	 */
+	public BoardGUI(int width, int height) {
+		this.w = width;
+		this.h = height;
+		this.balls = new BallRenderer[w][h];
+		init();
 	}
 
 	// Queries ------------------------------------------------------------------
@@ -126,21 +143,9 @@ public class BoardGUI {
 		setUpBalls();
 	}
 
-	/**
-	 * Creates a new BoardGUI using a defined width and height.
-	 * 
-	 * @param width
-	 *            the desired width of the board.
-	 * @param height
-	 *            the desired height of the board.
+	/*
+	 * ensures \result == (x >= 0 && x < this.w && y >= 0 && y < this.h);
 	 */
-	public BoardGUI(int width, int height) {
-		this.w = width;
-		this.h = height;
-		this.balls = new BallRenderer[w][h];
-		init();
-	}
-
 	/**
 	 * Method for determining if a field exists on the board.
 	 * 
@@ -151,9 +156,12 @@ public class BoardGUI {
 	 * @return true if the field exists, false if it does not exist.
 	 */
 	public boolean isField(int x, int y) {
-		return (x >= 0 && x < w && y >= 0 && y < h);
+		return x >= 0 && x < w && y >= 0 && y < h;
 	}
 
+	/*
+	 * 
+	 */
 	/**
 	 * Method for setting a field to a new color.
 	 * 
