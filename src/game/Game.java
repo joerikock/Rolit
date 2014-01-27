@@ -30,10 +30,10 @@ public class Game {
 	 * Creating a constant tools, used for generating random booleans, integers,
 	 * doubles and floats.
 	 */
-	public static final Tools tools = new Tools();
+	public static final Tools TOOLS = new Tools();
 
 	// Instance variables -----------------------------------------------
-	
+
 	/*@
 	 * private invariant menus != null;
 	 */
@@ -51,57 +51,81 @@ public class Game {
 	private LoginMenu login;
 
 	/*@
-	 * 
+	 * private invariant mainMenu != null;
 	 */
 	/**
 	 * Creates a main menu.
 	 */
 	private MainMenu mainMenu;
+
+	/*@
+	 * private invariant inGameMenu != null;
+	 */
 	/**
 	 * Creates an in-game menu.
 	 */
 	private IngameMenu inGameMenu;
+
+	/*@
+	 * private invariant newGameMenu != null;
+	 */
 	/**
 	 * Menu for selecting players.
 	 */
 	private NewGameMenu newGameMenu;
+
+	/*@
+	 * private invariant boardPainter != null;
+	 */
 	/**
 	 * Creates a BoardGUI object.
 	 */
 	private BoardGUI boardPainter;
 
+	/*@
+	 * private invariant bg != null;
+	 */
 	/**
 	 * Creates an animated background for the login- and the main menu.
 	 */
 	private AnimatedBackGround bg;
 
+	/*@
+	 * private invariant board != null;
+	 */
 	/**
 	 * Creates a board.
 	 */
 	private Board board;
 
+	/*@
+	 * private invariant gameActive == true || gameActive == false;
+	 */
 	/**
 	 * Creates a boolean defining whether the game is currently active.
 	 */
 	private boolean gameActive;
 
-	/**
-	 * Creates 3 players.
+	/*@
+	 * private invariant players != null;
 	 */
 	/**
 	 * Creates an array for the players.
 	 */
 	private Player[] players;
-	
+
+	/*@
+	 * private invariant showHints == true || showHints == false;
+	 */
 	/**
 	 * Boolean deciding whether hints are displayed during the game.
 	 */
 	private boolean showHints;
 
 	// Constructors --------------------------------------------------------
-	
+
 	/**
-	 * Creates a new game.
+	 * Create a new game.
 	 */
 	public Game() {
 		this.menus = new MenuManager();
@@ -118,17 +142,24 @@ public class Game {
 		bg = new AnimatedBackGround(3, 200);
 		players = new Player[4];
 	}
-	
+
 	// Queries -------------------------------------------------------------
-	
+
+	/*@
+	 * ensures \result = this.board;
+	 */
 	/**
 	 * Method for retrieving the board.
+	 * 
 	 * @return the board the current game is using.
 	 */
 	public Board getBoard() {
 		return board;
 	}
 
+	/*@
+	 * requires mouseDown == true || mouseDown == false;
+	 */
 	/**
 	 * Updates the Menus and the game. Passes user input.
 	 * 
@@ -141,7 +172,6 @@ public class Game {
 	 * @param input
 	 *            last character typed with the keyboard.
 	 */
-	// TODO: Multithreading???
 	public void update(float x, float y, boolean mouseDown, char input) {
 		gameActive = false;
 		Menu active = menus.getActiveMenu();
@@ -173,7 +203,7 @@ public class Game {
 		}
 		if (active == newGameMenu) {
 			updateNewGameMenu(active);
-			
+
 		}
 		if (active == login) {
 			if (active.lastClickedElement() == "Login") {
@@ -182,22 +212,20 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-
-		// TODO: Add new Menu that opens when "Back" is clicked and give more
-		// options
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param mouseDown
+	 */
 	private void updateGame(float x, float y, boolean mouseDown) {
 		boardPainter.update(x, y, mouseDown, showHints);
-
 		gameActive = true;
-
-		// TODO: Managing game should be done in an extra function
 		if (boardPainter.animationDone()) {
-			// System.out.println("Animation Done!");
 			if (!board.finished()) {
 				if (board.currentPlayer().hasMove()) {
-					// System.out.
 					board.currentPlayer().makeMove(board);
 				}
 			}
@@ -214,9 +242,10 @@ public class Game {
 				System.out.println("Hints deactivated");
 				showHints = false;
 			}
-
-			// Fetch Players & hints
-			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
+			/**
+			 * Fetch players & hints
+			 */
+			String[] playerColors = {"Red", "Green", "Blue", "Yellow"};
 			for (int i = 0; i < 4; i++) {
 
 				if (active.getSelectedChild(playerColors[i]).equals(

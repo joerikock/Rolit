@@ -233,7 +233,7 @@ public class BoardGUI {
 					balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
 				}
 			}
-			animationInProgress = (boardChanges.size() > 0);
+			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
 			this.choicesInit = false;
 			// if(choices.size()>0){

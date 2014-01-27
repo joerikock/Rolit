@@ -122,6 +122,18 @@ public class Board {
 	public void newGame(ArrayList<Player> playerData) {
 		this.players = playerData;
 	}
+	
+	/*
+	 * ensures \result == this.newBall;
+	 */
+	/**
+	 * Method for returning the newBall.
+	 * 
+	 * @return the newBall;
+	 */
+	public boolean getNewBall() {
+		return this.newBall;
+	}
 
 	/*@
 	 * ensures changes != null && modifiedBalls != null;
@@ -543,6 +555,9 @@ public class Board {
 		return requiredChanges;
 	}
 
+	/*
+	 * ensures getNewBall() ? getChanges.size() > 0;
+	 */
 	/**
 	 * Method for updating the field.
 	 */
@@ -554,7 +569,6 @@ public class Board {
 		 */
 		this.modified = false;
 		if (modifiedBalls.size() > 0) {
-			// this.modified = false;
 			modifiedBalls.clear();
 			changes.clear();
 		}
@@ -570,13 +584,11 @@ public class Board {
 
 			modifiedBalls.add(newBallData);
 
-			// Execute the changes
 			if (changes.size() > 0) {
 				for (int i = 0; i < changes.size(); i++) {
 					int currentVectorIndex = changes.get(i)[0];
 					int currentDistance = changes.get(i)[1];
 					for (int d = 1; d < currentDistance; d++) {
-						// overwrite fields
 
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
