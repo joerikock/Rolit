@@ -214,12 +214,6 @@ public class Game {
 		}
 	}
 
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param mouseDown
-	 */
 	private void updateGame(float x, float y, boolean mouseDown) {
 		boardPainter.update(x, y, mouseDown, showHints);
 		gameActive = true;
