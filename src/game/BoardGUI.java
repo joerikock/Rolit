@@ -205,7 +205,6 @@ public class BoardGUI {
 		 * the list of possible moves for the current player is fetched and the
 		 * the possible choices are indicated in rendering.
 		 */
-		hint = false;
 		if (hint && !choicesInit) {
 			this.choices = board.getValidMoveList();
 			for (int i = 0; i < choices.size(); i++) {

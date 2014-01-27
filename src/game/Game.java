@@ -175,7 +175,6 @@ public class Game {
 	}
 
 	private void updateGame(float x, float y, boolean mouseDown) {
-		showHints = false;
 		boardPainter.update(x, y, mouseDown, showHints);
 
 		gameActive = true;
