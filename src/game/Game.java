@@ -81,6 +81,11 @@ public class Game {
 	 * Creates an array for the players.
 	 */
 	private Player[] players;
+	
+	/**
+	 * Boolean deciding whether hints are displayed during the game.
+	 */
+	private boolean showHints;
 
 	/**
 	 * Creates a new game.
@@ -164,7 +169,8 @@ public class Game {
 	}
 
 	private void updateGame(float x, float y, boolean mouseDown) {
-		boardPainter.update(x, y, mouseDown);
+		showHints = false;
+		boardPainter.update(x, y, mouseDown, showHints);
 
 		gameActive = true;
 

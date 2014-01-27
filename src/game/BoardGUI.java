@@ -193,7 +193,7 @@ public class BoardGUI {
 	 * @param mouseClicked
 	 *            determines whether the mouse is clicked or not.
 	 */
-	public void update(float mouseX, float mouseY, boolean mouseClicked) {
+	public void update(float mouseX, float mouseY, boolean mouseClicked, boolean hint) {
 		this.newSelectedField = false;
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
@@ -205,7 +205,8 @@ public class BoardGUI {
 		 * the list of possible moves for the current player is fetched and the
 		 * the possible choices are indicated in rendering.
 		 */
-		if (!choicesInit) {
+		hint = false;
+		if (hint && !choicesInit) {
 			this.choices = board.getValidMoveList();
 			for (int i = 0; i < choices.size(); i++) {
 				balls[choices.get(i)[0]][choices.get(i)[1]].isChoice(board
@@ -228,8 +229,10 @@ public class BoardGUI {
 			newBall = boardChanges.remove(0);
 
 			this.balls[newBall[0]][newBall[1]].changeColorTo(newBall[2]);
-			for (int i = 0; i < choices.size(); i++) {
-				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
+			if (hint) {
+				for (int i = 0; i < choices.size(); i++) {
+					balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
+				}
 			}
 			animationInProgress = (boardChanges.size() > 0);
 			this.changinsBallInit = false;
