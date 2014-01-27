@@ -33,13 +33,13 @@ public class AnimatedBackGround {
 	 *            this determines how long the animation should move
 	 *            horizontally.
 	 */
-	public AnimatedBackGround(int speed, int delay) {
+	public AnimatedBackGround(int initSpeed, int delay) {
 		this.bg = new BoardGUI(
 				(int) (Gdx.graphics.getWidth() / BoardGUI.BALL_SIZE) + 1,
 				(int) (Gdx.graphics.getHeight() / BoardGUI.BALL_SIZE) + 1);
 		this.count = 0;
 		this.speedCount = 0;
-		this.speed = speed;
+		this.speed = initSpeed;
 		this.maxCount = delay;
 		x = 5;
 		y = 5;
@@ -83,7 +83,7 @@ public class AnimatedBackGround {
 	}
 
 	/**
-	 * Draws the shape on the screen
+	 * Draws the shape on the screen.
 	 * 
 	 * @param shapes
 	 *            A ShapeRenderer nessecary for creating the shape.

@@ -10,15 +10,17 @@ import java.util.ArrayList;
 
 public class Board {
 
-	// Instance variables
-	// --------------------------------------------------------
-
+	// Constants -------------------------------------------------------------
+	
+	/*
+	 * private invariant VECTORS.length == 8;			
+	 */
 	/**
 	 * The vectors used for checking all directions from a desired field on the
 	 * board.
 	 */
-	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
-			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
+	public static final int[][] VECTORS = {{1, 0}, {-1, 0}, {0, 1}, 
+		{0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}};
 
 	/**
 	 * The width of the field.
@@ -29,22 +31,44 @@ public class Board {
 	 * The height of the field.
 	 */
 	public static final int FIELD_HEIGHT = 8;
+	
+	// Instance variables ----------------------------------------------------
 
+	/*@
+     *	private invariant fields.length == FIELD_WIDTH * FIELD_HEIGHT;
+     *	invariant 	(\forall int i; 0 <= i & i < FIELD_WIDTH;
+     *					(\forall int j; 0 <= i & i < FIELD_HEIGHT;
+     *   					getField(i, j) == 0 || getField(i,j) == 1 ||
+     *   					getField(i, j) == 2 || getField(i,j) == 3 ||
+     *   					getField(i,j) == -1));
+	 */
 	/**
 	 * Two-dimensional array for the fields on the board.
 	 */
 	private int[][] field;
 
+	/*
+	 * private invariant newBall == true || newBall == false;
+	 * private invariant modified == true || modified == false;
+	 */
 	/**
 	 * Booleans for telling if a player has a new ball or modified a ball.
 	 */
 	private boolean newBall, modified;
 
+	/*
+	 * private invariant newBallX >= 0 && newBallX < FIELD_WIDTH;
+	 * private invariant newBallY >= 0 && newBallY < FIELD_HEIGHT;
+	 * private invariant newBallColor >= 0 && newBallColor < 3;
+	 */
 	/**
 	 * X and Y coordinates and the colour of a new ball.
 	 */
 	private int newBallX, newBallY, newBallColor;
 
+	/*
+	 * private invariant currentPlayer >= 0 && currentPlayer < 4;
+	 */
 	/**
 	 * Variable indicating the current player.
 	 */
