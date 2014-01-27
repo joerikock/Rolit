@@ -150,7 +150,7 @@ public class Board {
 		field[4][3] = 3;
 	}
 
-	/*
+	/*@
 	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
 	 */
 	/**
@@ -162,7 +162,7 @@ public class Board {
 		return players.get(currentPlayer).getID();
 	}
 
-	/*
+	/*@
 	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
 	 */
 	/**
@@ -174,7 +174,7 @@ public class Board {
 		return players.get(currentPlayer);
 	}
 
-	/*
+	/*@
 	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
 	 * ensures \result == 	(currentPlayer != players.size() ? 
 	 * 						\old(currentPlayer)++ : 0);
@@ -189,7 +189,7 @@ public class Board {
 		}
 	}
 
-	/*
+	/*@
 	 * ensures 	\result == (0 <= x < FIELD_WIDTH && 0 <= y < FIELD_HEIGHT)
 	 * 			? 0 || 1 || 2 || 3 : -1;
 	 */
@@ -211,7 +211,7 @@ public class Board {
 		}
 	}
 
-	/*
+	/*@
 	 * ensures	\result == (x >= 0 && x < FIELD_WIDTH && 
 	 * 			y >= 0 && y < FIELD_HEIGHT);
 	 */
@@ -228,7 +228,7 @@ public class Board {
 		return x >= 0 && x < FIELD_WIDTH && y >= 0 && y < FIELD_HEIGHT;
 	}
 
-	/*
+	/*@
 	 * requires boundTest(x, y);
 	 * ensures \result == 	this.resultingChangesForMove(x, y, 
 	 * 						currentPlayerColor()).size() > 0;
@@ -247,6 +247,11 @@ public class Board {
 		return this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0;
 	}
 
+	/*@
+	 * ensures 	\result != null;
+	 * ensures 	\result == (validMovesForMextPlayer == null
+	 * 			? this.getValidMoves() : null);
+	 */
 	/**
 	 * Generates a list of {x, y} coordinates containing all the possible valid
 	 * moves.
@@ -260,6 +265,9 @@ public class Board {
 		return validMovesForNextPlayer;
 	}
 
+	/*@
+	 * 
+	 */
 	/**
 	 * Generates a list of {x, y} coordinates containing all the possible valid
 	 * moves.
@@ -268,15 +276,12 @@ public class Board {
 	 *         when the game just started or a turn has been made.
 	 */
 	private ArrayList<int[]> getValidMoves() {
-		// Fill freeFields with all free Fields of Board b
-
 		ArrayList<int[]> freeMoves = new ArrayList<int[]>();
-		// Add all fields that have neighbours into freeMoves
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (getField(x, y) == -1) {
 					if (hasNeighbours(x, y)) {
-						int[] freeField = { x, y };
+						int[] freeField = {x, y};
 						freeMoves.add(freeField);
 					}
 				}
@@ -284,19 +289,15 @@ public class Board {
 		}
 
 		ArrayList<int[]> validMoves = new ArrayList<int[]>();
-		// Now check which of these moves would change the board
 		for (int i = 0; i < freeMoves.size(); i++) {
 			if (this.forcedMove(freeMoves.get(i)[0], freeMoves.get(i)[1])) {
 				validMoves.add(freeMoves.get(i));
 			}
 		}
 
-		// If there are no moves that HAVE to be played, return a list of all
-		// Fields that have occupied neighbours
 		if (validMoves.size() == 0) {
 			return freeMoves;
 		}
-		// otherwise validMove
 		return validMoves;
 	}
 
@@ -373,7 +374,7 @@ public class Board {
 	 * @return Returns true if the move x,y is valid.
 	 */
 	private boolean validateMove(int x, int y) {
-		int[] pos = { x, y };
+		int[] pos = {x, y};
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
 
@@ -396,21 +397,14 @@ public class Board {
 	 * @param color
 	 * @return true if ball has been placed. false if not possible.
 	 */
-	// TODO: Check if color code is correct.
 	public boolean tryMove(int x, int y, int color) {
-		// sets field[x][y] = color if possible and sets newBall to true to
-		// force update
-
 		if (validateMove(x, y)) {
-
 			this.newBall = true;
 			this.newBallX = x;
 			this.newBallY = y;
 			this.newBallColor = color;
 			field[x][y] = color;
-
 			return true;
-
 		}
 		return false;
 	}
@@ -510,7 +504,7 @@ public class Board {
 					if (distance == 1) {
 						break;
 					}
-					int[] newChange = { i, distance };
+					int[] newChange = {i, distance};
 					requiredChanges.add(newChange);
 					break;
 				}
@@ -543,7 +537,7 @@ public class Board {
 				System.out
 						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
-			int[] newBallData = { newBallX, newBallY, newBallColor };
+			int[] newBallData = {newBallX, newBallY, newBallColor};
 
 			modifiedBalls.add(newBallData);
 
