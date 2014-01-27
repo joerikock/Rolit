@@ -128,8 +128,8 @@ public class Board {
 	 * ensures	getField(3, 3) == 0 && getField(3, 4) == 1 &&
 	 * 			getField(4, 4) == 2 && getField(4, 3) == 3;
 	 * 
-	 * loop_invariant int i, i >= 0 && i <= FIELD_WIDTH;
-	 * loop_invariant \forall (int j, j >= 0 && j < i;
+	 * loop_invariant 	int i, i >= 0 && i <= 64;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
 	 * 					getfield(j) == -1;
 	 */
 	/**
@@ -150,6 +150,9 @@ public class Board {
 		field[4][3] = 3;
 	}
 
+	/*
+	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	 */
 	/**
 	 * Method for retrieving the color of the current player.
 	 * 
@@ -159,6 +162,9 @@ public class Board {
 		return players.get(currentPlayer).getID();
 	}
 
+	/*
+	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	 */
 	/**
 	 * Method for retrieving the current player.
 	 * 
@@ -168,6 +174,11 @@ public class Board {
 		return players.get(currentPlayer);
 	}
 
+	/*
+	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	 * ensures \result = 	(currentPlayer != players.size() ? 
+	 * 						\old(currentPlayer)++ : 0);
+	 */
 	/**
 	 * Passing the turn to the next player.
 	 */
@@ -178,6 +189,10 @@ public class Board {
 		}
 	}
 
+	/*
+	 * requires (0 <= x < FIELD_WIDTH) && (0 <= y < FIELD_HEIGHT);
+	 * 
+	 */
 	/**
 	 * Method for retrieving the colour of a given field.
 	 * 
