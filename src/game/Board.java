@@ -176,7 +176,7 @@ public class Board {
 
 	/*
 	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
-	 * ensures \result = 	(currentPlayer != players.size() ? 
+	 * ensures \result == 	(currentPlayer != players.size() ? 
 	 * 						\old(currentPlayer)++ : 0);
 	 */
 	/**
@@ -190,8 +190,8 @@ public class Board {
 	}
 
 	/*
-	 * requires (0 <= x < FIELD_WIDTH) && (0 <= y < FIELD_HEIGHT);
-	 * 
+	 * ensures 	\result == (0 <= x < FIELD_WIDTH && 0 <= y < FIELD_HEIGHT)
+	 * 			? 0 || 1 || 2 || 3 : -1;
 	 */
 	/**
 	 * Method for retrieving the colour of a given field.
@@ -211,6 +211,10 @@ public class Board {
 		}
 	}
 
+	/*
+	 * ensures	\result == (x >= 0 && x < FIELD_WIDTH && 
+	 * 			y >= 0 && y < FIELD_HEIGHT);
+	 */
 	/**
 	 * Test if a given field is existing on the field or not.
 	 * 
@@ -221,9 +225,14 @@ public class Board {
 	 * @return True if the position x, y is not out of bounds.
 	 */
 	public boolean boundTest(int x, int y) {
-		return (x >= 0 && x < FIELD_WIDTH && y >= 0 && y < FIELD_HEIGHT);
+		return x >= 0 && x < FIELD_WIDTH && y >= 0 && y < FIELD_HEIGHT;
 	}
 
+	/*
+	 * requires boundTest(x, y);
+	 * ensures \result == 	this.resultingChangesForMove(x, y, 
+	 * 						currentPlayerColor()).size() > 0;
+	 */
 	/**
 	 * Method for checking whether a given move MUST be made, meaning no other
 	 * moves are possible.
@@ -235,11 +244,7 @@ public class Board {
 	 * @return Returns true if the move x,y has to be made.
 	 */
 	private boolean forcedMove(int x, int y) {
-		if (this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0) {
-			return true;
-		}
-		return false;
-
+		return this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0;
 	}
 
 	/**
