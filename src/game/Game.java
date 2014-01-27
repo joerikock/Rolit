@@ -133,6 +133,12 @@ public class Game {
 			if (active.lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
+			} else if (active.lastClickedElement() == "Show hints") {
+				System.out.println("Hints activated");
+				showHints = true;
+			} else if (active.lastClickedElement() == "No hints") {
+				System.out.println("Hints deactivated");
+				showHints = false;
 			}
 			this.updateGame(x, y, mouseDown);
 
