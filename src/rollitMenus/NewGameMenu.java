@@ -8,7 +8,7 @@ import MenuItems.MultiChoiceButton;
 public class NewGameMenu extends Menu {
 	
 	MultiChoiceButton hints;
-	String[] names = new String[]{"On", "Off"};
+	String[] names = new String[]{"Off", "On"};
 
 	public NewGameMenu(MenuManager manager) {
 		super("newGameMenu");
