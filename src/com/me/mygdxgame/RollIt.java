@@ -1,11 +1,11 @@
 package com.me.mygdxgame;
 
+import menuItems.Button;
+import menuItems.MenuManager;
+import menuItems.TextInputField;
 import game.Board;
 import game.BoardGUI;
 import game.Game;
-import MenuItems.Button;
-import MenuItems.MenuManager;
-import MenuItems.TextInputField;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

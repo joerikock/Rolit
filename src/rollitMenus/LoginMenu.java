@@ -1,9 +1,9 @@
 package rollitMenus;
 
-import MenuItems.Button;
-import MenuItems.Menu;
-import MenuItems.MenuManager;
-import MenuItems.TextInputField;
+import menuItems.Button;
+import menuItems.Menu;
+import menuItems.MenuManager;
+import menuItems.TextInputField;
 
 public class LoginMenu extends Menu {
 	TextInputField password, username;

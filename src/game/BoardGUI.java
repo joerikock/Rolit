@@ -18,7 +18,7 @@ public class BoardGUI {
 	/**
 	 * The size of the ball.
 	 */
-	public static final float BALL_SIZE = 600 / 8;
+	public static final float BALL_SIZE = 75;
 
 	// Instance variables -----------------------------------------------------
 	
@@ -160,7 +160,7 @@ public class BoardGUI {
 	}
 
 	/*
-	 * 
+	 * requires x >= 0 && x < this.w && y >= 0 && y < this.h;
 	 */
 	/**
 	 * Method for setting a field to a new color.
@@ -181,13 +181,16 @@ public class BoardGUI {
 	 */
 	public void setFieldColor(int x, int y, float r, float g, float b,
 			float alpha) {
-		float[] color = { r, g, b, alpha };
+		float[] color = {r, g, b, alpha};
 
 		balls[x][y].setRenderColor(color);
 	}
 
+	/*
+	 * 
+	 */
 	/**
-	 * Sets up the initial setup for the balls.
+	 * Sets up the initial state for the balls.
 	 */
 	private void init() {
 		for (int x = 0; x < this.w; x++) {
@@ -224,7 +227,6 @@ public class BoardGUI {
 	public void setPosition(float x, float y) {
 		this.offSetX = x;
 		this.offSetY = y;
-		// System.out.println("BoardGUI OFFSET: " + this.x + ", " + this.y);
 	}
 
 	/**
@@ -300,8 +302,6 @@ public class BoardGUI {
 					}
 					changinsBallInit = true;
 				}
-				// System.out.println("animation in progress");
-				// System.out.println(this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]].animationDone());
 				if (this.balls[boardChanges.get(0)[0]][boardChanges.get(0)[1]]
 						.animationDone()) {
 					animationInProgress = false;

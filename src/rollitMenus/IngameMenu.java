@@ -1,6 +1,6 @@
 package rollitMenus;
 
-import MenuItems.*;
+import menuItems.*;
 
 public class IngameMenu extends Menu {
 	Button back;

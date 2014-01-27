@@ -2,12 +2,12 @@ package game;
 
 import java.util.ArrayList;
 
+import menuItems.Menu;
+import menuItems.MenuManager;
 import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
 import rollitMenus.NewGameMenu;
-import MenuItems.Menu;
-import MenuItems.MenuManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
