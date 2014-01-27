@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class Game {
 
-	// Instance variables --------------------------------------------------
+	// Constants --------------------------------------------------------
 
 	/**
 	 * Creating a constant tools, used for generating random booleans, integers,
@@ -32,16 +32,27 @@ public class Game {
 	 */
 	public static final Tools tools = new Tools();
 
+	// Instance variables -----------------------------------------------
+	
+	/*@
+	 * private invariant menus != null;
+	 */
 	/**
 	 * Creates a MenuManager.
 	 */
 	private MenuManager menus;
 
+	/*@
+	 * private invariant login != null;
+	 */
 	/**
 	 * Creates a LoginMenu.
 	 */
 	private LoginMenu login;
 
+	/*@
+	 * 
+	 */
 	/**
 	 * Creates a main menu.
 	 */
@@ -87,6 +98,8 @@ public class Game {
 	 */
 	private boolean showHints;
 
+	// Constructors --------------------------------------------------------
+	
 	/**
 	 * Creates a new game.
 	 */
@@ -106,6 +119,12 @@ public class Game {
 		players = new Player[4];
 	}
 	
+	// Queries -------------------------------------------------------------
+	
+	/**
+	 * Method for retrieving the board.
+	 * @return the board the current game is using.
+	 */
 	public Board getBoard() {
 		return board;
 	}
