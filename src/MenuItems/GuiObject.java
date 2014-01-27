@@ -111,7 +111,7 @@ public abstract class GuiObject {
 	 */
 	public void setParentObject(GuiObject parentObject) {
 		this.isChild = true;
-		this.selectAble = true;
+		this.selectAble = false;
 		this.parentObject = parentObject;
 		parentObject.addChild(this);
 	}

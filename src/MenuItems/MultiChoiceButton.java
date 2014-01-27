@@ -28,7 +28,7 @@ public class MultiChoiceButton extends GuiObject {
 		super.setDimensions(x, y, GuiObject.ELEMENT_WIDTH,
 				GuiObject.ELEMENT_HEIGHT);
 		// Add Buttons
-
+		this.setSelectAble(false);
 		menu.addGuiObject(this);
 		buttons = new Button[buttonNames.length];
 		for (int i = 0; i < buttonNames.length; i++) {
