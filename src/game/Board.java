@@ -348,6 +348,9 @@ public class Board {
 		return result;
 	}
 
+	/*@
+	 * ensures \result == (finished() ? players.get(currentBest) : null);
+	 */
 	/**
 	 * Method for returning the winner of the game.
 	 * 
@@ -374,6 +377,10 @@ public class Board {
 		return null;
 	}
 
+	/*@
+	 * requires boundTest(x, y);
+	 * ensures \result == true || \result == false;
+	 */
 	/**
 	 * Method for checking if a certain move is valid.
 	 * 
@@ -387,16 +394,17 @@ public class Board {
 		int[] pos = {x, y};
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
-
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
-
 				return true;
 			}
-
 		}
 		return false;
 	}
 
+	/*@
+	 * requires boundTest(x, y) && 0 <= color && color <= 3;
+	 * ensures \result == validateMove(x, y);
+	 */
 	/**
 	 * Tries to place a new Ball onto the Board. Places the a ball with the
 	 * specified color at the desired position and returns true. If the
@@ -419,6 +427,13 @@ public class Board {
 		return false;
 	}
 
+	/*@
+	 * requires 0 <= id && id < 4;
+	 * loop_invariant 	int i, i >= 0 && i <= 64;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * 					result == \old(result)++;
+	 * ensures \result >= 0 && \result < 64;
+	 */
 	/**
 	 * Count all the fields a given player has.
 	 * 
@@ -438,6 +453,10 @@ public class Board {
 		return result;
 	}
 
+	/*@
+	 * ensures \result == true || \result == false;
+	 * ensures \result == this.modified;
+	 */
 	/**
 	 * Method for checking if the board has been modified since last move.
 	 * 
@@ -448,6 +467,9 @@ public class Board {
 		return this.modified;
 	}
 
+	/*@
+	 * ensures \result == this.modifiedBalls;
+	 */
 	/**
 	 * Method for retrieving a list of the recent changes in the board.
 	 * 
@@ -458,6 +480,10 @@ public class Board {
 		return this.modifiedBalls;
 	}
 
+	/*@
+	 * requires boundTest(x, y) && 0 <= color && color < 4;
+	 * ensures \result != null;
+	 */
 	/**
 	 * Method that at first makes a given move on the board, then checks in all
 	 * directions of VECTORS and makes the changes when a ball is "captured".
@@ -476,20 +502,13 @@ public class Board {
 		 * loop through all possible direction. Advance one step at a time until
 		 * a ball of the same color as the new ball is found. save the index of
 		 * the vector and the distance between the new ball and the found ball
-		 * in changes. sad
-		 * */
-		/*
-		 * create arraylist for needed changes. changes[i][0] = index of vector
-		 * (direction) length changes[i][1] = length
+		 * in changes.
 		 */
-
 		ArrayList<int[]> requiredChanges = new ArrayList<int[]>();
 		int[] newBallData = new int[3];
 		newBallData[0] = x;
 		newBallData[1] = y;
 		newBallData[2] = color;
-		// req.add(newBallData);
-		// add new Ball to changes
 		for (int i = 0; i < VECTORS.length; i++) {
 			int distance = 1;
 			while (true) {
@@ -590,7 +609,6 @@ public class Board {
 			for (int y = 0; y < FIELD_HEIGHT; y++) {
 				System.out.print("| " + this.getField(x, y) + " |");
 			}
-			System.out.println();
 		}
 	}
 }
