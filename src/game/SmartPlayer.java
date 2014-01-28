@@ -67,8 +67,6 @@ public class SmartPlayer extends Player {
 				fieldCounter += resultingChanges.get(j)[1];
 			}
 			if (fieldCounter > numberOfFields) {
-				System.out.println("Move: " + possibleMoves.get(i)[0] + ", "
-						+ possibleMoves.get(i)[1]);
 				numberOfFields = fieldCounter;
 				result[0] = possibleMoves.get(i)[0];
 				result[1] = possibleMoves.get(i)[1];
@@ -85,7 +83,6 @@ public class SmartPlayer extends Player {
 	 * @return true if the player has a possible move to make. This is always
 	 *         the case.
 	 */
-	@Override
 	public boolean hasMove() {
 		return true;
 	}
