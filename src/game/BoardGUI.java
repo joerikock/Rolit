@@ -21,7 +21,7 @@ public class BoardGUI {
 	public static final float BALL_SIZE = 75;
 
 	// Instance variables -----------------------------------------------------
-	
+
 	/*@
 	 * private invariant board != null;
 	 */
@@ -45,7 +45,7 @@ public class BoardGUI {
 	 * List that keeps up the changes made to the board.
 	 */
 	private ArrayList<int[]> boardChanges;
-	
+
 	/*@
 	 * private invariant choices != null;
 	 */
@@ -53,7 +53,7 @@ public class BoardGUI {
 	 * List that keeps the possible Moves for the current player.
 	 */
 	private ArrayList<int[]> choices;
-	
+
 	/*@
 	 * private invariant offSetX != null && offSetY != null;
 	 */
@@ -97,7 +97,7 @@ public class BoardGUI {
 	private int w, h;
 
 	// Constructors -------------------------------------------------------------
-	
+
 	/**
 	 * Creates a new BoardGUI.
 	 */
@@ -107,7 +107,7 @@ public class BoardGUI {
 		this.balls = new BallRenderer[w][h];
 		this.selectedField = null;
 	}
-	
+
 	/*@
 	 * ensures width == this.w && height == this.h;
 	 */
@@ -127,7 +127,7 @@ public class BoardGUI {
 	}
 
 	// Queries ------------------------------------------------------------------
-	
+
 	/*
 	 * requires b != null;
 	 */
@@ -182,7 +182,6 @@ public class BoardGUI {
 	public void setFieldColor(int x, int y, float r, float g, float b,
 			float alpha) {
 		float[] color = {r, g, b, alpha};
-
 		balls[x][y].setRenderColor(color);
 	}
 
