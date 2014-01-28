@@ -252,6 +252,9 @@ public class BoardGUI {
 		 * the possible choices are indicated in rendering.
 		 */
 		if (hint && !choicesInit) {
+			for (int i = 0; i < choices.size(); i++) {
+				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
+			}
 			this.choices = board.getValidMoveList();
 			for (int i = 0; i < choices.size(); i++) {
 				balls[choices.get(i)[0]][choices.get(i)[1]].isChoice(board
@@ -275,9 +278,7 @@ public class BoardGUI {
 
 			this.balls[newBall[0]][newBall[1]].changeColorTo(newBall[2]);
 			if (hint) {
-				for (int i = 0; i < choices.size(); i++) {
-					balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
-				}
+
 			}
 			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
