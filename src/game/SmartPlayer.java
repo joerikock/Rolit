@@ -33,7 +33,6 @@ public class SmartPlayer extends Player {
 		for (int[] elem : possibleMoves) {
 			System.out.print("(" + elem[0] + ", " + elem[1] + "), ");
 		}
-		System.out.println();
 		int numberOfFields = -1;
 		int fieldCounter = -1;
 		int[] result = {-1, -1};
@@ -57,20 +56,25 @@ public class SmartPlayer extends Player {
 				result[0] = 7;
 				result[1] = 7;
 				return result;
-			} else {
-				fieldCounter = b.resultingChangesForMove(
-					possibleMoves.get(i)[0], possibleMoves.get(i)[1],
-					this.getID()).size();
-				System.out.println("Fieldcounter: " + fieldCounter);
-				if (fieldCounter > numberOfFields) {
-					System.out.println("Move: " + possibleMoves.get(i)[0]
-							+ ", " + possibleMoves.get(i)[1]);
-					numberOfFields = fieldCounter;
-					result[0] = possibleMoves.get(i)[0];
-					result[1] = possibleMoves.get(i)[1];
-				}
 			}
 		}
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			fieldCounter = 0;
+			ArrayList<int[]> resultingChanges = b.resultingChangesForMove(
+					possibleMoves.get(i)[0], possibleMoves.get(i)[1],
+					this.getID());
+			for (int j = 0; j < resultingChanges.size(); j++) {
+				fieldCounter += resultingChanges.get(j)[1];
+			}
+			if (fieldCounter > numberOfFields) {
+				System.out.println("Move: " + possibleMoves.get(i)[0] + ", "
+						+ possibleMoves.get(i)[1]);
+				numberOfFields = fieldCounter;
+				result[0] = possibleMoves.get(i)[0];
+				result[1] = possibleMoves.get(i)[1];
+			}
+		}
+
 		return result;
 	}
 

@@ -16,7 +16,7 @@ public class BoardGUI {
 	// Constants ------------------------------------------------------------
 
 	/**
-	 * The size of the ball.
+	 * The size of a ball.
 	 */
 	public static final float BALL_SIZE = 75;
 
