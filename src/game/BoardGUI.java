@@ -378,7 +378,7 @@ public class BoardGUI {
 		return !this.animationInProgress;
 	}
 
-	/*
+	/*@
 	 * loop_invariant 	int i, i >= 0 && i < this.w;
 	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
 	 * loop_invariant	int k, k >= 0 && k < this.h;
@@ -400,7 +400,7 @@ public class BoardGUI {
 		}
 	}
 
-	/*
+	/*@
 	 * loop_invariant 	int i, i >= 0 && i < this.w;
 	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
 	 * loop_invariant	int k, k >= 0 && k < this.h;
