@@ -128,7 +128,7 @@ public class BoardGUI {
 
 	// Queries ------------------------------------------------------------------
 
-	/*
+	/*@
 	 * requires b != null;
 	 */
 	/**
@@ -143,7 +143,7 @@ public class BoardGUI {
 		setUpBalls();
 	}
 
-	/*
+	/*@
 	 * ensures \result == (x >= 0 && x < this.w && y >= 0 && y < this.h);
 	 */
 	/**
@@ -159,7 +159,7 @@ public class BoardGUI {
 		return x >= 0 && x < w && y >= 0 && y < h;
 	}
 
-	/*
+	/*@
 	 * requires x >= 0 && x < this.w && y >= 0 && y < this.h;
 	 */
 	/**
@@ -185,8 +185,12 @@ public class BoardGUI {
 		balls[x][y].setRenderColor(color);
 	}
 
-	/*
-	 * 
+	/*@
+	 * loop_invariant 	int i, i >= 0 && i < this.w;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * loop_invariant	int k, k >= 0 && k < this.h;
+	 * loop_invariant	\forall (int l, l >= 0 && l < k;
+	 * 					this.balls[j][l] != null;
 	 */
 	/**
 	 * Sets up the initial state for the balls.
@@ -201,6 +205,13 @@ public class BoardGUI {
 		animationInProgress = false;
 	}
 
+	/*@
+	 * loop_invariant 	int i, i >= 0 && i < this.w;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * loop_invariant	int k, k >= 0 && k < this.h;
+	 * loop_invariant	\forall (int l, l >= 0 && l < k;
+	 * 					this.balls[j][l] == \old(this.balls[j][l]).reset();
+	 */
 	/**
 	 * Puts the balls rendered in the correct initial position.
 	 */
@@ -215,6 +226,10 @@ public class BoardGUI {
 		}
 	}
 
+	/*@
+	 * requires x != null && y != null;
+	 * ensures this.offSetX = x && this.offSetY = y;
+	 */
 	/**
 	 * Sets the coordinates of the left-down edge of the board.
 	 * 
@@ -228,6 +243,10 @@ public class BoardGUI {
 		this.offSetY = y;
 	}
 
+	/*@
+	 * requires mouseClicked == true || mouseClicked == false;
+	 * requires hint == true || hint == false;
+	 */
 	/**
 	 * Updates the Rendered Board when the Board is updated and handles the
 	 * interaction of the user like hovering the mouse over a ball and clicking
@@ -283,10 +302,6 @@ public class BoardGUI {
 			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
 			this.choicesInit = false;
-			// if(choices.size()>0){
-			// animationInProgress = true;
-			// }
-
 		}
 		/**
 		 * Only if the last animation has been finished, the user can select a
@@ -325,6 +340,9 @@ public class BoardGUI {
 		}
 	}
 
+	/*@
+	 * ensures \result == this.newSelectedField && \result != null;
+	 */
 	/**
 	 * Method for checking if the board has a selected field.
 	 * 
@@ -334,6 +352,9 @@ public class BoardGUI {
 		return this.newSelectedField;
 	}
 
+	/*@
+	 * ensures \result == this.selectedField && \result != null;
+	 */
 	/**
 	 * Method returning an array containing all the selected fields on the
 	 * board.
@@ -344,6 +365,10 @@ public class BoardGUI {
 		return this.selectedField;
 	}
 
+	/*@
+	 * ensures \result != this.animationInProgress;
+	 * ensures \result == true || \result == false;
+	 */
 	/**
 	 * Method that checks if the animation of a rectangle is done.
 	 * 
@@ -353,6 +378,13 @@ public class BoardGUI {
 		return !this.animationInProgress;
 	}
 
+	/*
+	 * loop_invariant 	int i, i >= 0 && i < this.w;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * loop_invariant	int k, k >= 0 && k < this.h;
+	 * loop_invariant	\forall (int l, l >= 0 && l < k;
+	 * 					this.balls[j][l] != null;
+	 */
 	/**
 	 * Tells the board to render all the fields into a rectangle.
 	 * 
@@ -368,6 +400,13 @@ public class BoardGUI {
 		}
 	}
 
+	/*
+	 * loop_invariant 	int i, i >= 0 && i < this.w;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * loop_invariant	int k, k >= 0 && k < this.h;
+	 * loop_invariant	\forall (int l, l >= 0 && l < k;
+	 * 					this.balls[j][l] != null;
+	 */
 	/**
 	 * Tells the ball to render the overlay texture.
 	 * 
