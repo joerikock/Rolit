@@ -22,81 +22,82 @@ public class BoardGUI {
 
 	// Instance variables -----------------------------------------------------
 
-	/*@
-	 * private invariant board != null;
+	/*
+	 * @ private invariant board != null;
 	 */
 	/**
 	 * The board.
 	 */
 	private Board board;
 
-	/*@
-	 * private invariant balls != null;
+	/*
+	 * @ private invariant balls != null;
 	 */
 	/**
 	 * The balls.
 	 */
 	private BallRenderer[][] balls;
 
-	/*@
-	 * private invariant boardChanges != null;
+	/*
+	 * @ private invariant boardChanges != null;
 	 */
 	/**
 	 * List that keeps up the changes made to the board.
 	 */
 	private ArrayList<int[]> boardChanges;
 
-	/*@
-	 * private invariant choices != null;
+	/*
+	 * @ private invariant choices != null;
 	 */
 	/**
 	 * List that keeps the possible Moves for the current player.
 	 */
 	private ArrayList<int[]> choices;
 
-	/*@
-	 * private invariant offSetX != null && offSetY != null;
+	/*
+	 * @ private invariant offSetX != null && offSetY != null;
 	 */
 	/**
 	 * The x and y coordinates for the balls.
 	 */
 	private float offSetX, offSetY;
 
-	/*@
-	 * private invariant animationInProgress != null && changinsBallInit != null
-	 * && newSelectedField != null && choicesInit != null;
+	/*
+	 * @ private invariant animationInProgress != null && changinsBallInit !=
+	 * null && newSelectedField != null && choicesInit != null;
 	 */
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, changinsBallInit, 
-	newSelectedField, choicesInit;
+	private boolean animationInProgress, changinsBallInit, newSelectedField,
+			choicesInit;
 
-	/*@
-	 * private invariant newBall != null;
+	/*
+	 * @ private invariant newBall != null;
 	 */
 	/**
 	 * Array neccesary for the animation of a new ball.
 	 */
 	private int[] newBall;
 
-	/*@
-	 * private invariant selectedField != null;
+	/*
+	 * @ private invariant selectedField != null;
 	 */
 	/**
 	 * Array neccesary for which field/ball is currently selected.
 	 */
 	private int[] selectedField;
 
-	/*@
-	 * private invariant w != null && h != null;
+	/*
+	 * @ private invariant w != null && h != null;
 	 */
 	/**
 	 * The number of balls in the x and y direction.
 	 */
 	private int w, h;
 
-	// Constructors -------------------------------------------------------------
+	// Constructors
+	// -------------------------------------------------------------
 
 	/**
 	 * Creates a new BoardGUI.
@@ -108,8 +109,8 @@ public class BoardGUI {
 		this.selectedField = null;
 	}
 
-	/*@
-	 * ensures width == this.w && height == this.h;
+	/*
+	 * @ ensures width == this.w && height == this.h;
 	 */
 	/**
 	 * Creates a new BoardGUI using a defined width and height.
@@ -126,10 +127,11 @@ public class BoardGUI {
 		init();
 	}
 
-	// Queries ------------------------------------------------------------------
+	// Queries
+	// ------------------------------------------------------------------
 
-	/*@
-	 * requires b != null;
+	/*
+	 * @ requires b != null;
 	 */
 	/**
 	 * Sets the board to the initial position.
@@ -143,8 +145,8 @@ public class BoardGUI {
 		setUpBalls();
 	}
 
-	/*@
-	 * ensures \result == (x >= 0 && x < this.w && y >= 0 && y < this.h);
+	/*
+	 * @ ensures \result == (x >= 0 && x < this.w && y >= 0 && y < this.h);
 	 */
 	/**
 	 * Method for determining if a field exists on the board.
@@ -159,8 +161,8 @@ public class BoardGUI {
 		return x >= 0 && x < w && y >= 0 && y < h;
 	}
 
-	/*@
-	 * requires x >= 0 && x < this.w && y >= 0 && y < this.h;
+	/*
+	 * @ requires x >= 0 && x < this.w && y >= 0 && y < this.h;
 	 */
 	/**
 	 * Method for setting a field to a new color.
@@ -181,16 +183,14 @@ public class BoardGUI {
 	 */
 	public void setFieldColor(int x, int y, float r, float g, float b,
 			float alpha) {
-		float[] color = {r, g, b, alpha};
+		float[] color = { r, g, b, alpha };
 		balls[x][y].setRenderColor(color);
 	}
 
-	/*@
-	 * loop_invariant 	int i, i >= 0 && i < this.w;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * loop_invariant	int k, k >= 0 && k < this.h;
-	 * loop_invariant	\forall (int l, l >= 0 && l < k;
-	 * 					this.balls[j][l] != null;
+	/*
+	 * @ loop_invariant int i, i >= 0 && i < this.w; loop_invariant \forall (int
+	 * j, j >= 0 && j < i; loop_invariant int k, k >= 0 && k < this.h;
+	 * loop_invariant \forall (int l, l >= 0 && l < k; this.balls[j][l] != null;
 	 */
 	/**
 	 * Sets up the initial state for the balls.
@@ -205,12 +205,11 @@ public class BoardGUI {
 		animationInProgress = false;
 	}
 
-	/*@
-	 * loop_invariant 	int i, i >= 0 && i < this.w;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * loop_invariant	int k, k >= 0 && k < this.h;
-	 * loop_invariant	\forall (int l, l >= 0 && l < k;
-	 * 					this.balls[j][l] == \old(this.balls[j][l]).reset();
+	/*
+	 * @ loop_invariant int i, i >= 0 && i < this.w; loop_invariant \forall (int
+	 * j, j >= 0 && j < i; loop_invariant int k, k >= 0 && k < this.h;
+	 * loop_invariant \forall (int l, l >= 0 && l < k; this.balls[j][l] ==
+	 * \old(this.balls[j][l]).reset();
 	 */
 	/**
 	 * Puts the balls rendered in the correct initial position.
@@ -226,9 +225,9 @@ public class BoardGUI {
 		}
 	}
 
-	/*@
-	 * requires x != null && y != null;
-	 * ensures this.offSetX = x && this.offSetY = y;
+	/*
+	 * @ requires x != null && y != null; ensures this.offSetX = x &&
+	 * this.offSetY = y;
 	 */
 	/**
 	 * Sets the coordinates of the left-down edge of the board.
@@ -243,9 +242,9 @@ public class BoardGUI {
 		this.offSetY = y;
 	}
 
-	/*@
-	 * requires mouseClicked == true || mouseClicked == false;
-	 * requires hint == true || hint == false;
+	/*
+	 * @ requires mouseClicked == true || mouseClicked == false; requires hint
+	 * == true || hint == false;
 	 */
 	/**
 	 * Updates the Rendered Board when the Board is updated and handles the
@@ -259,7 +258,8 @@ public class BoardGUI {
 	 * @param mouseClicked
 	 *            determines whether the mouse is clicked or not.
 	 */
-	public void update(float mouseX, float mouseY, boolean mouseClicked, boolean hint) {
+	public void update(float mouseX, float mouseY, boolean mouseClicked,
+			boolean hint) {
 		this.newSelectedField = false;
 		for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
@@ -272,8 +272,10 @@ public class BoardGUI {
 		 * the possible choices are indicated in rendering.
 		 */
 		if (hint && !choicesInit) {
-			for (int i = 0; i < choices.size(); i++) {
-				balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
+			if (choices != null) {
+				for (int i = 0; i < choices.size(); i++) {
+					balls[choices.get(i)[0]][choices.get(i)[1]].notChoice();
+				}
 			}
 			this.choices = board.getValidMoveList();
 			for (int i = 0; i < choices.size(); i++) {
@@ -297,9 +299,7 @@ public class BoardGUI {
 			newBall = boardChanges.remove(0);
 
 			this.balls[newBall[0]][newBall[1]].changeColorTo(newBall[2]);
-			if (hint) {
 
-			}
 			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
 			this.choicesInit = false;
@@ -341,8 +341,8 @@ public class BoardGUI {
 		}
 	}
 
-	/*@
-	 * ensures \result == this.newSelectedField && \result != null;
+	/*
+	 * @ ensures \result == this.newSelectedField && \result != null;
 	 */
 	/**
 	 * Method for checking if the board has a selected field.
@@ -353,8 +353,8 @@ public class BoardGUI {
 		return this.newSelectedField;
 	}
 
-	/*@
-	 * ensures \result == this.selectedField && \result != null;
+	/*
+	 * @ ensures \result == this.selectedField && \result != null;
 	 */
 	/**
 	 * Method returning an array containing all the selected fields on the
@@ -366,9 +366,9 @@ public class BoardGUI {
 		return this.selectedField;
 	}
 
-	/*@
-	 * ensures \result != this.animationInProgress;
-	 * ensures \result == true || \result == false;
+	/*
+	 * @ ensures \result != this.animationInProgress; ensures \result == true ||
+	 * \result == false;
 	 */
 	/**
 	 * Method that checks if the animation of a rectangle is done.
@@ -379,12 +379,10 @@ public class BoardGUI {
 		return !this.animationInProgress;
 	}
 
-	/*@
-	 * loop_invariant 	int i, i >= 0 && i < this.w;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * loop_invariant	int k, k >= 0 && k < this.h;
-	 * loop_invariant	\forall (int l, l >= 0 && l < k;
-	 * 					this.balls[j][l] != null;
+	/*
+	 * @ loop_invariant int i, i >= 0 && i < this.w; loop_invariant \forall (int
+	 * j, j >= 0 && j < i; loop_invariant int k, k >= 0 && k < this.h;
+	 * loop_invariant \forall (int l, l >= 0 && l < k; this.balls[j][l] != null;
 	 */
 	/**
 	 * Tells the board to render all the fields into a rectangle.
@@ -401,12 +399,10 @@ public class BoardGUI {
 		}
 	}
 
-	/*@
-	 * loop_invariant 	int i, i >= 0 && i < this.w;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * loop_invariant	int k, k >= 0 && k < this.h;
-	 * loop_invariant	\forall (int l, l >= 0 && l < k;
-	 * 					this.balls[j][l] != null;
+	/*
+	 * @ loop_invariant int i, i >= 0 && i < this.w; loop_invariant \forall (int
+	 * j, j >= 0 && j < i; loop_invariant int k, k >= 0 && k < this.h;
+	 * loop_invariant \forall (int l, l >= 0 && l < k; this.balls[j][l] != null;
 	 */
 	/**
 	 * Tells the ball to render the overlay texture.
