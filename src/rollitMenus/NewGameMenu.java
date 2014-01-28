@@ -1,9 +1,9 @@
 package rollitMenus;
 
-import MenuItems.Button;
-import MenuItems.Menu;
-import MenuItems.MenuManager;
-import MenuItems.MultiChoiceButton;
+import menuItems.Button;
+import menuItems.Menu;
+import menuItems.MenuManager;
+import menuItems.MultiChoiceButton;
 
 public class NewGameMenu extends Menu {
 	

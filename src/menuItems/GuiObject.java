@@ -1,4 +1,4 @@
-package MenuItems;
+package menuItems;
 
 import java.util.ArrayList;
 
@@ -7,22 +7,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-//TODO: generalize drawing of elements
 public abstract class GuiObject {
 	public static final Texture OVERLAY = new Texture(
 			Gdx.files.internal("assets/data/guioverlay.png"));
 	/**
-	 * Defines the color for the mouse over effect
+	 * Defines the color for the mouse over effect.
 	 */
-	public static final float[] MOUSEOVER_COLOR = { .3f, .3f, .3f };
+	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = { .1f, .5f, .5f };
+	public static final float[] COLOR = {.1f, .5f, .5f};
 	/**
 	 * Defines the font color.
 	 */
-	public static final float[] FONT_COLOR = { .9f, .9f, .9f };
+	public static final float[] FONT_COLOR = {.9f, .9f, .9f};
 	/**
 	 * Defines the standard height of GuiObjects.
 	 */
@@ -34,7 +33,7 @@ public abstract class GuiObject {
 	/**
 	 * Defines the speed of the mouse over effect.
 	 */
-	private static final float mouseOverEffectSpeed = 1.5f;
+	private static final float MOUSEOVER_EFFECT_SPEED = 4.5f;
 	/**
 	 * Defines whether the mouse is hovering over the element.
 	 */
@@ -97,9 +96,9 @@ public abstract class GuiObject {
 	 * 
 	 * @param name
 	 */
-	public GuiObject(String name) {
+	public GuiObject(String theName) {
 		children = new ArrayList<GuiObject>();
-		this.name = name;
+		this.name = theName;
 		this.selectAble = true;
 	}
 
@@ -109,10 +108,10 @@ public abstract class GuiObject {
 	 * 
 	 * @param parentObject
 	 */
-	public void setParentObject(GuiObject parentObject) {
+	public void setParentObject(GuiObject theParentObject) {
 		this.isChild = true;
 		this.selectAble = false;
-		this.parentObject = parentObject;
+		this.parentObject = theParentObject;
 		parentObject.addChild(this);
 	}
 
@@ -121,8 +120,8 @@ public abstract class GuiObject {
 	 * 
 	 * @param selectAble
 	 */
-	public void setSelectAble(boolean selectAble) {
-		this.selectAble = selectAble;
+	public void setSelectAble(boolean isSelectAble) {
+		this.selectAble = isSelectAble;
 	}
 
 	/**
@@ -174,11 +173,11 @@ public abstract class GuiObject {
 	 * @param width
 	 * @param height
 	 */
-	public void setDimensions(float x, float y, float width, float height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public void setDimensions(float theX, float theY, float w, float h) {
+		this.x = theX;
+		this.y = theY;
+		this.width = w;
+		this.height = h;
 	}
 
 	/**
@@ -188,9 +187,9 @@ public abstract class GuiObject {
 	 * @param x
 	 * @param y
 	 */
-	public void setParentPosition(float x, float y) {
-		parentX = x;
-		parentY = y;
+	public void setParentPosition(float theX, float theY) {
+		parentX = theX;
+		parentY = theY;
 	}
 
 	/**
@@ -210,8 +209,8 @@ public abstract class GuiObject {
 	 * 
 	 * @param selected
 	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
+	public void setSelected(boolean isSelected) {
+		this.selected = isSelected;
 	}
 
 	/**
@@ -288,14 +287,14 @@ public abstract class GuiObject {
 		if (selected || mouseOver) {
 
 			if (this.heightProgress < height) {
-				this.heightProgress += GuiObject.mouseOverEffectSpeed;
+				this.heightProgress += GuiObject.MOUSEOVER_EFFECT_SPEED;
 			} else {
 				this.heightProgress = height;
 			}
 		} else {
 
 			if (this.heightProgress > 0) {
-				this.heightProgress -= GuiObject.mouseOverEffectSpeed;
+				this.heightProgress -= GuiObject.MOUSEOVER_EFFECT_SPEED;
 			} else {
 				this.heightProgress = 0;
 			}
