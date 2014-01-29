@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import menuItems.Menu;
 import menuItems.MenuManager;
+import multiplayer.Client;
 import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
 import rollitMenus.NewGameMenu;
+import rollitMenus.OnlineGameMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -30,7 +32,7 @@ public class Game {
 	 * Creating a constant tools, used for generating random booleans, integers,
 	 * doubles and floats.
 	 */
-	public static final Tools TOOLS = new Tools();
+//	public static final Tools TOOLS = new Tools();
 
 	// Instance variables -----------------------------------------------
 
@@ -73,7 +75,19 @@ public class Game {
 	 * Menu for selecting players.
 	 */
 	private NewGameMenu newGameMenu;
+	/*@
+	 * private invariant onlineGameMenu != null;
+	 */
+	/**
+	 * Menu for selecting players.
+	 */
+	private OnlineGameMenu onlineGameMenu;
 
+	/**
+	 * Client for playing online. (can be null, if offline)
+	 */
+	private Client client;
+	
 	/*@
 	 * private invariant boardPainter != null;
 	 */
@@ -133,9 +147,11 @@ public class Game {
 		mainMenu = new MainMenu(menus);
 		inGameMenu = new IngameMenu(menus);
 		newGameMenu = new NewGameMenu(menus);
+		onlineGameMenu = new OnlineGameMenu(menus);
 		menus.addMenu(inGameMenu);
 		menus.addMenu(mainMenu);
 		menus.addMenu(newGameMenu);
+		menus.addMenu(onlineGameMenu);
 		menus.addMenu(login);
 		boardPainter = new BoardGUI();
 		boardPainter.setPosition(300, 0);
@@ -188,6 +204,9 @@ public class Game {
 		} else {
 			bg.update();
 		}
+		if(active == onlineGameMenu){
+			this.updateOnlineGameMenu(active);
+		}
 		/**
 		 * If a game is not in progress render a dummy field that randomly
 		 * changes colors so the menu looks better.
@@ -200,6 +219,10 @@ public class Game {
 
 				menus.setActiveMenu(newGameMenu);
 			}
+			if(active.lastClickedElement() == "Play Online"){
+
+				menus.setActiveMenu(onlineGameMenu);
+			}
 		}
 		if (active == newGameMenu) {
 			updateNewGameMenu(active);
@@ -210,6 +233,15 @@ public class Game {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
+				try{
+					client = new Client(login.getUser(), login.getPassword(),1235, "localHost");
+				}catch(Exception e){
+					System.out.println("Login Failed");
+				}
+				if(client!=null){
+					Thread clientThread = new Thread(client);
+					clientThread.start();
+				}
 			}
 		}
 	}
@@ -226,7 +258,15 @@ public class Game {
 		}
 		board.update();
 	}
-
+	private void updateOnlineGameMenu(Menu active){
+		if(active.lastClickedElement() == "Back"){
+			menus.setActiveMenu(mainMenu);
+		}
+		if(active.lastClickedElement() == "Connect"){
+			
+			client.requestGame(2);
+		}
+	}
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
 			if (active.getSelectedChild("Show hints") == "On") {
