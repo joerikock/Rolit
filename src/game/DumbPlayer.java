@@ -43,7 +43,6 @@ public class DumbPlayer extends Player {
 	 * @return true if the player has a possible move to make. This is always
 	 *         the case.
 	 */
-	@Override
 	public boolean hasMove() {
 		return true;
 	}
