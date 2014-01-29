@@ -19,6 +19,7 @@ public class RollitServer implements Runnable{
 			playerNames = new ArrayList<String>();
 			board = new Board();
 			this.playerCount = playerCount;
+			System.out.println("New session created by"+ clientName);
 		}
 		public int getPlayerCount(){
 			return playerCount;
@@ -32,6 +33,7 @@ public class RollitServer implements Runnable{
 		public boolean join(String name){
 			if(!gameRunning&&playerNames.size()<playerCount){
 				playerNames.add(name);
+				System.out.println(name+" joined session. " +playerNames.size()+" | "+playerCount);
 				return true;
 			}
 			return false;

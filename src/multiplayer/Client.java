@@ -17,6 +17,8 @@ public class Client implements Runnable {
 	private String name;
 	private boolean gotAck;
 	private Player player;
+	private boolean sendGameRequest;
+	private int gamePlayerCount;
 	public Client(String name, String password, int port, String serverName) {
 		InetAddress ip = null;
 	
@@ -35,6 +37,7 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 		count++;
+		this.name = name;
 		System.out.println("Client init. " +name);
 		String[] a = {name, password};
 		sendMessage("login", a);
@@ -46,13 +49,14 @@ public class Client implements Runnable {
 	@Override
 	public void run() {
 		while(true){
-			if(gotAck){
-				System.out.println("Running");
-				String s = readMessage();
-				if(s!=null){
-					System.out.println("Client "+name+"  fetching : "+s);
-				}
-			}
+//			if(gotAck){
+//				System.out.println("Running");
+//				String s = readMessage();
+//				if(s!=null){
+//					System.out.println("Client "+name+"  fetching : "+s);
+//				}
+
+//			}
 
 		}
 		
@@ -111,7 +115,8 @@ public class Client implements Runnable {
 		return nachricht;
 	}
 	public void requestGame(int playerCount){
-		String[] c = {String.valueOf(playerCount)};
+		System.out.println("SENMD");
+		String[] c = {String.valueOf(gamePlayerCount)};
 		sendMessage("join",c);
 	}
 

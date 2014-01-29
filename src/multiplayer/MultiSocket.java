@@ -118,7 +118,7 @@ public class MultiSocket implements Runnable {
 		// TODO: check whether client and message are valid.
 		String[] messageParts = message.split(" ");
 		String[] returnMessage = new String[messageParts.length];
-		
+		System.out.println("MultiSocket: " +buffer);
 		return messageParts;
 	}
 	public static Set<String> getClients(){
@@ -198,12 +198,6 @@ public class MultiSocket implements Runnable {
 				}
 				System.out.println("Socket added!");
 
-				if(socketList.size()==3){
-					System.out.println("ASD");
-					closeAll(ssocket);
-					System.exit(0);
-				}
-				
 				MultiSocket newSocket = new MultiSocket(socket);
 				Thread thread = new Thread(newSocket);
 				thread.start();
