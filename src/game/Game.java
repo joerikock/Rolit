@@ -289,12 +289,19 @@ public class Game {
 		blue.setText(this.getBoard().getNumberOfFields(2) + "");
 		
 		if (this.getBoard().finished()) {
-			if (this.getBoard().getWinner() == -1) {
-				
-			}
 			TextOutputField winner;
 			winner = (TextOutputField) (active.getElement("winner"));
-			winner.setText("The winner is ");
+			if (this.getBoard().getWinner() == -1) {
+				winner.setText("It's a draw!");
+			} else if (this.getBoard().getWinner() == 0) {
+				winner.setText("The winner is Red");
+			} else if (this.getBoard().getWinner() == 1) {
+				winner.setText("The winner is Yellow");
+			} else if (this.getBoard().getWinner() == 3) {
+				winner.setText("The winner is Green");
+			} else if (this.getBoard().getWinner() == 2) {
+				winner.setText("The winner is Blue");
+			}
 		}
 	}
 	private void updateNewGameMenu(Menu active) {
