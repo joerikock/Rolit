@@ -287,6 +287,10 @@ public class Game {
 		TextOutputField blue;
 		blue = (TextOutputField) (active.getElement("blueScore"));
 		blue.setText(this.getBoard().getNumberOfFields(2) + "");
+		
+		if (this.getBoard().finished()) {
+			
+		}
 	}
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {

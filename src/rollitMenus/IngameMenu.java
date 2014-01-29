@@ -13,6 +13,7 @@ public class IngameMenu extends Menu {
 	TextOutputField yellowScore;
 	TextOutputField greenScore;
 	TextOutputField blueScore;
+	TextOutputField winner;
 
 	public IngameMenu(MenuManager m) {
 		super("Ingame");
@@ -65,5 +66,10 @@ public class IngameMenu extends Menu {
 		blueScore.setText("1");
 		blueScore.setColor(1, 1, 1);
 		this.addGuiObject(blueScore);
+		
+		this.winner = new TextOutputField("winner", 150, 100);
+		winner.setText("YOLO");
+		winner.setColor(1, 1, 1);
+		this.addGuiObject(winner);
 	}
 }
