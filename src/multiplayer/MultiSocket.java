@@ -84,7 +84,7 @@ public class MultiSocket implements Runnable {
 	}
 	public static String[] getClientMessage(String name){
 		if(clients.containsKey(name)){
-			return (socketList.get(clients.get(name))).getMessage();
+//			return (socketList.get(clients.get(name))).getMessage();
 		}
 		return null;
 	}
@@ -94,31 +94,19 @@ public class MultiSocket implements Runnable {
 	 * @param socket
 	 * @return
 	 */
-	private String[] getMessage() {
-		BufferedReader bufferedReader = null;
+	private String[] getMessage(BufferedReader reader) {
+
+		String message = null; 
 		try {
-			bufferedReader = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-		} catch (IOException e) {
-			System.out.println("Failed to get InputStream from socket.");
-			e.printStackTrace();
-		}
-		char[] buffer = new char[200];
-		int charCount = 0;
-		try {
-			charCount = bufferedReader.read(buffer, 0, 200);
+			message = reader.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String message = null;
-		if (charCount > 0) {
-			message = new String(buffer, 0, charCount);
-		}
 		// TODO: check whether client and message are valid.
 		String[] messageParts = message.split(" ");
 		String[] returnMessage = new String[messageParts.length];
-		System.out.println("MultiSocket: " +buffer);
+		System.out.println("Server recived message: "+message);
 		return messageParts;
 	}
 	public static Set<String> getClients(){
@@ -127,9 +115,17 @@ public class MultiSocket implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new InputStreamReader(
+					socket.getInputStream()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		while (true) {
-			if(!isClient){
-				String[] s = getMessage();
+//			if(!isClient){
+				String[] s = getMessage(bufferedReader);
 //				System.out.println("ICH BIN HIER!");
 				if (s.length == 3) {
 					System.out.println("Correct msg_length");
@@ -146,9 +142,9 @@ public class MultiSocket implements Runnable {
 						}
 					}
 				}
-			}else{
-//				sendMessage(socket, "Hallo");
-			}
+//			}else{
+////				sendMessage(socket, "Hallo");
+//			}
 
 		}
 	}

@@ -70,7 +70,7 @@ public class Client implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		printWriter.print(command);
+		printWriter.println(command);
 		printWriter.flush();
 	}
 	public void sendMessage(String command, String[] args){
@@ -87,7 +87,7 @@ public class Client implements Runnable {
 			message += " "+args[i];
 		}
 		System.out.println("NEW COMMAND SEND TO SERVER: "+command);
-		printWriter.print(message);
+		printWriter.println(message);
 		printWriter.flush();
 		//set gotAck to false. only can send next message if the previous one has been ackknwoledged
 		gotAck = false;
@@ -115,7 +115,7 @@ public class Client implements Runnable {
 		return nachricht;
 	}
 	public void requestGame(int playerCount){
-		System.out.println("SENMD");
+		System.out.println("requestGame called");
 		String[] c = {String.valueOf(gamePlayerCount)};
 		sendMessage("join",c);
 	}
