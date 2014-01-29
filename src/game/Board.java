@@ -395,10 +395,26 @@ public class Board {
 	 */
 	public int getWinner() {
 		if (finished()) {
+			int max = 0;
+			int bestPlayer = -1;
 			for (int i = 0; i < players.size(); i++) {
-				
+				if (getNumberOfFields(i) > getNumberOfFields(i + 1)) {
+					max = getNumberOfFields(i);
+					bestPlayer = i;
+				}
 			}
+			for (int j = 0; j < players.size(); j++) {
+				for (int k = j + 1; k < players.size(); k++) {
+					if (k != j && players.get(k) == players.get(j) && 
+							getNumberOfFields(k) == max) {
+						System.out.println("DRAW");
+						return -1;
+					}
+				}
+			}
+			return bestPlayer;
 		}
+		return -2;
 //		if (finished()) {
 //			int[] ballCount = new int[4];
 //			for (int x = 0; x < Board.FIELD_WIDTH; x++) {

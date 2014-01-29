@@ -305,10 +305,11 @@ public class Game {
 		
 		if (this.getBoard().finished()) {
 			TextOutputField winner;
-			winner = (TextOutputField) (active.getElement("winner"));
+			winner = (TextOutputField) (active.getElement(""));
 			if (this.getBoard().getWinner() == -1) {
 				winner.setText("It's a draw!");
 			} else if (this.getBoard().getWinner() == 0) {
+				System.out.println(winner);
 				winner.setText("The winner is Red");
 			} else if (this.getBoard().getWinner() == 1) {
 				winner.setText("The winner is Yellow");
