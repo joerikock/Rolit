@@ -395,6 +395,7 @@ public class Board {
 	 */
 	public int getWinner() {
 		if (finished()) {
+<<<<<<< HEAD
 			int max = 0;
 			int bestPlayer = -1;
 			for (int i = 0; i < players.size(); i++) {
@@ -407,14 +408,43 @@ public class Board {
 				for (int k = j + 1; k < players.size(); k++) {
 					if (k != j && players.get(k) == players.get(j) && 
 							getNumberOfFields(k) == max) {
+=======
+			int[] ballCount = new int[players.size()];
+			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
+				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
+					
+					ballCount[this.getField(x, y)]++;
+				}
+			}
+			int max = 0;
+			int currentBest = 0;
+			for (int index = 0; index < players.size(); index++) {
+				if (ballCount[index] > max) {
+					max = ballCount[index];
+					currentBest = index;
+				}
+			}
+			for (int j = 0; j < ballCount.length; j++) {
+				for (int k = j + 1; k < ballCount.length; k++) {
+					if (k != j && ballCount[k] == ballCount[j] && 
+							ballCount[k] == max) {
+>>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
 						System.out.println("DRAW");
 						return -1;
 					}
 				}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
 			}
 			return bestPlayer;
 		}
+<<<<<<< HEAD
 		return -2;
+=======
+		return 1;
+>>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
 //		if (finished()) {
 //			int[] ballCount = new int[4];
 //			for (int x = 0; x < Board.FIELD_WIDTH; x++) {

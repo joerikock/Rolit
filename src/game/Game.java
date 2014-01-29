@@ -177,7 +177,6 @@ public class Game {
 	public Board getBoard() {
 		return board;
 	}
-
 	/*
 	 * @ requires mouseDown == true || mouseDown == false;
 	 */
@@ -236,16 +235,16 @@ public class Game {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
-//				try {
-//					client = new Client(login.getUser(), login.getPassword(),
-//							1235, "localHost", board, boardPainter);
-//				} catch (Exception e) {
-//					System.out.println("Login Failed");
-//				}
-//				if (client != null) {
-//					Thread clientThread = new Thread(client);
-//					clientThread.start();
-//				}
+				try {
+					client = new Client(login.getUser(), login.getPassword(),
+							1235, "localHost", board, boardPainter);
+				} catch (Exception e) {
+					System.out.println("Login Failed");
+				}
+				if (client != null) {
+					Thread clientThread = new Thread(client);
+					clientThread.start();
+				}
 			}
 		}
 	}
@@ -271,22 +270,28 @@ public class Game {
 	}
 
 	private void updateOnlineGameMenu(Menu active) {
+		
 		if (active.lastClickedElement() == "Back") {
 			menus.setActiveMenu(mainMenu);
 		}
 		if (active.lastClickedElement() == "Connect") {
 			onlineGame = true;
 			client.requestGame(2);
-			board = client.getBoard();
+
 		}
 		if (client.inGame()) {
+			board = client.getBoard();
+			System.out.println("Client returned Board: " +board);
+			boardPainter.setBoard(board);
 			menus.setActiveMenu(inGameMenu);
-			
 
 		}
 	}
 
 	private void updateInGameMenu(Menu active) {
+		if(onlineGame){
+			this.board = client.getBoard();
+		}
 		TextOutputField red;
 		red = (TextOutputField) (active.getElement("redScore"));
 		red.setText(this.board.getNumberOfFields(0) + "");
