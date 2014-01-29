@@ -1,5 +1,8 @@
 package multiplayer;
 
+import game.Board;
+import game.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,35 +15,165 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class MultiSocket implements Runnable {
+
+	private static class Session implements Runnable {
+		private ArrayList<String> playerNames;
+		private ArrayList<Player> players;
+		private Board board;
+		boolean gameRunning;
+		public int playerCount;
+
+		public Session(int playerCount, String clientName) {
+
+			players = new ArrayList<Player>();
+			playerNames = new ArrayList<String>();
+			playerNames.add(clientName);
+			board = new Board();
+			this.playerCount = playerCount;
+			System.out.println("New session created by" + clientName);
+		}
+
+		public int getPlayerCount() {
+			return playerCount;
+		}
+
+		private ArrayList<String> getPlayers() {
+			return playerNames;
+		}
+
+		public boolean isInGame() {
+			return gameRunning;
+		}
+
+		public boolean join(String name) {
+			if (!gameRunning && playerNames.size() < playerCount) {
+				playerNames.add(name);
+				System.out.println(name + " joined session. "
+						+ playerNames.size() + " | " + playerCount);
+				return true;
+			}
+			return false;
+		}
+
+		public void makeMove(int x, int y, String player) {
+			for (int i = 0; i < playerNames.size(); i++) {
+				if (player.equals(playerNames.get(i))) {
+					if (board.currentPlayer().getName().equals(player)) {
+						if (!board.tryMove(x, y, board.currentPlayerColor())) {
+							// kick player
+						}
+					}
+				}
+			}
+		}
+
+		public void addPlayer(Player player) {
+			players.add(player);
+
+		}
+
+		public void startGame() {
+			board.newGame(players);
+			gameRunning = true;
+		}
+
+		@Override
+		public void run() {
+
+			if (gameRunning) {
+				// if(board.currentPlayer().hasMove())
+			}
+
+		}
+
+		public Player currentPlayer() {
+			return board.currentPlayer();
+		}
+	}
+
+	private static class SessionHandler {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+
+		public SessionHandler() {
+			this.sessions = new ArrayList<Session>();
+		}
+
+		private Session getPlayerSession(String name) {
+			for (int i = 0; i < sessions.size(); i++) {
+				for (int a = 0; a < sessions.get(i).getPlayers().size(); a++) {
+					if (sessions.get(i).getPlayers().get(a).equals(name)) {
+						return sessions.get(i);
+					}
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Creates or finds a new game session for the client.
+		 * 
+		 * @param playerCount
+		 */
+		public Session requestSession(int playerCount, String playerName) {
+
+			if (sessions.size() == 0) {
+				Session session = new Session(playerCount, playerName);
+				sessions.add(session);
+				return session;
+			} else {
+				for (int i = 0; i < sessions.size(); i++) {
+					if (!sessions.get(i).isInGame()
+							&& sessions.get(i).getPlayerCount() == playerCount) {
+						sessions.get(i).join(playerName);
+						System.out.println("SessionManager found session");
+						return sessions.get(i);
+					}
+				}
+				Session session = new Session(playerCount, playerName);
+				sessions.add(session);
+				return session;
+			}
+		}
+	}
+
 	private Socket socket;
 	private static HashMap<String, Integer> clients = new HashMap<String, Integer>();
 	private static ArrayList<MultiSocket> socketList = new ArrayList<MultiSocket>();
 	private static ArrayList<String> messages = new ArrayList<String>();
-
+	private static final SessionHandler sessionHandler = new SessionHandler();
 	private static final String user = "Max";
-	private static final String[][] users = {{"max", "hallo"},{"gollum","hallo"},{"lord","hallo"},{"dr.cool","hallo"}};
+	private static final String[][] users = { { "max", "hallo" },
+			{ "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
 	private boolean isClient;
 	private int index;
+	private String clientName;
+
 	public MultiSocket(Socket sock) {
 		this.socket = sock;
 		socketList.add(this);
-		this.index = socketList.size()-1;
+		this.index = socketList.size() - 1;
 
+	}
+
+	private void setClientName(String name) {
+		this.clientName = name;
 	}
 
 	public static void addClient(Socket socket) {
 		// Send request for userNam
 
 	}
-	public static void logout(String name){
-		if(clients.containsKey(name)){
+
+	public static void logout(String name) {
+		if (clients.containsKey(name)) {
 			socketList.get(clients.get(name)).close();
 			socketList.remove(clients.get(name));
-			
-			}
+
+		}
 	}
-	private void close(){
-		
+
+	private void close() {
+
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -48,6 +181,7 @@ public class MultiSocket implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
 	public static void closeAll(ServerSocket serverSocket) {
 		try {
 			serverSocket.close();
@@ -55,26 +189,28 @@ public class MultiSocket implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		for (int i = 0; i < socketList.size(); i++) {
-//			// TODO: Sent message to socket that its being shut down.
-//			try {
-//				socketList.get(i).close();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		// for (int i = 0; i < socketList.size(); i++) {
+		// // TODO: Sent message to socket that its being shut down.
+		// try {
+		// socketList.get(i).close();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
 
 	}
+
 	/**
 	 * Login
+	 * 
 	 * @param name
 	 * @param password
 	 */
-	private boolean validateUser(String name, String password){
-		for(int i=0; i<users.length;i++){
-			if(users[i][0].equals(name)){
-				if(users[i][1].equals(password)){
+	private boolean validateUser(String name, String password) {
+		for (int i = 0; i < users.length; i++) {
+			if (users[i][0].equals(name)) {
+				if (users[i][1].equals(password)) {
 					System.out.println("ValidUser!");
 					return true;
 				}
@@ -82,12 +218,14 @@ public class MultiSocket implements Runnable {
 		}
 		return false;
 	}
-	public static String[] getClientMessage(String name){
-		if(clients.containsKey(name)){
-//			return (socketList.get(clients.get(name))).getMessage();
+
+	public static String[] getClientMessage(String name) {
+		if (clients.containsKey(name)) {
+			// return (socketList.get(clients.get(name))).getMessage();
 		}
 		return null;
 	}
+
 	/**
 	 * Fetches the message written into a socket.
 	 * 
@@ -96,7 +234,7 @@ public class MultiSocket implements Runnable {
 	 */
 	private String[] getMessage(BufferedReader reader) {
 
-		String message = null; 
+		String message = null;
 		try {
 			message = reader.readLine();
 		} catch (IOException e) {
@@ -106,12 +244,14 @@ public class MultiSocket implements Runnable {
 		// TODO: check whether client and message are valid.
 		String[] messageParts = message.split(" ");
 		String[] returnMessage = new String[messageParts.length];
-		System.out.println("Server recived message: "+message);
+		System.out.println("Server recived message: " + message);
 		return messageParts;
 	}
-	public static Set<String> getClients(){
+
+	public static Set<String> getClients() {
 		return clients.keySet();
 	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -124,32 +264,57 @@ public class MultiSocket implements Runnable {
 			e.printStackTrace();
 		}
 		while (true) {
-//			if(!isClient){
-				String[] s = getMessage(bufferedReader);
-//				System.out.println("ICH BIN HIER!");
-				if (s.length == 3) {
-					System.out.println("Correct msg_length");
-					for (int a = 0; a < s.length; a++) {
-						System.out.println(a + " : " + s[a]);
-					}
-					if (s[0].equals("login")) {
+
+			String[] s = getMessage(bufferedReader);
+			String[] args = null;
+			// System.out.println("ICH BIN HIER!");
+			if (s != null) {
+
+				for (int a = 0; a < s.length; a++) {
+					System.out.println(a + " : " + s[a]);
+				}
+				// If the client is not registered: only login attempt possible
+				if (!isClient) {
+					if (s.length == 3 && s[0].equals("login")) {
+						args = new String[1];
 						System.out.println("Trying to login");
-						if(validateUser(s[1],s[2])){
+						if (validateUser(s[1], s[2])) {
 							isClient = true;
 							clients.put(s[1], index);
-							System.out.println("CLIENTSIZE: "+ clients.size());
-							sendMessage(socket, "login"+"Ack");
+							this.clientName = s[1];
+							System.out.println("CLIENTSIZE: " + clients.size());
+							args = new String[1];
+							args[0] = "welcome";
+						} else {
+							args[0] = "incorrect";
+						}
+					}
+
+				} else {
+
+					if (s.length == 2 && s[0].equals("join")) {
+						Session session = sessionHandler.getPlayerSession(user);
+						if (s[0].equals("join")) {
+							System.out.println("JOIN REQUEST");
+							sessionHandler.requestSession(
+									Integer.parseInt(s[1]), clientName);
+						}
+						if (s[0].equals("move")) {
+							session.makeMove(Integer.parseInt(s[1]),
+									Integer.parseInt(s[2]), clientName);
 						}
 					}
 				}
-//			}else{
-////				sendMessage(socket, "Hallo");
-//			}
-
+				String append = new String();
+				if (args != null) {
+					for (int index = 0; index < args.length; index++) {
+						append += " " + args[index];
+					}
+				}
+				this.sendMessage(socket, s[0] + "Ack" + append);
+			}
 		}
 	}
-
-
 
 	private void sendMessage(Socket socket, String message) {
 		PrintWriter printWriter = null;
@@ -160,7 +325,7 @@ public class MultiSocket implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		printWriter.print(message);
+		printWriter.println(message);
 		printWriter.flush();
 	}
 
@@ -223,6 +388,7 @@ public class MultiSocket implements Runnable {
 	 * Starts a new Server
 	 */
 	public static void init() {
+
 		int port = 1235;
 		ServerSocket serverSocket = null;
 		try {
@@ -254,8 +420,8 @@ public class MultiSocket implements Runnable {
 			e.printStackTrace();
 		}
 
-//		Thread thread = new Thread(newSocket);
-//		thread.start();
+		// Thread thread = new Thread(newSocket);
+		// thread.start();
 		Listener listener = new Listener();
 		listener.setServerSocket(serverSocket);
 		Thread listenerThread = new Thread((Runnable) (listener));
