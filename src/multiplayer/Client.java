@@ -197,8 +197,8 @@ public class Client implements Runnable {
 	public void startGame(ArrayList<String> players) {
 		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
-		playerList.remove(name);
-		playerList.add(new HumanPlayer(name, 0, boardGui));
+//		playerList.remove(name);
+//		playerList.add(new HumanPlayer(name, 0, boardGui));
 		for (int i = 0; i < players.size(); i++) {
 			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);

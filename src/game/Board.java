@@ -398,6 +398,7 @@ public class Board {
 			int[] ballCount = new int[players.size()];
 			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
 				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
+					
 					ballCount[this.getField(x, y)]++;
 				}
 			}
