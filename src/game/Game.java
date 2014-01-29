@@ -267,7 +267,7 @@ public class Game {
 		if(client.inGame()){
 			menus.setActiveMenu(inGameMenu);
 			board = client.getBoard();
-			boardPainter.setBoard(board);
+			
 		}
 	}
 	private void updateInGameMenu(Menu active) {

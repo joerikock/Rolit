@@ -30,7 +30,9 @@ public class Client implements Runnable {
 	private ClientListener listener;
 	private Board clientBoard;
 	BoardGUI boardGui;
-	public Client(String name, String password, int port, String serverName, Board board, BoardGUI boardgui) {
+
+	public Client(String name, String password, int port, String serverName,
+			Board board, BoardGUI boardgui) {
 		InetAddress ip = null;
 
 		try {
@@ -56,7 +58,7 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 		// Start a new Thread for listening for incoming messages
-		listener = new ClientListener(bufferedReader,this);
+		listener = new ClientListener(bufferedReader, this);
 		Thread listenerThread = new Thread(listener);
 		listenerThread.start();
 		count++;
@@ -75,15 +77,22 @@ public class Client implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if(this.inGame){
-				if(this.currentPlayer){
-					if(clientBoard.currentPlayer().hasMove()){
-						clientBoard.currentPlayer().makeMove(clientBoard);
-						
+			if (this.inGame) {
+				if (this.currentPlayer) {
+					System.out.println(this.name+" is current player");
+					if (clientBoard.currentPlayer().hasMove()) {
+						int[] position = clientBoard.currentPlayer()
+								.determineMove(clientBoard);
+						if (position != null) {
+							String[] args = { position[0] + "",
+									position[1] + "" };
+							this.sendMessage("move", args);
+						}
 					}
+					// clientBoard.currentPlayer().makeMove(clientBoard);
+
 				}
 			}
-
 		}
 
 	}
@@ -122,11 +131,12 @@ public class Client implements Runnable {
 		gotAck = false;
 	}
 
-	private static class ClientListener implements Runnable{
+	private static class ClientListener implements Runnable {
 
 		private BufferedReader bufferedReader;
 		private Client client;
-		public ClientListener(BufferedReader bufferedReader, Client client){
+
+		public ClientListener(BufferedReader bufferedReader, Client client) {
 			this.bufferedReader = bufferedReader;
 			this.client = client;
 		}
@@ -145,31 +155,31 @@ public class Client implements Runnable {
 				if (message != null) {
 					String[] messageParts = message.split(" ");
 					System.out.println("readMessage: " + message);
-					if(messageParts.length>0){
-						if(messageParts[0].equals("newGame")){
+					if (messageParts.length > 0) {
+						if (messageParts[0].equals("newGame")) {
 							ArrayList<String> names = new ArrayList<String>();
-							for(int i=1; i<messageParts.length;i++){
+							for (int i = 1; i < messageParts.length; i++) {
 								names.add(messageParts[i]);
 							}
 							client.startGame(names);
 						}
 					}
-					if(client.inGame()){
-						if(messageParts[0].equals("yourTurn")){
+					if (client.inGame()) {
+						if (messageParts[0].equals("yourTurn")) {
 							client.setActive();
 						}
 					}
-					if(messageParts.length==2){
-						if(messageParts[0].equals("loginAck")){
-							if(messageParts[1].equals("welcome")){
-								//Login worked
+					if (messageParts.length == 2) {
+						if (messageParts[0].equals("loginAck")) {
+							if (messageParts[1].equals("welcome")) {
+								// Login worked
 								System.out.println("Loggin worked!!!!!");
 							}
-							if(messageParts[1].equals("incorrect")){
-								//Login failed
+							if (messageParts[1].equals("incorrect")) {
+								// Login failed
 							}
 						}
-						
+
 					}
 
 				}
@@ -183,31 +193,37 @@ public class Client implements Runnable {
 		String[] c = { String.valueOf(playerCount) };
 		sendMessage("join", c);
 	}
-	public void startGame(ArrayList<String> players){
+
+	public void startGame(ArrayList<String> players) {
 		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		playerList.remove(name);
 		playerList.add(new HumanPlayer(name, 0, boardGui));
-		for(int i=0; i<players.size();i++){
-			Player p = new NetworkPlayer(players.get(i),i+1);
+		for (int i = 0; i < players.size(); i++) {
+			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);
 		}
 		clientBoard = new Board();
 		this.clientBoard.newGame(playerList);
+		boardGui.setBoard(clientBoard);
 		inGame = true;
-		
+
 	}
-	private void setActive(){
+
+	private void setActive() {
 		currentPlayer = true;
 	}
-	public boolean inGame(){
+
+	public boolean inGame() {
 		return inGame;
 	}
-	public Board getBoard(){
+
+	public Board getBoard() {
 		return this.clientBoard;
 	}
+
 	public static void main(String[] args) {
-		
+
 		Client client1 = new Client("Dr.Schnappus", "sda", 1235, "localHost");
 		Thread client1Thread = new Thread((Runnable) client1);
 		client1Thread.start();
