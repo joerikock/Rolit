@@ -68,7 +68,7 @@ public class IngameMenu extends Menu {
 		this.addGuiObject(blueScore);
 		
 		this.winner = new TextOutputField("winner", 150, 100);
-		winner.setText("YOLO");
+		winner.setText("");
 		winner.setColor(1, 1, 1);
 		this.addGuiObject(winner);
 	}
