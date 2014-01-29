@@ -1,6 +1,8 @@
 package multiplayer;
 
 import game.Board;
+import game.BoardGUI;
+import game.HumanPlayer;
 import game.NetworkPlayer;
 import game.Player;
 
@@ -21,13 +23,14 @@ public class Client implements Runnable {
 	private boolean gotAck;
 	private boolean inGame;
 	private Player player;
-	private boolean sendGameRequest;
+	private boolean sendGameRequest, currentPlayer;
 	private int gamePlayerCount;
 	private BufferedReader bufferedReader;
 	private String lastServerMessage;
 	private ClientListener listener;
 	private Board clientBoard;
-	public Client(String name, String password, int port, String serverName, Board board) {
+	BoardGUI boardGui;
+	public Client(String name, String password, int port, String serverName, Board board, BoardGUI boardgui) {
 		InetAddress ip = null;
 
 		try {
@@ -62,6 +65,7 @@ public class Client implements Runnable {
 		String[] a = { name, password };
 		sendMessage("login", a);
 		this.clientBoard = board;
+		this.boardGui = boardgui;
 	}
 
 	public void close() {
@@ -71,14 +75,14 @@ public class Client implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			// System.out.println("Running");
-			// String s = readMessage();
-//			String s = listener.getLastMessage();
-//			if (s!= null) {
-//				System.out.println("Client " + name + "  fetching : " + s);
-////				lastServerMessage = null;
-//				listener.lastMessageFetched();
-//			}
+			if(this.inGame){
+				if(this.currentPlayer){
+					if(clientBoard.currentPlayer().hasMove()){
+						clientBoard.currentPlayer().makeMove(clientBoard);
+						
+					}
+				}
+			}
 
 		}
 
@@ -150,6 +154,11 @@ public class Client implements Runnable {
 							client.startGame(names);
 						}
 					}
+					if(client.inGame()){
+						if(messageParts[0].equals("yourTurn")){
+							client.setActive();
+						}
+					}
 					if(messageParts.length==2){
 						if(messageParts[0].equals("loginAck")){
 							if(messageParts[1].equals("welcome")){
@@ -177,9 +186,10 @@ public class Client implements Runnable {
 	public void startGame(ArrayList<String> players){
 		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList.remove(name);
+		playerList.add(new HumanPlayer(name, 0, boardGui));
 		for(int i=0; i<players.size();i++){
-			Player p = new NetworkPlayer(players.get(i),i);
-		
+			Player p = new NetworkPlayer(players.get(i),i+1);
 			playerList.add(p);
 		}
 		clientBoard = new Board();
@@ -187,8 +197,14 @@ public class Client implements Runnable {
 		inGame = true;
 		
 	}
+	private void setActive(){
+		currentPlayer = true;
+	}
 	public boolean inGame(){
 		return inGame;
+	}
+	public Board getBoard(){
+		return this.clientBoard;
 	}
 	public static void main(String[] args) {
 		

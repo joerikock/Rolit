@@ -234,7 +234,7 @@ public class Game {
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
 				try{
-					client = new Client(login.getUser(), login.getPassword(),1235, "localHost", board);
+					client = new Client(login.getUser(), login.getPassword(),1235, "localHost", board, boardPainter);
 				}catch(Exception e){
 					System.out.println("Login Failed");
 				}
@@ -267,7 +267,9 @@ public class Game {
 			client.requestGame(2);
 		}
 		if(client.inGame()){
-			menus.setActiveMenu(active);
+			menus.setActiveMenu(inGameMenu);
+			board = client.getBoard();
+			boardPainter.setBoard(board);
 		}
 	}
 	private void updateNewGameMenu(Menu active) {

@@ -20,7 +20,7 @@ public class MultiSocket implements Runnable {
 		private ArrayList<String> playerNames;
 		private ArrayList<Player> players;
 		private Board board;
-		boolean gameRunning;
+		boolean gameRunning,justStarted;
 		public int playerCount;
 
 		public Session(int playerCount, String clientName) {
@@ -84,6 +84,7 @@ public class MultiSocket implements Runnable {
 
 		public void startGame() {
 			board.newGame(players);
+			justStarted = true;
 			gameRunning = true;
 		}
 
@@ -91,7 +92,10 @@ public class MultiSocket implements Runnable {
 		public void run() {
 
 			if (gameRunning) {
-				// if(board.currentPlayer().hasMove())
+				if(board.modified()||justStarted){
+					socketList.get(clients.get(board.currentPlayer().getName())).sendMessage("yourTurn", null);
+					
+				}
 			}
 
 		}
