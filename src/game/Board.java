@@ -123,6 +123,30 @@ public class Board {
 		this.players = playerData;
 	}
 	
+	/*@
+	 * requires id != null;
+	 * ensures \result >= 0 && \result <= 64;
+	 */
+	/**
+	 * Method for counting the number of fields a given player has.
+	 * 
+	 * @param id
+	 * 			the color of the player.
+	 * @return
+	 * 			the number of fields the player has.
+	 */
+	public int getNumberOfFields(int id) {
+		int result = 0;
+		for (int i = 0; i < FIELD_WIDTH; i++) {
+			for (int j = 0; j < FIELD_HEIGHT; j++) {
+				if (getField(i, j) == id) {
+					result += 1;
+				}
+			}
+		}
+		return result;
+	}
+	
 	/*
 	 * ensures \result == this.newBall;
 	 */

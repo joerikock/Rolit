@@ -195,6 +195,7 @@ public class Game {
 
 		menus.update(x, y, mouseDown, input);
 		if (active == inGameMenu) {
+			updateInGameMenu(active);
 			gameActive = true;
 			if (active.lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
@@ -264,16 +265,32 @@ public class Game {
 			
 			client.requestGame(2);
 		}
-		if(client.inGame()){
+		if (client.inGame()) {
 			menus.setActiveMenu(inGameMenu);
 			board = client.getBoard();
 			
 		}
 	}
 	private void updateInGameMenu(Menu active) {
-		TextOutputField field;
-		field = (TextOutputField) (active.getElement("redScore"));
-//		field.setText();
+		TextOutputField red;
+		red = (TextOutputField) (active.getElement("redScore"));
+		red.setText(this.getBoard().getNumberOfFields(0) + "");
+		
+		TextOutputField yellow;
+		yellow = (TextOutputField) (active.getElement("yellowScore"));
+		yellow.setText(this.getBoard().getNumberOfFields(1) + "");
+		
+		TextOutputField green;
+		green = (TextOutputField) (active.getElement("greenScore"));
+		green.setText(this.getBoard().getNumberOfFields(3) + "");
+		
+		TextOutputField blue;
+		blue = (TextOutputField) (active.getElement("blueScore"));
+		blue.setText(this.getBoard().getNumberOfFields(2) + "");
+		
+		if (this.getBoard().finished()) {
+			
+		}
 	}
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
