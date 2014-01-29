@@ -289,7 +289,12 @@ public class Game {
 		blue.setText(this.getBoard().getNumberOfFields(2) + "");
 		
 		if (this.getBoard().finished()) {
-			
+			if (this.getBoard().getWinner() == -1) {
+				
+			}
+			TextOutputField winner;
+			winner = (TextOutputField) (active.getElement("winner"));
+			winner.setText("The winner is ");
 		}
 	}
 	private void updateNewGameMenu(Menu active) {
