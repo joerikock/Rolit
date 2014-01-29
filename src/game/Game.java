@@ -33,51 +33,51 @@ public class Game {
 	 * Creating a constant tools, used for generating random booleans, integers,
 	 * doubles and floats.
 	 */
-//	public static final Tools TOOLS = new Tools();
+	// public static final Tools TOOLS = new Tools();
 
 	// Instance variables -----------------------------------------------
 
-	/*@
-	 * private invariant menus != null;
+	/*
+	 * @ private invariant menus != null;
 	 */
 	/**
 	 * Creates a MenuManager.
 	 */
 	private MenuManager menus;
 
-	/*@
-	 * private invariant login != null;
+	/*
+	 * @ private invariant login != null;
 	 */
 	/**
 	 * Creates a LoginMenu.
 	 */
 	private LoginMenu login;
 
-	/*@
-	 * private invariant mainMenu != null;
+	/*
+	 * @ private invariant mainMenu != null;
 	 */
 	/**
 	 * Creates a main menu.
 	 */
 	private MainMenu mainMenu;
 
-	/*@
-	 * private invariant inGameMenu != null;
+	/*
+	 * @ private invariant inGameMenu != null;
 	 */
 	/**
 	 * Creates an in-game menu.
 	 */
 	private IngameMenu inGameMenu;
 
-	/*@
-	 * private invariant newGameMenu != null;
+	/*
+	 * @ private invariant newGameMenu != null;
 	 */
 	/**
 	 * Menu for selecting players.
 	 */
 	private NewGameMenu newGameMenu;
-	/*@
-	 * private invariant onlineGameMenu != null;
+	/*
+	 * @ private invariant onlineGameMenu != null;
 	 */
 	/**
 	 * Menu for selecting players.
@@ -88,54 +88,58 @@ public class Game {
 	 * Client for playing online. (can be null, if offline)
 	 */
 	private Client client;
-	
-	/*@
-	 * private invariant boardPainter != null;
+
+	/*
+	 * @ private invariant boardPainter != null;
 	 */
 	/**
 	 * Creates a BoardGUI object.
 	 */
 	private BoardGUI boardPainter;
 
-	/*@
-	 * private invariant bg != null;
+	/*
+	 * @ private invariant bg != null;
 	 */
 	/**
 	 * Creates an animated background for the login- and the main menu.
 	 */
 	private AnimatedBackGround bg;
 
-	/*@
-	 * private invariant board != null;
+	/*
+	 * @ private invariant board != null;
 	 */
 	/**
 	 * Creates a board.
 	 */
 	private Board board;
 
-	/*@
-	 * private invariant gameActive == true || gameActive == false;
+	/*
+	 * @ private invariant gameActive == true || gameActive == false;
 	 */
 	/**
 	 * Creates a boolean defining whether the game is currently active.
 	 */
 	private boolean gameActive;
 
-	/*@
-	 * private invariant players != null;
+	/*
+	 * @ private invariant players != null;
 	 */
 	/**
 	 * Creates an array for the players.
 	 */
 	private Player[] players;
 
-	/*@
-	 * private invariant showHints == true || showHints == false;
+	/*
+	 * @ private invariant showHints == true || showHints == false;
 	 */
 	/**
 	 * Boolean deciding whether hints are displayed during the game.
 	 */
 	private boolean showHints;
+	/**
+	 * Boolean deciding whether current game is online or not
+	 */
+	private boolean onlineGame;
 
 	// Constructors --------------------------------------------------------
 
@@ -162,8 +166,8 @@ public class Game {
 
 	// Queries -------------------------------------------------------------
 
-	/*@
-	 * ensures \result = this.board;
+	/*
+	 * @ ensures \result = this.board;
 	 */
 	/**
 	 * Method for retrieving the board.
@@ -174,8 +178,8 @@ public class Game {
 		return board;
 	}
 
-	/*@
-	 * requires mouseDown == true || mouseDown == false;
+	/*
+	 * @ requires mouseDown == true || mouseDown == false;
 	 */
 	/**
 	 * Updates the Menus and the game. Passes user input.
@@ -219,7 +223,7 @@ public class Game {
 			if (active.lastClickedElement() == "Play Online") {
 				menus.setActiveMenu(onlineGameMenu);
 			}
-			
+
 		}
 		if (active == newGameMenu) {
 			updateNewGameMenu(active);
@@ -232,9 +236,10 @@ public class Game {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
-				try{
-					client = new Client(login.getUser(), login.getPassword(),1235, "localHost", board, boardPainter);
-				}catch(Exception e){
+				try {
+					client = new Client(login.getUser(), login.getPassword(),
+							1235, "localHost", board, boardPainter);
+				} catch (Exception e) {
 					System.out.println("Login Failed");
 				}
 				if (client != null) {
@@ -249,49 +254,55 @@ public class Game {
 		boardPainter.update(x, y, mouseDown, showHints);
 		gameActive = true;
 		if (boardPainter.animationDone()) {
-			if (!board.finished()) {
-				if (board.currentPlayer().hasMove()) {
-					board.currentPlayer().makeMove(board);
+			if (!onlineGame) {
+				if (!board.finished()) {
+					if (board.currentPlayer().hasMove()) {
+						board.currentPlayer().makeMove(board);
+					}
 				}
 			}
+			board.update();
 		}
-		board.update();
 	}
+
 	private void updateOnlineGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Back") {
 			menus.setActiveMenu(mainMenu);
 		}
 		if (active.lastClickedElement() == "Connect") {
-			
+			onlineGame = true;
 			client.requestGame(2);
+			board = client.getBoard();
 		}
 		if (client.inGame()) {
 			menus.setActiveMenu(inGameMenu);
-			board = client.getBoard();
 			
+
 		}
 	}
+
 	private void updateInGameMenu(Menu active) {
 		TextOutputField red;
 		red = (TextOutputField) (active.getElement("redScore"));
-		red.setText(this.getBoard().getNumberOfFields(0) + "");
-		
+		red.setText(this.board.getNumberOfFields(0) + "");
+
 		TextOutputField yellow;
 		yellow = (TextOutputField) (active.getElement("yellowScore"));
-		yellow.setText(this.getBoard().getNumberOfFields(1) + "");
-		
+		yellow.setText(this.board.getNumberOfFields(1) + "");
+
 		TextOutputField green;
 		green = (TextOutputField) (active.getElement("greenScore"));
-		green.setText(this.getBoard().getNumberOfFields(3) + "");
-		
+		green.setText(this.board.getNumberOfFields(3) + "");
+
 		TextOutputField blue;
 		blue = (TextOutputField) (active.getElement("blueScore"));
-		blue.setText(this.getBoard().getNumberOfFields(2) + "");
-		
-		if (this.getBoard().finished()) {
-			
+		blue.setText(this.board.getNumberOfFields(2) + "");
+
+		if (this.board.finished()) {
+
 		}
 	}
+
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {
 			if (active.getSelectedChild("Show hints") == "On") {
@@ -304,7 +315,7 @@ public class Game {
 			/**
 			 * Fetch players & hints
 			 */
-			String[] playerColors = {"Red", "Green", "Blue", "Yellow"};
+			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
 			for (int i = 0; i < 4; i++) {
 
 				if (active.getSelectedChild(playerColors[i]).equals(
@@ -321,7 +332,8 @@ public class Game {
 
 					players[i] = new SmartPlayer(i);
 				}
-				if (active.getSelectedChild(playerColors[i]).equals("No Player")) {
+				if (active.getSelectedChild(playerColors[i])
+						.equals("No Player")) {
 					players[i] = null;
 				}
 			}
@@ -332,6 +344,7 @@ public class Game {
 				}
 			}
 			if (playerList.size() > 1) {
+				onlineGame = false;
 				board = new Board();
 				board.newGame(playerList);
 				boardPainter.setBoard(board);

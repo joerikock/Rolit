@@ -20,7 +20,7 @@ public class MultiSocket implements Runnable {
 		private ArrayList<String> playerNames;
 		private ArrayList<Player> players;
 		private Board board;
-		boolean gameRunning,justStarted;
+		boolean gameRunning, justStarted;
 		public int playerCount;
 
 		public Session(int playerCount, String clientName) {
@@ -44,21 +44,25 @@ public class MultiSocket implements Runnable {
 		public boolean isInGame() {
 			return gameRunning;
 		}
-		public void sendToPlayers(String message, String[] args){
-			for(int i=0; i<playerNames.size();i++){
-				
-				socketList.get(clients.get(playerNames.get(i))).sendMessage(message, args);
+
+		public void sendToPlayers(String message, String[] args) {
+			for (int i = 0; i < playerNames.size(); i++) {
+
+				socketList.get(clients.get(playerNames.get(i))).sendMessage(
+						message, args);
 			}
 		}
+
 		public boolean join(String name) {
 			if (!gameRunning && playerNames.size() < playerCount) {
 				playerNames.add(name);
 				System.out.println(name + " joined session. "
 						+ playerNames.size() + " | " + playerCount);
-				if(playerNames.size()==playerCount){
+				if (playerNames.size() == playerCount) {
 					System.out.println("Session full. Starting Game!");
 					gameRunning = true;
-					sendToPlayers("newGame", playerNames.toArray(new String[playerNames.size()]));
+					sendToPlayers("newGame",
+							playerNames.toArray(new String[playerNames.size()]));
 				}
 				return true;
 			}
@@ -90,14 +94,18 @@ public class MultiSocket implements Runnable {
 
 		@Override
 		public void run() {
+			while (true) {
+//				System.out.println("Session running");
+				if (gameRunning) {
+					System.out.println("Session in game");
+					if (board.modified() || justStarted) {
+						socketList.get(
+								clients.get(board.currentPlayer().getName()))
+								.sendMessage("yourTurn", null);
 
-			if (gameRunning) {
-				if(board.modified()||justStarted){
-					socketList.get(clients.get(board.currentPlayer().getName())).sendMessage("yourTurn", null);
-					
+					}
 				}
 			}
-
 		}
 
 		public Player currentPlayer() {
@@ -133,6 +141,8 @@ public class MultiSocket implements Runnable {
 			if (sessions.size() == 0) {
 				Session session = new Session(playerCount, playerName);
 				sessions.add(session);
+				Thread sessionThread = new Thread(session);
+				sessionThread.start();
 				return session;
 			} else {
 				for (int i = 0; i < sessions.size(); i++) {
@@ -334,14 +344,14 @@ public class MultiSocket implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Send "+message+" to "+this.clientName);
+		System.out.println("Send " + message + " to " + this.clientName);
 		String append = new String();
 		if (args != null) {
 			for (int index = 0; index < args.length; index++) {
 				append += " " + args[index];
 			}
 		}
-		printWriter.println(message+append);
+		printWriter.println(message + append);
 		printWriter.flush();
 	}
 
