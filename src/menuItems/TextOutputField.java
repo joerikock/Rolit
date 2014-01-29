@@ -1,12 +1,16 @@
 package menuItems;
 
+import java.awt.Color;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.me.mygdxgame.RollIt;
 
-public class TextOutputField extends GuiObject{
+public class TextOutputField extends GuiObject {
 	String string, displayString;
 	String empty;
 	private boolean textVisible;
+	private float r, g, b;
 
 	/**
 	 * Creates a new TextInputField that can be used to get text input from the
@@ -24,9 +28,10 @@ public class TextOutputField extends GuiObject{
 		this.displayString = "";
 		this.textVisible = true;
 		super.setDimensions(x, y, 150, 40);
+		
 	}
 
-	public void setText(String text){
+	public void setText(String text) {
 		this.string = text;
 	}
 
@@ -41,6 +46,15 @@ public class TextOutputField extends GuiObject{
 	 */
 	public String getInput() {
 		return this.string;
+	}
+	
+	/**
+	 * Function for setting the colour of the text.
+	 */
+	public void setColor(float r, float g, float b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
 	}
 
 	/**
@@ -62,21 +76,17 @@ public class TextOutputField extends GuiObject{
 	 * Draws the String.
 	 */
 	@Override
+	public void drawOverLay(SpriteBatch batch) { }
+	
+	@Override
+	public void shapesDraw(ShapeRenderer shapes) { }
+	
 	public void batchDraw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		// System.out.println("sad");
-
-		// batch.begin();
-		// RollIt.FONT.setScale(.8f);
-		RollIt.FONT.setColor(1, 0, 0, alpha);
-		// If the string is empty display standart text e.g "name" or "password"
+		RollIt.FONT.setColor(r, g, b, alpha);
 		if (string.length() == 0) {
 			RollIt.FONT.draw(batch, empty, x,
 					y + height / 2 + RollIt.FONT.getXHeight());
 		} else {
-			// If it is not empty render the string itself or a string
-			// representing the length of the string
-			// if textVisible is set to false
 			if (!this.textVisible) {
 				if (this.displayString.length() != this.string.length()) {
 					this.displayString = "";
@@ -87,19 +97,9 @@ public class TextOutputField extends GuiObject{
 			} else {
 				this.displayString = string;
 			}
-
-			// AWESOME!!!!!
-			// System.out.println(RollIt.FONT.computeVisibleGlyphs(displayString,
-			// 0, displayString.length(), this.width));
-
 			cutDisplayString();
 			RollIt.FONT.draw(batch, displayString, x, y + height / 2
 					+ RollIt.FONT.getCapHeight());
 		}
-
-		// batch.end();
-
 	}
-
 }
-
