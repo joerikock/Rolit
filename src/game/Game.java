@@ -236,16 +236,16 @@ public class Game {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
-				try {
-					client = new Client(login.getUser(), login.getPassword(),
-							1235, "localHost", board, boardPainter);
-				} catch (Exception e) {
-					System.out.println("Login Failed");
-				}
-				if (client != null) {
-					Thread clientThread = new Thread(client);
-					clientThread.start();
-				}
+//				try {
+//					client = new Client(login.getUser(), login.getPassword(),
+//							1235, "localHost", board, boardPainter);
+//				} catch (Exception e) {
+//					System.out.println("Login Failed");
+//				}
+//				if (client != null) {
+//					Thread clientThread = new Thread(client);
+//					clientThread.start();
+//				}
 			}
 		}
 	}
@@ -254,15 +254,20 @@ public class Game {
 		boardPainter.update(x, y, mouseDown, showHints);
 		gameActive = true;
 		if (boardPainter.animationDone()) {
-			if (!onlineGame) {
+//			if (!onlineGame) {
 				if (!board.finished()) {
 					if (board.currentPlayer().hasMove()) {
 						board.currentPlayer().makeMove(board);
+						
 					}
+					
 				}
-			}
-			board.update();
+				
+				
+//			}
+			
 		}
+		board.update();
 	}
 
 	private void updateOnlineGameMenu(Menu active) {

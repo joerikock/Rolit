@@ -66,7 +66,7 @@ public class Client implements Runnable {
 		System.out.println("Client init. " + name);
 		String[] a = { name, password };
 		sendMessage("login", a);
-		this.clientBoard = board;
+//		this.clientBoard = board;
 		this.boardGui = boardgui;
 	}
 
@@ -205,7 +205,6 @@ public class Client implements Runnable {
 		}
 		clientBoard = new Board();
 		this.clientBoard.newGame(playerList);
-		boardGui.setBoard(clientBoard);
 		inGame = true;
 
 	}

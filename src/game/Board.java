@@ -607,7 +607,7 @@ public class Board {
 					changes.clear();
 				}
 				if (newBall) {
-
+					System.out.println("BOARD NEW BALL");
 					changes = this.resultingChangesForMove(newBallX, newBallY,
 							newBallColor);
 					for (int i = 0; i < changes.size(); i++) {
