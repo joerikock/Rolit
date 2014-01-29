@@ -10,6 +10,7 @@ import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
 import rollitMenus.NewGameMenu;
 import rollitMenus.OnlineGameMenu;
+import menuItems.TextOutputField;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -264,6 +265,9 @@ public class Game {
 			
 			client.requestGame(2);
 		}
+	}
+	private void updateInGameMenu(Menu active) {
+		(TextOutputField) active.getElement("redScore");
 	}
 	private void updateNewGameMenu(Menu active) {
 		if (active.lastClickedElement() == "Start") {

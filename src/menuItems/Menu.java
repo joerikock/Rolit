@@ -251,7 +251,7 @@ public abstract class Menu {
 	 *            The name of the desired GuiObject.
 	 * @return
 	 */
-	private GuiObject getElement(String name) {
+	public GuiObject getElement(String name) {
 		for (int i = 0; i < this.guiObjects.size(); i++) {
 			if (guiObjects.get(i).getName().equals(name)) {
 				return guiObjects.get(i);
