@@ -27,12 +27,12 @@ public class IngameMenu extends Menu {
 		this.addGuiObject(score);
 		
 		this.red = new TextOutputField("red", 150, 350);
-		red.setText("Red:");
+		red.setText("Red");
 		red.setColor(1, 0, 0);
 		this.addGuiObject(red);
 		
 		this.yellow = new TextOutputField("yellow", 150, 300);
-		yellow.setText("Yellow:");
+		yellow.setText("Yellow");
 		yellow.setColor(1, 1, 0);
 		this.addGuiObject(yellow);
 		

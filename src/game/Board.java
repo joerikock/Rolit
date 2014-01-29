@@ -123,6 +123,18 @@ public class Board {
 		this.players = playerData;
 	}
 	
+	public int getNumberOfFields (int id) {
+		int result = 0;
+		for (int i = 0; i < FIELD_WIDTH; i++) {
+			for (int j = 0; j < FIELD_HEIGHT; j++) {
+				if (getField(i, j) == id) {
+					result += 1;
+				}
+			}
+		}
+		return result;
+	}
+	
 	/*
 	 * ensures \result == this.newBall;
 	 */
