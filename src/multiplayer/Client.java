@@ -1,6 +1,7 @@
 package multiplayer;
 
-import game.HumanPlayer;
+import game.Board;
+import game.NetworkPlayer;
 import game.Player;
 
 import java.io.BufferedReader;
@@ -11,19 +12,22 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class Client implements Runnable {
 	private Socket socket;
 	private static int count = 0;
 	private String name;
 	private boolean gotAck;
+	private boolean inGame;
 	private Player player;
 	private boolean sendGameRequest;
 	private int gamePlayerCount;
 	private BufferedReader bufferedReader;
 	private String lastServerMessage;
 	private ClientListener listener;
-	public Client(String name, String password, int port, String serverName) {
+	private Board clientBoard;
+	public Client(String name, String password, int port, String serverName, Board board) {
 		InetAddress ip = null;
 
 		try {
@@ -57,7 +61,7 @@ public class Client implements Runnable {
 		System.out.println("Client init. " + name);
 		String[] a = { name, password };
 		sendMessage("login", a);
-
+		this.clientBoard = board;
 	}
 
 	public void close() {
@@ -137,6 +141,15 @@ public class Client implements Runnable {
 				if (message != null) {
 					String[] messageParts = message.split(" ");
 					System.out.println("readMessage: " + message);
+					if(messageParts.length>0){
+						if(messageParts[0].equals("newGame")){
+							ArrayList<String> names = new ArrayList<String>();
+							for(int i=1; i<messageParts.length;i++){
+								names.add(messageParts[i]);
+							}
+							client.startGame(names);
+						}
+					}
 					if(messageParts.length==2){
 						if(messageParts[0].equals("loginAck")){
 							if(messageParts[1].equals("welcome")){
@@ -161,9 +174,24 @@ public class Client implements Runnable {
 		String[] c = { String.valueOf(playerCount) };
 		sendMessage("join", c);
 	}
-	
+	public void startGame(ArrayList<String> players){
+		inGame = true;
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		for(int i=0; i<players.size();i++){
+			Player p = new NetworkPlayer(players.get(i),i);
+		
+			playerList.add(p);
+		}
+		clientBoard = new Board();
+		this.clientBoard.newGame(playerList);
+		inGame = true;
+		
+	}
+	public boolean inGame(){
+		return inGame;
+	}
 	public static void main(String[] args) {
-
+		
 		Client client1 = new Client("Dr.Schnappus", "sda", 1235, "localHost");
 		Thread client1Thread = new Thread((Runnable) client1);
 		client1Thread.start();

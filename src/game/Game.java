@@ -231,10 +231,16 @@ public class Game {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
+<<<<<<< HEAD
 				try {
 					client = new Client(login.getUser(), 
 							login.getPassword(), 1235, "localHost");
 				} catch (Exception e) {
+=======
+				try{
+					client = new Client(login.getUser(), login.getPassword(),1235, "localHost", board);
+				}catch(Exception e){
+>>>>>>> 289ffe65cec3f3602ed8ac423b0bbc68defdd179
 					System.out.println("Login Failed");
 				}
 				if (client != null) {
@@ -264,6 +270,9 @@ public class Game {
 		if (active.lastClickedElement() == "Connect") {
 			
 			client.requestGame(2);
+		}
+		if(client.inGame()){
+			menus.setActiveMenu(active);
 		}
 	}
 	private void updateInGameMenu(Menu active) {

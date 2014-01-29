@@ -119,6 +119,7 @@ public class Board {
 	 *            Array of Player instances that will participate in the game.
 	 */
 	public void newGame(ArrayList<Player> playerData) {
+		System.out.println("Starting a new game with "+playerData.size()+" players");
 		this.players = playerData;
 	}
 	
