@@ -281,6 +281,7 @@ public class Game {
 		}
 		if (client.inGame()) {
 			board = client.getBoard();
+			System.out.println("Client returned Board: " +board);
 			boardPainter.setBoard(board);
 			menus.setActiveMenu(inGameMenu);
 

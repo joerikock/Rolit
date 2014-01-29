@@ -1,6 +1,7 @@
 package multiplayer;
 
 import game.Board;
+import game.NetworkPlayer;
 import game.Player;
 
 import java.io.BufferedReader;
@@ -60,7 +61,11 @@ public class MultiSocket implements Runnable {
 						+ playerNames.size() + " | " + playerCount);
 				if (playerNames.size() == playerCount) {
 					System.out.println("Session full. Starting Game!");
+					for(int i=0; i<playerNames.size();i++){
+						players.add(new NetworkPlayer(playerNames.get(i),i));
+					}
 					gameRunning = true;
+					startGame();
 					sendToPlayers("newGame",
 							playerNames.toArray(new String[playerNames.size()]));
 				}
@@ -87,6 +92,7 @@ public class MultiSocket implements Runnable {
 		}
 
 		public void startGame() {
+		
 			board.newGame(players);
 			justStarted = true;
 			gameRunning = true;
@@ -95,7 +101,6 @@ public class MultiSocket implements Runnable {
 		@Override
 		public void run() {
 			while (true) {
-//				System.out.println("Session running");
 				if (gameRunning) {
 					System.out.println("Session in game");
 					if (board.modified() || justStarted) {
