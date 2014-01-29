@@ -321,7 +321,6 @@ public class Game {
 			} else if (this.getBoard().getWinner() == 2) {
 				winner.setText("The winner is Blue");
 			}
-
 		}
 	}
 
