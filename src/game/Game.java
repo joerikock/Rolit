@@ -204,41 +204,39 @@ public class Game {
 		} else {
 			bg.update();
 		}
-		if(active == onlineGameMenu){
+		if (active == onlineGameMenu) {
 			this.updateOnlineGameMenu(active);
 		}
-		/**
-		 * If a game is not in progress render a dummy field that randomly
-		 * changes colors so the menu looks better.
-		 */
 		if (active == mainMenu) {
 			if (active.lastClickedElement() == "Exit") {
 				System.exit(0);
 			}
 			if (active.lastClickedElement() == "New Game") {
-
 				menus.setActiveMenu(newGameMenu);
 			}
-			if(active.lastClickedElement() == "Play Online"){
-
+			if (active.lastClickedElement() == "Play Online") {
 				menus.setActiveMenu(onlineGameMenu);
 			}
+			
 		}
 		if (active == newGameMenu) {
 			updateNewGameMenu(active);
-
+			if (active.lastClickedElement() == "Back") {
+				menus.setActiveMenu(mainMenu);
+			}
 		}
 		if (active == login) {
 			if (active.lastClickedElement() == "Login") {
 				System.out.println("Loggin in with: " + login.getUser() + ", "
 						+ login.getPassword());
 				menus.setActiveMenu(mainMenu);
-				try{
-					client = new Client(login.getUser(), login.getPassword(),1235, "localHost");
-				}catch(Exception e){
+				try {
+					client = new Client(login.getUser(), 
+							login.getPassword(), 1235, "localHost");
+				} catch (Exception e) {
 					System.out.println("Login Failed");
 				}
-				if(client!=null){
+				if (client != null) {
 					Thread clientThread = new Thread(client);
 					clientThread.start();
 				}
@@ -258,11 +256,11 @@ public class Game {
 		}
 		board.update();
 	}
-	private void updateOnlineGameMenu(Menu active){
-		if(active.lastClickedElement() == "Back"){
+	private void updateOnlineGameMenu(Menu active) {
+		if (active.lastClickedElement() == "Back") {
 			menus.setActiveMenu(mainMenu);
 		}
-		if(active.lastClickedElement() == "Connect"){
+		if (active.lastClickedElement() == "Connect") {
 			
 			client.requestGame(2);
 		}

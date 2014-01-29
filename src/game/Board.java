@@ -604,7 +604,6 @@ public class Board {
 			}
 			this.modified = true;
 			this.newBall = false;
-			// The next players turn
 			this.nextPlayer();
 			validMovesForNextPlayer = null;
 			this.validMovesForNextPlayer = this.getValidMoveList();
