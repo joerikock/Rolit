@@ -296,12 +296,6 @@ public class Game {
 
 		TextOutputField blue;
 		blue = (TextOutputField) (active.getElement("blueScore"));
-<<<<<<< HEAD
-		blue.setText(this.board.getNumberOfFields(2) + "");
-
-		if (this.board.finished()) {
-
-=======
 		blue.setText(this.getBoard().getNumberOfFields(2) + "");
 		
 		if (this.getBoard().finished()) {
@@ -318,7 +312,7 @@ public class Game {
 			} else if (this.getBoard().getWinner() == 2) {
 				winner.setText("The winner is Blue");
 			}
->>>>>>> 97bd7366258382be2b38af93e8c84080e8b351ba
+
 		}
 	}
 
