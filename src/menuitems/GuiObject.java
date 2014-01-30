@@ -13,15 +13,15 @@ public abstract class GuiObject {
 	/**
 	 * Defines the color for the mouse over effect.
 	 */
-	public static final float[] MOUSEOVER_COLOR = { .3f, .3f, .3f };
+	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = { .8f, .2f, .5f };
+	public static final float[] COLOR = {.8f, .2f, .5f};
 	/**
 	 * Defines the font color.
 	 */
-	public static final float[] FONT_COLOR = { .9f, .9f, .9f };
+	public static final float[] FONT_COLOR = {.9f, .9f, .9f};
 	/**
 	 * Defines the standard height of GuiObjects.
 	 */
@@ -127,7 +127,7 @@ public abstract class GuiObject {
 	public void setSelectAble(boolean isSelectAble) {
 		this.selectAble = isSelectAble;
 	}
-	public void setClickAble(boolean clickeAble){
+	public void setClickAble(boolean clickeAble) {
 		setSelectAble(clickeAble);
 		this.clickAble = false;
 	}
@@ -231,13 +231,12 @@ public abstract class GuiObject {
 	 * @param mouseDown
 	 *            boolean value for the state of the left mouse button.
 	 */
-	public void update(float x, float y, boolean mouseDown) {
+	public void update(float theX, float theY, boolean mouseDown) {
 
 		clicked = false;
-		if(clickAble){
-			
-			mouseOver = (x > this.x && x < this.x + this.width && y > this.y && y < this.y
-					+ this.height);
+		if (clickAble) {
+			mouseOver = theX > this.x && theX < this.x + this.width && 
+					theY > this.y && theY < this.y + this.height;
 		}
 
 

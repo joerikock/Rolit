@@ -28,12 +28,12 @@ public class Button extends GuiObject {
 	 * 
 	 * @param y
 	 */
-	public Button(String text, float x, float y) {
-		super(text);
-		this.text = text;
+	public Button(String theText, float x, float y) {
+		super(theText);
+		this.text = theText;
 		this.heightProgress = 0;
 
-		RollIt.font.getBounds(text);
+		RollIt.font.getBounds(theText);
 		super.setDimensions(x, y, GuiObject.ELEMENT_WIDTH,
 				GuiObject.ELEMENT_HEIGHT);
 		super.setSelectAble(false);
