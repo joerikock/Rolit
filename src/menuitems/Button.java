@@ -33,7 +33,7 @@ public class Button extends GuiObject {
 		this.text = text;
 		this.heightProgress = 0;
 
-		RollIt.FONT.getBounds(text);
+		RollIt.font.getBounds(text);
 		super.setDimensions(x, y, GuiObject.ELEMENT_WIDTH,
 				GuiObject.ELEMENT_HEIGHT);
 		super.setSelectAble(false);
@@ -42,9 +42,9 @@ public class Button extends GuiObject {
 	@Override
 	public void batchDraw(SpriteBatch batch) {
 
-		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
+		RollIt.font.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
 				GuiObject.FONT_COLOR[2], alpha);
-		RollIt.FONT.draw(batch, text, x + 10, y + 30);
+		RollIt.font.draw(batch, text, x + 10, y + 30);
 	}
 
 	@Override

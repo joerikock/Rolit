@@ -88,7 +88,7 @@ public class TextInputField extends GuiObject implements TextInput {
 	private void cutDisplayString() {
 		// checks whether the String can be displayed in the box. if not, the
 		// String is substring so it fits.
-		int maxChars = RollIt.FONT.computeVisibleGlyphs(displayString, 0,
+		int maxChars = RollIt.font.computeVisibleGlyphs(displayString, 0,
 				displayString.length(), this.width);
 		if (maxChars < this.displayString.length()) {
 			this.displayString = displayString.substring(maxChars,
@@ -106,12 +106,12 @@ public class TextInputField extends GuiObject implements TextInput {
 
 		// batch.begin();
 		// RollIt.FONT.setScale(.8f);
-		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
+		RollIt.font.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
 				GuiObject.FONT_COLOR[2], alpha);
 		// If the string is empty display standart text e.g "name" or "password"
 		if (string.length() == 0) {
-			RollIt.FONT.draw(batch, empty, x,
-					y + height / 2 + RollIt.FONT.getXHeight());
+			RollIt.font.draw(batch, empty, x,
+					y + height / 2 + RollIt.font.getXHeight());
 		} else {
 			// If it is not empty render the string itself or a string
 			// representing the length of the string
@@ -132,8 +132,8 @@ public class TextInputField extends GuiObject implements TextInput {
 			// 0, displayString.length(), this.width));
 
 			cutDisplayString();
-			RollIt.FONT.draw(batch, displayString, x, y + height / 2
-					+ RollIt.FONT.getCapHeight());
+			RollIt.font.draw(batch, displayString, x, y + height / 2
+					+ RollIt.font.getCapHeight());
 		}
 
 		// batch.end();

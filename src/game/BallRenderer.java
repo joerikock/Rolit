@@ -20,8 +20,8 @@ public class BallRenderer {
 	/**
 	 * Defines the color codes for 4 players in RGB.
 	 */
-	public static final float[][] PLAYER_COLORS = { { 1, 0, 0 }, { 0, 1, 0 },
-			{ 0, 0, 1 }, { 1, 1, 0 } };
+	public static final float[][] PLAYER_COLORS = {{1, 0, 0}, {0, 1, 0}, 
+		{0, 0, 1}, {1, 1, 0}};
 	/**
 	 * Defines the maximum alpha value for rendering balls.
 	 */
@@ -42,11 +42,11 @@ public class BallRenderer {
 	/**
 	 * Color for mouse_over effect.
 	 */
-	public static final float[] MOUSE_OVER = { 1, 1, 1 };
+	public static final float[] MOUSE_OVER = {1, 1, 1};
 	/**
 	 * Color for suggestions effect.
 	 */
-	public static final float[] CHOICE_COLOR = { 0, 0, 0 };
+	public static final float[] CHOICE_COLOR = {0, 0, 0};
 
 	/**
 	 * The width of the rectangle for rendering and the alpha value for
@@ -88,17 +88,17 @@ public class BallRenderer {
 	 * @param width
 	 *            the width of the field.
 	 */
-	public BallRenderer(float x, float y, float width) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
+	public BallRenderer(float theX, float theY, float theWidth) {
+		this.x = theX;
+		this.y = theY;
+		this.width = theWidth;
 		ballColor = new float[3];
 		renderColor = new float[3];
 		reset();
 	}
 
 	/**
-	 * Sets the initial state of the BallRenderer
+	 * Sets the initial state of the BallRenderer.
 	 */
 	public void reset() {
 		this.colorID = -1;
@@ -114,7 +114,7 @@ public class BallRenderer {
 	 * @return true if the field is empty, false if there is a ball.
 	 */
 	public boolean isClear() {
-		return (colorID == -1);
+		return colorID == -1;
 	}
 
 	/**
@@ -123,8 +123,8 @@ public class BallRenderer {
 	 * @param width
 	 *            The width of the rectangles.
 	 */
-	public void setWidth(float width) {
-		this.width = width;
+	public void setWidth(float theWidth) {
+		this.width = theWidth;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class BallRenderer {
 	 * @return true if the animation is done, false if it is still animating.
 	 */
 	public boolean animationDone() {
-		return (!changing && alpha >= MAX_ALPHA);
+		return !changing && alpha >= MAX_ALPHA;
 	}
 
 	/**
@@ -142,16 +142,16 @@ public class BallRenderer {
 	 * @param colorID
 	 *            the ID of the colour you want to change the rectangle to.
 	 */
-	public void changeColorTo(int colorID) {
+	public void changeColorTo(int theColorID) {
 		if (isClear()) {
 			alpha = 0;
-			this.colorID = colorID;
-			this.ballColor = PLAYER_COLORS[colorID];
+			this.colorID = theColorID;
+			this.ballColor = PLAYER_COLORS[theColorID];
 			animationStep = 2;
 		} else {
 			animationStep = 1;
 		}
-		this.newBallColor = PLAYER_COLORS[colorID];
+		this.newBallColor = PLAYER_COLORS[theColorID];
 
 		this.changing = true;
 	}
@@ -163,8 +163,8 @@ public class BallRenderer {
 	 *            true if the mouse is on top of the rectangle, false if it is
 	 *            not.
 	 */
-	public void setMouseOver(boolean mouseOver) {
-		this.mouseOver = mouseOver;
+	public void setMouseOver(boolean theMouseOver) {
+		this.mouseOver = theMouseOver;
 	}
 
 	/**
