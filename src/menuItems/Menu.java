@@ -156,6 +156,7 @@ public abstract class Menu {
 	 */
 	public void setAlpha(float a) {
 		for (int i = 0; i < guiObjects.size(); i++) {
+//			System.out.println(guiObjects.get(i).getName());
 			guiObjects.get(i).setAlpha(a);
 		}
 	}
@@ -268,4 +269,5 @@ public abstract class Menu {
 	public String getName() {
 		return name;
 	}
+
 }

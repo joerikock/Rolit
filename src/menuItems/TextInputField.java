@@ -39,6 +39,7 @@ public class TextInputField extends GuiObject implements TextInput {
 
 	public void setStandartValue(String text) {
 		this.empty = text;
+		hasStandartValue = true;
 	}
 
 	/**

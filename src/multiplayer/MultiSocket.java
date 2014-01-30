@@ -186,9 +186,9 @@ public class MultiSocket implements Runnable {
 	private static ArrayList<MultiSocket> socketList = new ArrayList<MultiSocket>();
 	private static ArrayList<String> messages = new ArrayList<String>();
 	private static final SessionHandler sessionHandler = new SessionHandler();
-	private static final String user = "Max";
-	private static final String[][] users = { { "max", "hallo" },
-			{ "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
+//	private static final String user = "Max";
+//	private static final String[][] users = { { "max", "hallo" },
+//			{ "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
 	private boolean isClient;
 	private int index;
 	private String clientName;
@@ -240,16 +240,13 @@ public class MultiSocket implements Runnable {
 	 * @param name
 	 * @param password
 	 */
-	private boolean validateUser(String name, String password) {
-		for (int i = 0; i < users.length; i++) {
-			if (users[i][0].equals(name)) {
-				if (users[i][1].equals(password)) {
-					System.out.println("ValidUser!");
-					return true;
-				}
+	private boolean validateUser(String name) {
+		for(String user : clients.keySet()){
+			if(user.equals(name)){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public static String[] getClientMessage(String name) {
@@ -314,16 +311,12 @@ public class MultiSocket implements Runnable {
 
 				} else {
 					if (!isClient) {
-						if (s.length == 3 && s[0].equals("login")) {
+						if (s.length == 2 && s[0].equals("login")) {
 							args = new String[1];
-							System.out.println("Trying to login");
-							if (validateUser(s[1], s[2])) {
+							if (validateUser(s[1])) {
 								isClient = true;
 								clients.put(s[1], index);
 								this.clientName = s[1];
-								System.out.println("CLIENTSIZE: "
-										+ clients.size());
-								args = new String[1];
 								args[0] = "welcome";
 							} else {
 								args[0] = "incorrect";
@@ -333,7 +326,6 @@ public class MultiSocket implements Runnable {
 					} else {
 						Session session = sessionHandler
 								.getPlayerSession(clientName);
-						System.out.println(session);
 						if (!searching&&session == null) {
 							if (s[0].equals("join") && s.length == 2) {
 

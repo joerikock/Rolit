@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import menuItems.Menu;
 import menuItems.MenuManager;
+import menuItems.TextInputField;
+import menuItems.TextOutputField;
 import multiplayer.Client;
 import rollitMenus.IngameMenu;
 import rollitMenus.LoginMenu;
 import rollitMenus.MainMenu;
 import rollitMenus.NewGameMenu;
 import rollitMenus.OnlineGameMenu;
-import menuItems.TextOutputField;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -152,11 +153,11 @@ public class Game {
 	 */
 	public Game() {
 		this.menus = new MenuManager();
-		login = new LoginMenu(menus);
+		login = new LoginMenu(menus, STANDART_PORT);
 		mainMenu = new MainMenu(menus);
 		inGameMenu = new IngameMenu(menus);
 		newGameMenu = new NewGameMenu(menus);
-		onlineGameMenu = new OnlineGameMenu(menus, STANDART_PORT);
+		onlineGameMenu = new OnlineGameMenu(menus);
 		menus.addMenu(inGameMenu);
 		menus.addMenu(newGameMenu);
 		menus.addMenu(onlineGameMenu);
@@ -166,6 +167,7 @@ public class Game {
 		boardPainter.setPosition(300, 0);
 		bg = new AnimatedBackGround(3, 200);
 		players = new Player[4];
+		client = new Client();
 	}
 
 	// Queries -------------------------------------------------------------
@@ -205,10 +207,7 @@ public class Game {
 		if (active == inGameMenu) {
 			updateInGameMenu(active);
 			gameActive = true;
-			if (active.lastClickedElement() == "Back") {
-				System.out.println("Going back to the main menu");
-				menus.setActiveMenu(mainMenu);
-			}
+
 			this.updateGame(x, y, mouseDown);
 
 		} else {
@@ -219,7 +218,7 @@ public class Game {
 		}
 		if (active == mainMenu) {
 			if (active.lastClickedElement() == "Exit") {
-				if (client != null) {
+				if (client.getLoginState()>0) {
 					client.close();
 				}
 				System.exit(0);
@@ -238,25 +237,8 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-		if (active == login) {
-			if (active.lastClickedElement() == "Login") {
-				System.out.println("Loggin in with: " + login.getUser() + ", "
-						+ login.getPassword());
-				menus.setActiveMenu(mainMenu);
-				try {
-					client = new Client(login.getUser(), login.getPassword(),
-							1235, "localHost");
-				} catch (Exception e) {
-					System.out.println("Login Failed");
-				}
-				if (client != null) {
-					Thread clientThread = new Thread(client);
-					clientThread.start();
-				}
-			}
-			if (active.lastClickedElement() == "Cancel") {
-				menus.setActiveMenu(mainMenu);
-			}
+		if (active == login) {	
+			updateLoginMenu(active);
 		}
 	}
 
@@ -287,30 +269,73 @@ public class Game {
 		board.update();
 	}
 
-	private void updateOnlineGameMenu(Menu active) {
-		if (client == null) {
-			menus.setActiveMenu(login);
+	private void updateLoginMenu(Menu active) {
+		if (active.lastClickedElement() == "Login") {
+			menus.setActiveMenu(mainMenu);
+			System.out.println(login.getPort());
+			int port = Integer.parseInt(login.getPort());
+			String serverNameFetch = login.getServerIp();
+			if (serverNameFetch.equals("localHost")) {
+				try {
+
+					client.connect(port, serverNameFetch);
+					// client = new Client(login.getUser(),
+					// login.getPassword(),1235, "localHost");
+				} catch (Exception e) {
+					System.out.println("Failed to connect to Server");
+					e.printStackTrace();
+				}
+			} else {
+
+			}
+
+			client.login(login.getUser());
+			if (client.getLoginState() == 2) {
+				Thread clientThread = new Thread(client);
+				clientThread.start();
+				menus.setActiveMenu(onlineGameMenu);
+			}
 		}
-		if (active.lastClickedElement() == "Back") {
+		if (active.lastClickedElement() == "Cancel") {
 			menus.setActiveMenu(mainMenu);
 		}
-		if (active.lastClickedElement() == "Connect") {
-			onlineGame = true;
-			client.requestGame(2);
+	}
 
-		}
-		if (client != null && client.inGame()) {
-			board = client.getBoard();
-			System.out.println("Client returned Board: " + board);
-			boardPainter.setBoard(board);
-			menus.setActiveMenu(inGameMenu);
-			showHints = true;
+	private void updateOnlineGameMenu(Menu active) {
+		if (client.getLoginState() != 2) {
+			menus.setActiveMenu(login);
+		} else {
+			if (active.lastClickedElement() == "Back") {
+				menus.setActiveMenu(mainMenu);
+			}
+			if (active.lastClickedElement() == "Connect") {
+				int playerCount = Integer.parseInt(login.getSelectedChild("Opponents"));
+				onlineGame = true;
+				client.requestGame(playerCount);
+
+			}
+			if (client != null && client.inGame()) {
+				board = client.getBoard();
+				System.out.println("Client returned Board: " + board);
+				boardPainter.setBoard(board);
+				menus.setActiveMenu(inGameMenu);
+				showHints = true;
+			}
 		}
 	}
 
 	private void updateInGameMenu(Menu active) {
 		if (onlineGame) {
 			this.board = client.getBoard();
+			if (active.lastClickedElement() == "Back") {
+				System.out.println("Going back to the main menu");
+				menus.setActiveMenu(mainMenu);
+			}
+		}else{
+			if (active.lastClickedElement() == "Back") {
+				System.out.println("Going back to the main menu");
+				menus.setActiveMenu(mainMenu);
+			}
 		}
 		TextOutputField red;
 		red = (TextOutputField) (active.getElement("redScore"));
