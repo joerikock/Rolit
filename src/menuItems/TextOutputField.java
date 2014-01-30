@@ -32,7 +32,7 @@ public class TextOutputField extends GuiObject {
 	}
 
 	public void setText(String text) {
-		this.string = text;
+		this.displayString = text;
 	}
 
 	/**
@@ -49,27 +49,12 @@ public class TextOutputField extends GuiObject {
 	}
 
 	/**
-	 * Function for setting the colour of the text.
+	 * Function for setting the color of the text.
 	 */
 	public void setColor(float r, float g, float b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
-	}
-
-	/**
-	 * Prevents the rendered String from being longer than the TextInputField
-	 * itself.
-	 */
-	private void cutDisplayString() {
-		// checks whether the String can be displayed in the box. if not, the
-		// String is substring so it fits.
-		int maxChars = RollIt.FONT.computeVisibleGlyphs(displayString, 0,
-				displayString.length(), this.width);
-		if (maxChars < this.displayString.length()) {
-			this.displayString = displayString.substring(maxChars,
-					displayString.length() - 1);
-		}
 	}
 
 	/**
@@ -85,23 +70,8 @@ public class TextOutputField extends GuiObject {
 
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT.setColor(r, g, b, alpha);
-		if (string.length() == 0) {
-			RollIt.FONT.draw(batch, empty, x,
-					y + height / 2 + RollIt.FONT.getXHeight());
-		} else {
-			if (!this.textVisible) {
-				if (this.displayString.length() != this.string.length()) {
-					this.displayString = "";
-					for (int i = 0; i < string.length(); i++) {
-						displayString += "*";
-					}
-				}
-			} else {
-				this.displayString = string;
-			}
-			cutDisplayString();
 			RollIt.FONT.draw(batch, displayString, x, y + height / 2
 					+ RollIt.FONT.getCapHeight());
-		}
+		
 	}
 }
