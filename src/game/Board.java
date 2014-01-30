@@ -404,35 +404,43 @@ public class Board {
 	 * @return Returns the player instance that won the game.
 	 */
 	public int getWinner() {
-
-		// if (finished()) {
-		// int[] ballCount = new int[4];
-		// for (int x = 0; x < Board.FIELD_WIDTH; x++) {
-		// for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
-		// ballCount[this.getField(x, y)]++;
-		// }
-		// }
-		// int max = 0;
-		// int currentBest = 0;
-		// for (int index = 0; index < players.size(); index++) {
-		// if (ballCount[index] > max) {
-		// max = ballCount[index];
-		// currentBest = index;
-		// }
-		// }
-		// for (int j = 0; j < ballCount.length; j++) {
-		// for (int k = j + 1; k < ballCount.length; k++) {
-		// if (k != j && ballCount[k] == ballCount[j] &&
-		// ballCount[k] == max) {
-		// System.out.println("DRAW");
-		// return -1;
-		// }
-		// }
-		// }
-		// return currentBest;
-		// }
-		// return -2;
-		return 0;
+		if (finished()) {
+			int[] ballCount = new int[4];
+			int max = -1;
+			for (int i = 0; i < 4; i++) {
+				ballCount[i] = getNumberOfFields(i);
+			}
+			boolean draw = false;
+			int bestPlayer = -1;
+			for (int i = 0; i < ballCount.length; i++) {
+				if (ballCount[i] == max) {
+					draw = true;
+				}
+				if (ballCount[i] > max) {
+					bestPlayer = i;
+					max = ballCount[i];
+					draw = false;
+				}
+			}
+			if (draw) {
+				return -1;
+			}
+			return bestPlayer;
+		}
+		return -2;
+	}
+	
+	/*@
+	 * ensures \result == this.players;
+	 */
+	/**
+	 * Method for returning the list of all players in the game.
+	 * 
+	 * @return
+	 * 			an ArrayList containing all players;
+	 */
+	public ArrayList<Player> getPlayer() {
+		return players;
 	}
 
 	/*
