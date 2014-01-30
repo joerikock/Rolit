@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -121,7 +120,6 @@ public class MultiSocket implements Runnable {
 		/**
 		 * Ends the current game and stops the session thread.
 		 */
-		// TODO: Don't stop thread but ask whether clients want to play again.
 		public void gameOver(String player) {
 			System.out.println("Player left or game over");
 			String[] args = { player };
@@ -261,9 +259,6 @@ public class MultiSocket implements Runnable {
 		}
 
 		private Session getPlayerSession(String name) {
-
-			for (String s : playerSession.keySet()) {
-			}
 			return playerSession.get(name);
 		}
 
@@ -332,13 +327,10 @@ public class MultiSocket implements Runnable {
 	private static ArrayList<MultiSocket> socketList = new ArrayList<MultiSocket>();
 	private static ArrayList<String> messages = new ArrayList<String>();
 	private static final SessionHandler sessionHandler = new SessionHandler();
-	// private static final String user = "Max";
-	// private static final String[][] users = { { "max", "hallo" },
-	// { "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
 	private boolean isClient;
 	private int index;
 	private String clientName;
-	private boolean isActive, shutDown;
+	private boolean isActive;
 	private boolean searching;
 
 	public MultiSocket(Socket sock) {
@@ -348,23 +340,10 @@ public class MultiSocket implements Runnable {
 		this.isActive = true;
 	}
 
-	public static void addClient(Socket socket) {
-		// Send request for userNam
-
-	}
-
 	public static void removeClient(String name) {
 		socketList.remove(clients.get(name));
 		clients.remove(name);
 	}
-
-	// private static void logout(String name) {
-	// if (clients.containsKey(name)) {
-	// socketList.get(clients.get(name)).close();
-	// removeClient(name);
-	//
-	// }
-	// }
 
 	private void close(Session session) {
 		System.out.println("Shutting down client " + clientName);
@@ -373,14 +352,12 @@ public class MultiSocket implements Runnable {
 		}
 		removeClient(clientName);
 		isActive = false;
-		shutDown = true;
 	}
 
 	public static void closeAll(ServerSocket serverSocket) {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (int i = 0; i < socketList.size(); i++) {
@@ -422,13 +399,10 @@ public class MultiSocket implements Runnable {
 		try {
 			message = reader.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			this.close(null);
-			// e.printStackTrace();
 		}
 		if (message != null) {
 			String[] messageParts = message.split(" ");
-			String[] returnMessage = new String[messageParts.length];
 			System.out.println("");
 			System.out.println("Server recived message: " + message + " from "
 					+ this.clientName);
@@ -444,34 +418,20 @@ public class MultiSocket implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		while (isActive) {
 			String[] s = getMessage(bufferedReader);
 			String[] args = null;
-			// if (s!=null&&s[0]!="logOut") {
-			// String[] s = getMessage(bufferedReader);
-
-			// System.out.println("ICH BIN HIER!");
 			if (s != null) {
 				for (int a = 0; a < s.length; a++) {
 					System.out.println(a + " : " + s[a]);
 				}
-				// If the client is not registered: only login attempt
-				// possible
-				// if (s[0].equals("logOut") && clients.get(clientName) !=
-				// null) {
-				// socketList.get(clients.get(clientName)).close();
-				// socketList.remove(clients.remove(clientName));
-				//
-				// } else {
 				Session session = sessionHandler
 						.getPlayerSession(clientName);
 				if (!isClient) {
@@ -522,17 +482,14 @@ public class MultiSocket implements Runnable {
 				}
 			}
 		}
-		// }
 		try {
 			Session session = sessionHandler.getPlayerSession(clientName);
 			if (session != null) {
 				session.gameOver(null);
 				sessionHandler.updateSessions();
-
 			}
 			socket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -543,7 +500,6 @@ public class MultiSocket implements Runnable {
 			printWriter = new PrintWriter(new OutputStreamWriter(
 					socket.getOutputStream()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -627,8 +583,6 @@ public class MultiSocket implements Runnable {
 			System.out.println("Port " + port + " allready in use.");
 			e.printStackTrace();
 		}
-		// MultiSocket newSocket = new MultiSocket(serverSocket);
-
 		Listener listener = new Listener();
 		listener.setServerSocket(serverSocket);
 		Thread listenerThread = new Thread((Runnable) listener);
@@ -650,9 +604,6 @@ public class MultiSocket implements Runnable {
 				System.out.println("Port " + port + " allready in use.");
 				e.printStackTrace();
 			}
-
-			// Thread thread = new Thread(newSocket);
-			// thread.start();
 			Listener listener = new Listener();
 			listener.setServerSocket(serverSocket);
 			Thread listenerThread = new Thread((Runnable) listener);
