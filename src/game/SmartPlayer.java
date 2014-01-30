@@ -22,7 +22,59 @@ public class SmartPlayer extends Player {
 	public SmartPlayer() {
 		super("Smart Player");
 	}
+	/**
+	 * The determineMove method of the SmartPlayer. This method returns a move
+	 * which gets him the most fields. If a corner field is available, that
+	 * field is returned.
+	 */
+	public static int[] getHint(Board b, int id){
+		ArrayList<int[]> possibleMoves = b.getValidMoveList();
+		for (int[] elem : possibleMoves) {
+			System.out.print("(" + elem[0] + ", " + elem[1] + "), ");
+		}
+		int numberOfFields = -1;
+		int fieldCounter = -1;
+		int[] result = {-1, -1};
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
+				result[0] = 0;
+				result[1] = 0;
+				return result;
+			} else if (possibleMoves.get(i)[0] == 0
+					&& possibleMoves.get(i)[1] == 7) {
+				result[0] = 0;
+				result[1] = 7;
+				return result;
+			} else if (possibleMoves.get(i)[0] == 7
+					&& possibleMoves.get(i)[1] == 0) {
+				result[0] = 7;
+				result[1] = 0;
+				return result;
+			} else if (possibleMoves.get(i)[0] == 7
+					&& possibleMoves.get(i)[1] == 7) {
+				result[0] = 7;
+				result[1] = 7;
+				return result;
+			}
+		}
+		for (int i = 0; i < possibleMoves.size(); i++) {
+			fieldCounter = 0;
+			ArrayList<int[]> resultingChanges = b.resultingChangesForMove(
+					possibleMoves.get(i)[0], possibleMoves.get(i)[1],
+					id);
+			for (int j = 0; j < resultingChanges.size(); j++) {
+				fieldCounter += resultingChanges.get(j)[1];
+			}
+			if (fieldCounter > numberOfFields) {
+				numberOfFields = fieldCounter;
+				result[0] = possibleMoves.get(i)[0];
+				result[1] = possibleMoves.get(i)[1];
+			}
+		}
 
+		return result;
+	}	
+	
 	/**
 	 * The determineMove method of the SmartPlayer. This method returns a move
 	 * which gets him the most fields. If a corner field is available, that
