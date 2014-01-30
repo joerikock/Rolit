@@ -192,9 +192,14 @@ public class Client implements Runnable {
 						}
 						if (messageParts[0].equals("gameOver")) {
 							if(messageParts.length==1){
-								client.errorMessage = "The server shutdown";
+								client.errorMessage = "The server shut down";
 							}else{
-								client.errorMessage = messageParts[1]+ " left the game.";
+								if(!messageParts[1].equals("null")){
+									client.errorMessage = messageParts[1]+ " left the game. Going back to the main menu.";
+								}else{
+									client.errorMessage = "A player left the game. Going back to the main menu.";
+								}
+								
 							}
 							
 							client.leaveGame();

@@ -3,7 +3,7 @@ package rolitmenus;
 import menuitems.*;
 
 public class IngameMenu extends Menu {
-	Button back;
+	Button back, hint;
 	TextOutputField score, p1, p2, p3, p4, p1Score, p2Score, p3Score, p4Score, winner;
 
 	public IngameMenu(MenuManager m) {
@@ -12,7 +12,8 @@ public class IngameMenu extends Menu {
 
 		this.back = new Button("Back", 10, 10);
 		this.addGuiObject(back);
-
+		this.hint = new Button("Hint", 140, 10);
+		this.addGuiObject(hint);
 		this.score = new TextOutputField("score", 210, 400);
 		score.setText("Score");
 		score.setColor(1, 1, 1);
