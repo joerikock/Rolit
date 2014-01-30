@@ -338,9 +338,9 @@ public class Game {
 			}
 		}
 
-		ArrayList<Player> players = board.getPlayer();
-		for (int i = 0; i < players.size(); i++) {
-			inGameMenu.setPlayerName(players.get(i).getName(), i);
+		ArrayList<Player> playerList = board.getPlayer();
+		for (int i = 0; i < playerList.size(); i++) {
+			inGameMenu.setPlayerName(playerList.get(i).getName(), i);
 			inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
 		}
 		
@@ -353,7 +353,7 @@ public class Game {
 			if (winnerIndex == -1) {
 				winner.setText("It's a draw!");
 			} else {
-				winner.setText("The winner is " + players.get(winnerIndex).getName());
+				winner.setText("The winner is " + playerList.get(winnerIndex).getName());
 			}
 		}
 	}
