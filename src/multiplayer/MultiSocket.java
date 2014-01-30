@@ -18,15 +18,42 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MultiSocket implements Runnable {
-
+	
 	private static class Session implements Runnable {
+		/*
+		 * ArrayList containing the names of all players.
+		 */
 		private ArrayList<String> playerNames;
+		/*
+		 * ArrayList containing all player instances.
+		 */
 		private ArrayList<Player> players;
-
+		/*
+		 * Board for each running game on the server.
+		 */
 		private Board board;
-		boolean gameRunning, newBall, active;
+		/*
+		 * Boolean defining whether the session currently in a game or not.
+		 */
+		private boolean gameRunning;
+		/*
+		 * Boolean defining whether a new ball has been placed on the board.
+		 */
+		private boolean newBall;
+		/*
+		 * Boolean defining the status of the the thread running the session.
+		 */
+		private boolean active;
+		/*
+		 * Integer defining how many players can join this session.
+		 */
 		public int playerCount;
-
+		/**
+		 * A session is a thread that is started when a player request a game session but the server can not find a fitting one.
+		 * @param playerCount Number of players that are supported by this session.
+		 * 
+		 * @param clientName Name of the client requesting the session.
+		 */
 		public Session(int playerCount, String clientName) {
 
 			players = new ArrayList<Player>();
@@ -37,41 +64,63 @@ public class MultiSocket implements Runnable {
 			System.out.println("New session created by" + clientName);
 			active = true;
 		}
-
+		/**
+		 * 
+		 * @return State of the session thread. False means that the the thread can be terminated.
+		 */
 		public boolean active() {
 			return active;
 		}
-
+		/**
+		 * 
+		 * @return The number of players supported by this session.
+		 */
 		public int getPlayerCount() {
 			return playerCount;
 		}
-
+		/**
+		 * 
+		 * @return ArrayList containing all player instances of this session.
+		 */ 
 		private ArrayList<String> getPlayers() {
 			return playerNames;
 		}
-
+		/**
+		 * 
+		 * @return True if the session is currently in game. If it is not, a new Player can join.
+		 */
 		public boolean isInGame() {
 			return gameRunning;
 		}
-
+		/**
+		 * Ends the current game and stops the session thread.
+		 */
+		//TODO: Don't stop thread but ask whether clients want to play again.
 		public void gameOver() {
 			System.out.println("Player left or game over");
 			sendToPlayers("gameOver", null);
 			active = false;
 		}
-
+		/**
+		 * Sends a message to all clients that are players in this session.
+		 * @param message should follow the protocol
+		 * @param args String[] containing valid arguments needed for the message
+		 */
 		public void sendToPlayers(String message, String[] args) {
 			for (int i = 0; i < playerNames.size(); i++) {
 				socketList.get(clients.get(playerNames.get(i))).sendMessage(
 						message, args);
 			}
 		}
-
+		/**
+		 * Tries to add a new client to the session
+		 * @param name name of the client
+		 * @return true if the player joined the session
+		 */
 		public boolean join(String name) {
 			if (!gameRunning && playerNames.size() < playerCount) {
 				playerNames.add(name);
-				System.out.println(name + " joined session. "
-						+ playerNames.size() + " | " + playerCount);
+				System.out.println(name + " joined session. Current player count: " + playerNames.size() +"( of "+ playerCount +")");
 
 				return true;
 			}
@@ -79,33 +128,32 @@ public class MultiSocket implements Runnable {
 		}
 
 		public void makeMove(int x, int y, String player) {
-			System.out.println("Session makeMove called :" + x + ", " + y
-					+ ", " + player);
-			System.out.println("Awaiting color " + board.currentPlayerColor());
+
+
 			for (int i = 0; i < playerNames.size(); i++) {
 				if (player.equals(playerNames.get(i))) {
-					System.out.println("Player with name " + player
-							+ " found in Game");
 					if (board.currentPlayer().getName().equals(player)) {
-						System.out.println("Found user is active player");
+						
 						if (!board.tryMove(x, y, board.currentPlayerColor())) {
 							// kick player
-							System.out.println("Move did not work");
+							System.out.println("Player "+board.currentPlayer().getName().equals(player)+" send an invalid move");
 
 						} else {
 							System.out.println("SESSION: NEW BALL AT" + x
 									+ " , " + y);
+							board.update();
+							if(board.modified()){
+								newBall = true;
+							}
 						}
-						board.update();
-						if(board.modified()){
-							newBall = true;
-						}
+
 					}
 				}
 			}
-			System.out.println("-----------------");
 		}
-
+		/**
+		 * Starts a new game in the session
+		 */
 		public void startGame() {
 			System.out.println("Session starting a new Game");
 			board.newGame(players);
