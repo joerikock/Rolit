@@ -19,8 +19,8 @@ public class Board {
 	 * The vectors used for checking all directions from a desired field on the
 	 * board.
 	 */
-	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
-			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
+	public static final int[][] VECTORS = {{1, 0}, {-1, 0}, {0, 1}, 
+		{0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}};
 
 	/**
 	 * The width of the field.
@@ -329,7 +329,7 @@ public class Board {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (getField(x, y) == -1) {
 					if (hasNeighbours(x, y)) {
-						int[] freeField = { x, y };
+						int[] freeField = {x, y};
 						freeMoves.add(freeField);
 					}
 				}
