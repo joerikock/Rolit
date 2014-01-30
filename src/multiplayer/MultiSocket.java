@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class MultiSocket implements Runnable {
 		private ArrayList<Player> players;
 
 		private Board board;
-		boolean gameRunning, justStarted, active;
+		boolean gameRunning, newBall, active;
 		public int playerCount;
 
 		public Session(int playerCount, String clientName) {
@@ -94,7 +95,10 @@ public class MultiSocket implements Runnable {
 						} else {
 							System.out.println("SESSION: NEW BALL AT" + x
 									+ " , " + y);
-
+						}
+						board.update();
+						if(board.modified()){
+							newBall = true;
 						}
 					}
 				}
@@ -105,7 +109,6 @@ public class MultiSocket implements Runnable {
 		public void startGame() {
 			System.out.println("Session starting a new Game");
 			board.newGame(players);
-			justStarted = true;
 			gameRunning = true;
 
 		}
@@ -115,8 +118,7 @@ public class MultiSocket implements Runnable {
 			while (active) {
 				System.out.print("");
 				if (gameRunning) {
-					board.update();
-					if (board.modified()) {
+					if (newBall) {
 						System.out.println("WAITING FOR NEW BALL");
 						String[] args = { board.getNewBallXPos() + "",
 								board.getNewBallYPos() + "" };
@@ -124,7 +126,7 @@ public class MultiSocket implements Runnable {
 						socketList.get(
 								clients.get(board.currentPlayer().getName()))
 								.sendMessage("yourTurn", null);
-						justStarted = false;
+						newBall = false;
 					}
 				} else {
 					if (playerNames.size() == playerCount) {
