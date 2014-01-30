@@ -43,7 +43,7 @@ public class Board {
 	/**
 	 * Two-dimensional array for the fields on the board.
 	 */
-	private int[][] field;
+	private int[][] fields;
 
 	/*
 	 * @ private invariant newBall == true || newBall == false; private
@@ -99,7 +99,7 @@ public class Board {
 	 * Create the board and reset it to its initial state.
 	 */
 	public Board() {
-		this.field = new int[FIELD_WIDTH][FIELD_HEIGHT];
+		this.fields = new int[FIELD_WIDTH][FIELD_HEIGHT];
 		this.newBall = false;
 		this.modified = false;
 		this.reset();
@@ -191,13 +191,13 @@ public class Board {
 		this.currentPlayer = 0;
 		for (int w = 0; w < FIELD_WIDTH; w++) {
 			for (int h = 0; h < FIELD_HEIGHT; h++) {
-				this.field[w][h] = -1;
+				this.fields[w][h] = -1;
 			}
 		}
-		field[3][3] = 0;
-		field[3][4] = 1;
-		field[4][4] = 2;
-		field[4][3] = 3;
+		fields[3][3] = 0;
+		fields[3][4] = 1;
+		fields[4][4] = 2;
+		fields[4][3] = 3;
 	}
 
 	/*
@@ -255,7 +255,7 @@ public class Board {
 	 */
 	public int getField(int x, int y) {
 		if (boundTest(x, y)) {
-			return field[x][y];
+			return fields[x][y];
 		} else {
 			return -1;
 		}
@@ -492,7 +492,7 @@ public class Board {
 			this.newBallX = x;
 			this.newBallY = y;
 			this.newBallColor = color;
-			field[x][y] = color;
+			fields[x][y] = color;
 			return true;
 		}
 		return false;
@@ -518,7 +518,7 @@ public class Board {
 		int result = 0;
 		for (int i = 0; i < FIELD_WIDTH; i++) {
 			for (int j = 0; j < FIELD_HEIGHT; j++) {
-				if (field[i][j] == id) {
+				if (fields[i][j] == id) {
 					result += 1;
 				}
 			}
@@ -653,7 +653,7 @@ public class Board {
 					int currentDistance = changes.get(i)[1];
 					for (int d = 1; d < currentDistance; d++) {
 
-						field[this.newBallX + VECTORS[currentVectorIndex][0]
+						fields[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
 								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
 						int[] s = new int[3];

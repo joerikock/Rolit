@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import menuItems.Menu;
 import menuItems.MenuManager;
-import menuItems.TextInputField;
 import menuItems.TextOutputField;
 import multiplayer.Client;
 import rollitMenus.IngameMenu;
