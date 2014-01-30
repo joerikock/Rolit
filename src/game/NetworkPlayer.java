@@ -19,7 +19,7 @@ public class NetworkPlayer extends Player {
 	public int[] determineMove(Board b) {
 		if (newMove) {
 			if (board.tryMove(moveX, moveY, getID())) {
-				int[] move = { moveX, moveY };
+				int[] move = {moveX, moveY};
 				return move;
 			}
 		}

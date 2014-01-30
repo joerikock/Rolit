@@ -25,9 +25,9 @@ public class HumanPlayer extends Player {
 	 * @param gui
 	 *            the BoardGUI the player uses.
 	 */
-	public HumanPlayer(String name, BoardGUI gui) {
+	public HumanPlayer(String name, BoardGUI theGui) {
 		super(name);
-		this.gui = gui;
+		this.gui = theGui;
 	}
 
 	/**

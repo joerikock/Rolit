@@ -35,7 +35,7 @@ public class SmartPlayer extends Player {
 		}
 		int numberOfFields = -1;
 		int fieldCounter = -1;
-		int[] result = { -1, -1 };
+		int[] result = {-1, -1};
 		for (int i = 0; i < possibleMoves.size(); i++) {
 			if (possibleMoves.get(i)[0] == 0 && possibleMoves.get(i)[1] == 0) {
 				result[0] = 0;
