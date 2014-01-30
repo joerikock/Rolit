@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-
+/**
+ * Fetches input.
+ * @author Max Messerich and Joeri Kock
+ *
+ */
 public class InputHandler implements InputProcessor {
 	class CleanUpException extends Exception {
 		private static final long serialVersionUID = 1L;
@@ -22,20 +26,23 @@ public class InputHandler implements InputProcessor {
 	/**
 	 * Responsible for fetching mouse and keyboard input.
 	 */
-	float mouseX, mouseY;
+	float mouseX, mouseY,startWidth, startHeight;
 	boolean mouseClicked, mouseDown, currentMouseState, 
 	keyReleased, keyDown, currentKeyState;
 	private boolean clean;
 	char typedKey;
 	ArrayList<Character> lastC;
 
-	public InputHandler() {
+	public InputHandler(float standartWidth, float standartHeight) {
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(this);
 		Gdx.input.setInputProcessor(im);
+		this.startHeight = standartHeight;
+		this.startWidth = standartWidth;
 		mouseDown = false;
 		clean = true;
 		// enableRepeatEvents(true);
+		
 	}
 
 	//
@@ -44,17 +51,15 @@ public class InputHandler implements InputProcessor {
 	 * clicked. Note: All required data has to be fetched via the given queries
 	 * like getKey() or mouseClicked(), because all arguments will be reset to
 	 * the starting values at the beginning of each loop.
-	 * 
-	 * @throws CleanUpException
 	 */
 	public void update() {
-
-		mouseX = Gdx.input.getX() * (900 / Gdx.graphics.getWidth());
+		
+		mouseX = Gdx.input.getX() * ( Gdx.graphics.getWidth() / this.startWidth);
 		mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY())
-				* (600 / Gdx.graphics.getHeight());
-		// System.out.println(mouseX+" ,"+(900/Gdx.graphics.getWidth()));
-		// System.out.println(mouseY+" , "+(600/Gdx.graphics.getHeight()));
-		// System.out.println("");
+				* (Gdx.graphics.getHeight() / this.startHeight);
+		 System.out.println(Gdx.input.getX()+" ,"+mouseX);
+		 System.out.println(Gdx.input.getY()+" , "+mouseY);
+		 System.out.println("");
 		// mouseClicked = false;
 
 		if (!Gdx.input.isButtonPressed(0)) {

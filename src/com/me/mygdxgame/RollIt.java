@@ -29,7 +29,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		// add Key Listener for keyboardInput
 		FONT = new BitmapFont();
 		game = new Game();
-		input = new InputHandler();
+		input = new InputHandler(w,h);
 	}
 
 	@Override
