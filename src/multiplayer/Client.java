@@ -77,7 +77,7 @@ public class Client implements Runnable {
 	}
 
 	public void close() {
-		sendMessage("logOut");
+		sendMessage("logOut", null);
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -110,6 +110,7 @@ public class Client implements Runnable {
 		}
 
 	}
+
 	public void sendMessage(String command, String[] args) {
 		if (socket != null) {
 			PrintWriter printWriter = null;
@@ -121,15 +122,15 @@ public class Client implements Runnable {
 				e.printStackTrace();
 			}
 			String message = command;
-			for (int i = 0; i < args.length; i++) {
-				message += " " + args[i];
+			if (args != null) {
+				for (int i = 0; i < args.length; i++) {
+					message += " " + args[i];
+				}
 			}
 			System.out.println("NEW COMMAND SEND TO SERVER: " + message);
 			printWriter.println(message);
 			printWriter.flush();
-			// set gotAck to false. only can send next message if the previous
-			// one
-			// has been ackknwoledged
+
 		}
 	}
 
@@ -147,13 +148,16 @@ public class Client implements Runnable {
 		public void run() {
 			while (running) {
 				System.out.println("");
-				System.out.println("Client waiting for new input from the server");
+				System.out
+						.println("Client waiting for new input from the server");
 				String message = null;
 				try {
 					message = bufferedReader.readLine();
 				} catch (IOException e) {
 					System.out.println("Connection to the server lost");
 					// e.printStackTrace();
+					client.loginStatus = 0;
+					client.inGame = false;
 					break;
 
 				}
@@ -180,7 +184,7 @@ public class Client implements Runnable {
 							client.getBoard().tryMove(x, y,
 									client.getBoard().currentPlayerColor());
 						}
-						if(messageParts[0].equals("gameOver")){
+						if (messageParts[0].equals("gameOver")) {
 							client.leaveGame();
 						}
 					}
@@ -247,12 +251,14 @@ public class Client implements Runnable {
 	}
 
 	public boolean isCurrentPlayer() {
-		return this.currentPlayer;	
+		return this.currentPlayer;
 	}
-	public void leaveGame(){
+
+	public void leaveGame() {
 		inGame = false;
-		sendMessage("disjoin",null);
+		sendMessage("disjoin", null);
 	}
+
 	public void makeMove(int x, int y) {
 		if (currentPlayer) {
 			if (clientBoard.validateMove(x, y)) {
@@ -263,6 +269,5 @@ public class Client implements Runnable {
 
 		}
 	}
-
 
 }

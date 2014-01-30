@@ -2,7 +2,6 @@ package menuitems;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -20,6 +19,14 @@ public class MenuManager {
 	 */
 	ArrayList<Menu> menus;
 	/**
+	 * Menu instance for MessageBox.
+	 */
+	private SuperMenu superMenu;
+	/**
+	 * Boolean deciding whether the messageBox is active or not-
+	 */
+	private boolean messageBoxActive;
+	/**
 	 * Index of the currently active menu in the ArrayList menus.
 	 */
 	private int currentMenuIndex;
@@ -35,7 +42,7 @@ public class MenuManager {
 	 * Boolean preventing an update of the menus during animation.
 	 */
 	boolean animationDone;
-
+	
 	/**
 	 * Manages multiple Menus. Responsible for switching between menus and
 	 * updating the selected one.
@@ -43,6 +50,8 @@ public class MenuManager {
 	public MenuManager() {
 		this.currentMenuIndex = -1;
 		this.lastMenuIndex = -1;
+		this.superMenu = new SuperMenu();
+	
 		this.menus = new ArrayList<Menu>();
 	}
 
@@ -81,7 +90,7 @@ public class MenuManager {
 	 *            mouse y
 	 * @param mouseDown
 	 * @param input
-	 *            Last realeased key from keyboard
+	 *            Last released key from keyboard
 	 */
 	public void update(float x, float y, boolean mouseDown, char input) {
 		// TODO Auto-generated method stub
@@ -90,7 +99,7 @@ public class MenuManager {
 			menus.get(currentMenuIndex).update(x, y, mouseDown, input);
 		}
 		this.updateAnimation();
-
+		superMenu.update(x, y, mouseDown, input);
 	}
 
 	/**
@@ -126,7 +135,9 @@ public class MenuManager {
 		}
 		menus.get(currentMenuIndex).setAlpha(alpha);
 	}
-
+	public void openMessageBox(String message){
+		
+	}
 	public void shapesDraw(ShapeRenderer shapes) {
 
 		if (!animationDone && lastMenuIndex != -1) {
@@ -134,7 +145,8 @@ public class MenuManager {
 		}
 		menus.get(currentMenuIndex).setAlpha(alpha);
 		menus.get(currentMenuIndex).shapesDraw(shapes);
-
+		superMenu.shapesDraw(shapes);
+		superMenu.setAlpha(1);
 	}
 
 	/**
@@ -150,6 +162,7 @@ public class MenuManager {
 			}
 		}
 		menus.get(currentMenuIndex).batchDraw(batch);
+		superMenu.batchDraw(batch);
 		batch.end();
 	}
 

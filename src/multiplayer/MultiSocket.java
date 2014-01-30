@@ -119,8 +119,11 @@ public class MultiSocket implements Runnable {
 		 */
 		public void sendToPlayers(String message, String[] args) {
 			for (int i = 0; i < playerNames.size(); i++) {
-				socketList.get(clients.get(playerNames.get(i))).sendMessage(
-						message, args);
+				MultiSocket sock = 	socketList.get(clients.get(playerNames.get(i)));
+				if(sock!=null){
+					sock.sendMessage(message, args);
+				}
+
 			}
 		}
 		/**
@@ -312,17 +315,21 @@ public class MultiSocket implements Runnable {
 		// Send request for userNam
 
 	}
-
-	public static void logout(String name) {
-		if (clients.containsKey(name)) {
-			socketList.get(clients.get(name)).close();
-			socketList.remove(clients.get(name));
-
-		}
+	public static void removeClient(String name){
+		socketList.remove(clients.get(name));
+		clients.remove(name);
 	}
+//	private static void logout(String name) {
+//		if (clients.containsKey(name)) {
+//			socketList.get(clients.get(name)).close();
+//			removeClient(name);
+//
+//		}
+//	}
 
 	private void close() {
 		System.out.println("Shutting down client "+clientName);
+		removeClient(clientName);
 		isActive = false;
 		shutDown = true;
 	}
@@ -423,7 +430,9 @@ public class MultiSocket implements Runnable {
 					// socketList.remove(clients.remove(clientName));
 					//
 					// } else {
+
 					if (!isClient) {
+
 						if (s.length == 2 && s[0].equals("login")) {
 							args = new String[1];
 							if (validateUser(s[1])) {
