@@ -459,7 +459,7 @@ public class Board {
 	 * @return Returns true if the move x,y is valid.
 	 */
 	public boolean validateMove(int x, int y) {
-		int[] pos = { x, y };
+		int[] pos = {x, y};
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
@@ -612,7 +612,7 @@ public class Board {
 					if (distance == 1) {
 						break;
 					}
-					int[] newChange = { i, distance };
+					int[] newChange = {i, distance};
 					requiredChanges.add(newChange);
 					break;
 				}
@@ -643,7 +643,7 @@ public class Board {
 
 			changes = this.resultingChangesForMove(newBallX, newBallY,
 					newBallColor);
-			int[] newBallData = { newBallX, newBallY, newBallColor };
+			int[] newBallData = {newBallX, newBallY, newBallColor};
 
 			modifiedBalls.add(newBallData);
 
