@@ -140,9 +140,15 @@ public class MultiSocket implements Runnable {
 		public void sendToPlayers(String message, String[] args) {
 			for (int i = 0; i < playerNames.size(); i++) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				int clientIndex = clients.get(playerNames.get(i));
 				if (clientIndex != null) {
 					MultiSocket sock = socketList.get();
+=======
+				if (clients.get(playerNames.get(i)) != null) {
+					MultiSocket sock = socketList.get(clients.get(playerNames
+							.get(i)));
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 =======
 				if (clients.get(playerNames.get(i)) != null) {
 					MultiSocket sock = socketList.get(clients.get(playerNames
@@ -373,14 +379,20 @@ public class MultiSocket implements Runnable {
 	// }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private void close() {
 		System.out.println("Shutting down client " + clientName);
 =======
+=======
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 	private void close(Session session) {
 		System.out.println("Shutting down client " + clientName);
 		if (session != null) {
 			session.gameOver(clientName);
 		}
+<<<<<<< HEAD
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
+=======
 >>>>>>> dd858885005f300a7e314163317026dc33598e62
 		removeClient(clientName);
 		isActive = false;
@@ -435,7 +447,11 @@ public class MultiSocket implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 <<<<<<< HEAD
+<<<<<<< HEAD
 			this.close();
+=======
+			this.close(null);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 =======
 			this.close(null);
 >>>>>>> dd858885005f300a7e314163317026dc33598e62
@@ -488,7 +504,12 @@ public class MultiSocket implements Runnable {
 				//
 				// } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+				Session session = sessionHandler
+						.getPlayerSession(clientName);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 =======
 				Session session = sessionHandler
 						.getPlayerSession(clientName);
@@ -509,8 +530,11 @@ public class MultiSocket implements Runnable {
 
 				} else {
 <<<<<<< HEAD
+<<<<<<< HEAD
 					Session session = sessionHandler
 							.getPlayerSession(clientName);
+=======
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 =======
 >>>>>>> dd858885005f300a7e314163317026dc33598e62
 
@@ -543,7 +567,11 @@ public class MultiSocket implements Runnable {
 				this.sendMessage(s[0] + "Ack", args);
 				if (s[0].equals("logOut")) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 					this.close();
+=======
+					this.close(session);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 =======
 					this.close(session);
 >>>>>>> dd858885005f300a7e314163317026dc33598e62
