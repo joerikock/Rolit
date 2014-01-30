@@ -394,317 +394,268 @@ public class Board {
 	 * @return Returns the player instance that won the game.
 	 */
 	public int getWinner() {
-		if (finished()) {
-<<<<<<< HEAD
-			int max = 0;
-			int bestPlayer = -1;
-			for (int i = 0; i < players.size(); i++) {
-				if (getNumberOfFields(i) > getNumberOfFields(i + 1)) {
-					max = getNumberOfFields(i);
-					bestPlayer = i;
-				}
-			}
-			for (int j = 0; j < players.size(); j++) {
-				for (int k = j + 1; k < players.size(); k++) {
-					if (k != j && players.get(k) == players.get(j) && 
-							getNumberOfFields(k) == max) {
-=======
-			int[] ballCount = new int[players.size()];
-			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
-				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
-					
-					ballCount[this.getField(x, y)]++;
-				}
-			}
-			int max = 0;
-			int currentBest = 0;
-			for (int index = 0; index < players.size(); index++) {
-				if (ballCount[index] > max) {
-					max = ballCount[index];
-					currentBest = index;
-				}
-			}
-			for (int j = 0; j < ballCount.length; j++) {
-				for (int k = j + 1; k < ballCount.length; k++) {
-					if (k != j && ballCount[k] == ballCount[j] && 
-							ballCount[k] == max) {
->>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
-						System.out.println("DRAW");
-						return -1;
-					}
-				}
-<<<<<<< HEAD
-=======
 
->>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
-			}
-			return bestPlayer;
-		}
-<<<<<<< HEAD
-		return -2;
-=======
-		return 1;
->>>>>>> 96d0b88c9079df8aa80130cdcaf75ba2158484af
-//		if (finished()) {
-//			int[] ballCount = new int[4];
-//			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
-//				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
-//					ballCount[this.getField(x, y)]++;
-//				}
-//			}
-//			int max = 0;
-//			int currentBest = 0;
-//			for (int index = 0; index < players.size(); index++) {
-//				if (ballCount[index] > max) {
-//					max = ballCount[index];
-//					currentBest = index;
-//				}
-//			}
-//			for (int j = 0; j < ballCount.length; j++) {
-//				for (int k = j + 1; k < ballCount.length; k++) {
-//					if (k != j && ballCount[k] == ballCount[j] && 
-//							ballCount[k] == max) {
-//						System.out.println("DRAW");
-//						return -1;
-//					}
-//				}
-//			}
-//			return currentBest;
-//		}
-//		return -2;
+		//		if (finished()) {
+		//			int[] ballCount = new int[4];
+		//			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
+		//				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
+		//					ballCount[this.getField(x, y)]++;
+		//				}
+		//			}
+		//			int max = 0;
+		//			int currentBest = 0;
+		//			for (int index = 0; index < players.size(); index++) {
+		//				if (ballCount[index] > max) {
+		//					max = ballCount[index];
+		//					currentBest = index;
+		//				}
+		//			}
+		//			for (int j = 0; j < ballCount.length; j++) {
+		//				for (int k = j + 1; k < ballCount.length; k++) {
+		//					if (k != j && ballCount[k] == ballCount[j] && 
+		//							ballCount[k] == max) {
+		//						System.out.println("DRAW");
+		//						return -1;
+		//					}
+		//				}
+		//			}
+		//			return currentBest;
+		//		}
+		//		return -2;
+		return 0;
 	}
 
-			/*@
-			 * requires boundTest(x, y);
-			 * ensures \result == true || \result == false;
-			 */
-			/**
-			 * Method for checking if a certain move is valid.
-			 * 
-			 * @param x
-			 *            the X-coordinate of the move.
-			 * @param y
-			 *            the Y-coordinate of the move.
-			 * @return Returns true if the move x,y is valid.
-			 */
-			private boolean validateMove(int x, int y) {
-				int[] pos = {x, y};
-				ArrayList<int[]> temp = getValidMoveList();
-				for (int i = 0; i < temp.size(); i++) {
-					if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
-						return true;
-					}
-				}
-				return false;
+	/*@
+	 * requires boundTest(x, y);
+	 * ensures \result == true || \result == false;
+	 */
+	/**
+	 * Method for checking if a certain move is valid.
+	 * 
+	 * @param x
+	 *            the X-coordinate of the move.
+	 * @param y
+	 *            the Y-coordinate of the move.
+	 * @return Returns true if the move x,y is valid.
+	 */
+	private boolean validateMove(int x, int y) {
+		int[] pos = {x, y};
+		ArrayList<int[]> temp = getValidMoveList();
+		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
+				return true;
 			}
+		}
+		return false;
+	}
 
-			/*@
-			 * requires boundTest(x, y) && 0 <= color && color <= 3;
-			 * ensures \result == validateMove(x, y);
-			 */
-			/**
-			 * Tries to place a new Ball onto the Board. Places the a ball with the
-			 * specified color at the desired position and returns true. If the
-			 * operation fails, it returns false.
-			 * 
-			 * @param x
-			 * @param y
-			 * @param color
-			 * @return true if ball has been placed. false if not possible.
-			 */
-			public boolean tryMove(int x, int y, int color) {
-				if (validateMove(x, y)) {
-					this.newBall = true;
-					this.newBallX = x;
-					this.newBallY = y;
-					this.newBallColor = color;
-					field[x][y] = color;
-					return true;
-				}
-				return false;
-			}
+	/*@
+	 * requires boundTest(x, y) && 0 <= color && color <= 3;
+	 * ensures \result == validateMove(x, y);
+	 */
+	/**
+	 * Tries to place a new Ball onto the Board. Places the a ball with the
+	 * specified color at the desired position and returns true. If the
+	 * operation fails, it returns false.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param color
+	 * @return true if ball has been placed. false if not possible.
+	 */
+	public boolean tryMove(int x, int y, int color) {
+		if (validateMove(x, y)) {
+			this.newBall = true;
+			this.newBallX = x;
+			this.newBallY = y;
+			this.newBallColor = color;
+			field[x][y] = color;
+			return true;
+		}
+		return false;
+	}
 
-			/*@
-			 * requires 0 <= id && id < 4;
-			 * loop_invariant 	int i, i >= 0 && i <= 64;
-			 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-			 * 					result == \old(result)++;
-			 * ensures \result >= 0 && \result < 64;
-			 */
-			/**
-			 * Count all the fields a given player has.
-			 * 
-			 * @param id
-			 *            the player.
-			 * @return the number of fields the player has.
-			 */
-			public int occupiedFields(int id) {
-				int result = 0;
-				for (int i = 0; i < FIELD_WIDTH; i++) {
-					for (int j = 0; j < FIELD_HEIGHT; j++) {
-						if (field[i][j] == id) {
-							result += 1;
-						}
-					}
-				}
-				return result;
-			}
-
-			/*@
-			 * ensures \result == true || \result == false;
-			 * ensures \result == this.modified;
-			 */
-			/**
-			 * Method for checking if the board has been modified since last move.
-			 * 
-			 * @return True if the board has been modified last loop (=> new Ball
-			 *         placed)
-			 */
-			public boolean modified() {
-				return this.modified;
-			}
-
-			/*@
-			 * ensures \result == this.modifiedBalls;
-			 */
-			/**
-			 * Method for retrieving a list of the recent changes in the board.
-			 * 
-			 * @return A list of the most recent changes of the ball. The list contains
-			 *         arrays that represent x,y-positions of the a ball and its color.
-			 */
-			public ArrayList<int[]> getChanges() {
-				return this.modifiedBalls;
-			}
-
-			/*@
-			 * requires boundTest(x, y) && 0 <= color && color < 4;
-			 * ensures \result != null;
-			 */
-			/**
-			 * Method that at first makes a given move on the board, then checks in all
-			 * directions of VECTORS and makes the changes when a ball is "captured".
-			 * 
-			 * @param x
-			 *            the X-coordinate of the move.
-			 * @param y
-			 *            the Y-coordinate of the move.
-			 * @param color
-			 *            the colour to change the field into.
-			 * @return A list of changes that have to be executed, if a ball is placed
-			 *         on x,y with the color "color".
-			 */
-			public ArrayList<int[]> resultingChangesForMove(int x, int y, int color) {
-				/**
-				 * loop through all possible direction. Advance one step at a time until
-				 * a ball of the same color as the new ball is found. save the index of
-				 * the vector and the distance between the new ball and the found ball
-				 * in changes.
-				 */
-				ArrayList<int[]> requiredChanges = new ArrayList<int[]>();
-				int[] newBallData = new int[3];
-				newBallData[0] = x;
-				newBallData[1] = y;
-				newBallData[2] = color;
-				for (int i = 0; i < VECTORS.length; i++) {
-					int distance = 1;
-					while (true) {
-						int currentX = newBallData[0] + VECTORS[i][0] * distance;
-						int currentY = newBallData[1] + VECTORS[i][1] * distance;
-
-						int currentColor = this.getField(currentX, currentY);
-						/**
-						 * If the the current field is out of bounds or empty stop
-						 * updating and add nothing to changes. (If a the same color had
-						 * been found, the search would have already been canceled)
-						 */
-						if (currentColor == -1) {
-							break;
-						}
-						/**
-						 * If the current field is the same color as the new ball, add
-						 * the index of the current vector and distance to changes.
-						 * Cancel search for this vector.
-						 */
-						if (currentColor == color) {
-							if (distance == 1) {
-								break;
-							}
-							int[] newChange = {i, distance};
-							requiredChanges.add(newChange);
-							break;
-						}
-						distance++;
-					}
-				}
-				return requiredChanges;
-			}
-
-			/*
-			 * ensures getNewBall() ? getChanges.size() > 0;
-			 */
-			/**
-			 * Method for updating the field.
-			 */
-			public void update() {
-				/**
-				 * If the board has been updated last loop, clear the changes list and
-				 * set modified to false. -> You have to fetch the changes before
-				 * calling update again!!! (Same as in InputHandler)
-				 */
-				this.modified = false;
-				if (modifiedBalls.size() > 0) {
-					modifiedBalls.clear();
-					changes.clear();
-				}
-				if (newBall) {
-					System.out.println("BOARD NEW BALL");
-					changes = this.resultingChangesForMove(newBallX, newBallY,
-							newBallColor);
-					for (int i = 0; i < changes.size(); i++) {
-						System.out
-						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
-					}
-					int[] newBallData = {newBallX, newBallY, newBallColor};
-
-					modifiedBalls.add(newBallData);
-
-					if (changes.size() > 0) {
-						for (int i = 0; i < changes.size(); i++) {
-							int currentVectorIndex = changes.get(i)[0];
-							int currentDistance = changes.get(i)[1];
-							for (int d = 1; d < currentDistance; d++) {
-
-								field[this.newBallX + VECTORS[currentVectorIndex][0]
-										* d][this.newBallY
-										     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
-								int[] s = new int[3];
-								s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
-										* d;
-								s[1] = this.newBallY + VECTORS[currentVectorIndex][1]
-										* d;
-								s[2] = newBallColor;
-								modifiedBalls.add(s);
-							}
-						}
-					}
-					this.modified = true;
-					this.newBall = false;
-					this.nextPlayer();
-					validMovesForNextPlayer = null;
-					this.validMovesForNextPlayer = this.getValidMoveList();
-				}
-			}
-
-			/**
-			 * Method for printing the current field on the console.
-			 */
-			public void print() {
-				System.out.println("-------------------------");
-				for (int x = 0; x < FIELD_WIDTH; x++) {
-					for (int y = 0; y < FIELD_HEIGHT; y++) {
-						System.out.print("| " + this.getField(x, y) + " |");
-					}
+	/*@
+	 * requires 0 <= id && id < 4;
+	 * loop_invariant 	int i, i >= 0 && i <= 64;
+	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
+	 * 					result == \old(result)++;
+	 * ensures \result >= 0 && \result < 64;
+	 */
+	/**
+	 * Count all the fields a given player has.
+	 * 
+	 * @param id
+	 *            the player.
+	 * @return the number of fields the player has.
+	 */
+	public int occupiedFields(int id) {
+		int result = 0;
+		for (int i = 0; i < FIELD_WIDTH; i++) {
+			for (int j = 0; j < FIELD_HEIGHT; j++) {
+				if (field[i][j] == id) {
+					result += 1;
 				}
 			}
 		}
+		return result;
+	}
+
+	/*@
+	 * ensures \result == true || \result == false;
+	 * ensures \result == this.modified;
+	 */
+	/**
+	 * Method for checking if the board has been modified since last move.
+	 * 
+	 * @return True if the board has been modified last loop (=> new Ball
+	 *         placed)
+	 */
+	public boolean modified() {
+		return this.modified;
+	}
+
+	/*@
+	 * ensures \result == this.modifiedBalls;
+	 */
+	/**
+	 * Method for retrieving a list of the recent changes in the board.
+	 * 
+	 * @return A list of the most recent changes of the ball. The list contains
+	 *         arrays that represent x,y-positions of the a ball and its color.
+	 */
+	public ArrayList<int[]> getChanges() {
+		return this.modifiedBalls;
+	}
+
+	/*@
+	 * requires boundTest(x, y) && 0 <= color && color < 4;
+	 * ensures \result != null;
+	 */
+	/**
+	 * Method that at first makes a given move on the board, then checks in all
+	 * directions of VECTORS and makes the changes when a ball is "captured".
+	 * 
+	 * @param x
+	 *            the X-coordinate of the move.
+	 * @param y
+	 *            the Y-coordinate of the move.
+	 * @param color
+	 *            the colour to change the field into.
+	 * @return A list of changes that have to be executed, if a ball is placed
+	 *         on x,y with the color "color".
+	 */
+	public ArrayList<int[]> resultingChangesForMove(int x, int y, int color) {
+		/**
+		 * loop through all possible direction. Advance one step at a time until
+		 * a ball of the same color as the new ball is found. save the index of
+		 * the vector and the distance between the new ball and the found ball
+		 * in changes.
+		 */
+		ArrayList<int[]> requiredChanges = new ArrayList<int[]>();
+		int[] newBallData = new int[3];
+		newBallData[0] = x;
+		newBallData[1] = y;
+		newBallData[2] = color;
+		for (int i = 0; i < VECTORS.length; i++) {
+			int distance = 1;
+			while (true) {
+				int currentX = newBallData[0] + VECTORS[i][0] * distance;
+				int currentY = newBallData[1] + VECTORS[i][1] * distance;
+
+				int currentColor = this.getField(currentX, currentY);
+				/**
+				 * If the the current field is out of bounds or empty stop
+				 * updating and add nothing to changes. (If a the same color had
+				 * been found, the search would have already been canceled)
+				 */
+				if (currentColor == -1) {
+					break;
+				}
+				/**
+				 * If the current field is the same color as the new ball, add
+				 * the index of the current vector and distance to changes.
+				 * Cancel search for this vector.
+				 */
+				if (currentColor == color) {
+					if (distance == 1) {
+						break;
+					}
+					int[] newChange = {i, distance};
+					requiredChanges.add(newChange);
+					break;
+				}
+				distance++;
+			}
+		}
+		return requiredChanges;
+	}
+
+	/*
+	 * ensures getNewBall() ? getChanges.size() > 0;
+	 */
+	/**
+	 * Method for updating the field.
+	 */
+	public void update() {
+		/**
+		 * If the board has been updated last loop, clear the changes list and
+		 * set modified to false. -> You have to fetch the changes before
+		 * calling update again!!! (Same as in InputHandler)
+		 */
+		this.modified = false;
+		if (modifiedBalls.size() > 0) {
+			modifiedBalls.clear();
+			changes.clear();
+		}
+		if (newBall) {
+			System.out.println("BOARD NEW BALL");
+			changes = this.resultingChangesForMove(newBallX, newBallY,
+					newBallColor);
+			for (int i = 0; i < changes.size(); i++) {
+				System.out
+				.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
+			}
+			int[] newBallData = {newBallX, newBallY, newBallColor};
+
+			modifiedBalls.add(newBallData);
+
+			if (changes.size() > 0) {
+				for (int i = 0; i < changes.size(); i++) {
+					int currentVectorIndex = changes.get(i)[0];
+					int currentDistance = changes.get(i)[1];
+					for (int d = 1; d < currentDistance; d++) {
+
+						field[this.newBallX + VECTORS[currentVectorIndex][0]
+								* d][this.newBallY
+								     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
+						int[] s = new int[3];
+						s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
+								* d;
+						s[1] = this.newBallY + VECTORS[currentVectorIndex][1]
+								* d;
+						s[2] = newBallColor;
+						modifiedBalls.add(s);
+					}
+				}
+			}
+			this.modified = true;
+			this.newBall = false;
+			this.nextPlayer();
+			validMovesForNextPlayer = null;
+			this.validMovesForNextPlayer = this.getValidMoveList();
+		}
+	}
+
+	/**
+	 * Method for printing the current field on the console.
+	 */
+	public void print() {
+		System.out.println("-------------------------");
+		for (int x = 0; x < FIELD_WIDTH; x++) {
+			for (int y = 0; y < FIELD_HEIGHT; y++) {
+				System.out.print("| " + this.getField(x, y) + " |");
+			}
+		}
+	}
+}
