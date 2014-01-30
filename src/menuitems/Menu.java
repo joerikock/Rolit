@@ -35,7 +35,7 @@ public abstract class Menu {
 	// private ArrayList<GuiObject> childrenObjects;
 	private ArrayList<Integer> buttonIndexList, textInputFieldIndexList;
 	private int lastClickedElementIndex;
-	private MenuManager manager;
+	MenuManager manager;
 	private String name;
 
 	/**
