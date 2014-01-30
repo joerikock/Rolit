@@ -6,11 +6,11 @@ import menuItems.Menu;
 import menuItems.MenuManager;
 import menuItems.TextOutputField;
 import multiplayer.Client;
-import rollitMenus.IngameMenu;
-import rollitMenus.LoginMenu;
-import rollitMenus.MainMenu;
-import rollitMenus.NewGameMenu;
-import rollitMenus.OnlineGameMenu;
+import rolitmenus.IngameMenu;
+import rolitmenus.LoginMenu;
+import rolitmenus.MainMenu;
+import rolitmenus.NewGameMenu;
+import rolitmenus.OnlineGameMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -337,12 +337,12 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-		
-			ArrayList<Player> players = board.getPlayer();
-			for(int i=0; i<players.size();i++){
-				inGameMenu.setPlayerName(players.get(i).getName(), i);
-				inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
-			}
+
+		ArrayList<Player> players = board.getPlayer();
+		for(int i=0; i<players.size();i++){
+			inGameMenu.setPlayerName(players.get(i).getName(), i);
+			inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
+		}
 		
 
 		if (this.getBoard().finished()) {
@@ -374,7 +374,7 @@ public class Game {
 			for (int i = 0; i < 4; i++) {
 				if (active.getSelectedChild(playerColors[i]).equals(
 						"Human Player")) {
-					players[i] = new HumanPlayer("Max", boardPainter);
+					players[i] = new HumanPlayer("Player " + (i + 1), boardPainter);
 				}
 				if (active.getSelectedChild(playerColors[i])
 						.equals("Simple AI")) {

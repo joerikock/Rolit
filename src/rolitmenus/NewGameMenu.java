@@ -1,4 +1,4 @@
-package rollitMenus;
+package rolitmenus;
 
 import menuItems.Button;
 import menuItems.Menu;

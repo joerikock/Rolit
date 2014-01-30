@@ -1,4 +1,4 @@
-package rollitMenus;
+package rolitmenus;
 
 import menuItems.*;
 
@@ -63,32 +63,32 @@ public class IngameMenu extends Menu {
 		winner.setColor(1, 1, 1);
 		this.addGuiObject(winner);
 	}
-	public void setPlayerName(String name, int i){
-		if(i==0){
+	public void setPlayerName(String name, int i) {
+		if (i == 0) {
 			p1.setText(name);
 		}
-		if(i==1){
+		if (i == 1) {
 			p2.setText(name);
 		}
-		if(i==2){
+		if (i == 2) {
 			p3.setText(name);
 		}
-		if(i==3){
+		if (i == 3) {
 			p4.setText(name);
 		}
 	}
 	public void setPlayerScore(int score, int i){
-		if(i==0){
-			p1Score.setText(score+"");
+		if (i == 0) {
+			p1Score.setText(score + "");
 		}
-		if(i==1){
-			p2Score.setText(score+"");
+		if (i == 1) {
+			p2Score.setText(score + "");
 		}
-		if(i==2){
-			p3Score.setText(score+"");
+		if (i == 2) {
+			p3Score.setText(score + "");
 		}
-		if(i==3){
-			p4Score.setText(score+"");
+		if (i == 3) {
+			p4Score.setText(score + "");
 		}
 	}
 }
