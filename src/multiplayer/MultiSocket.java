@@ -524,21 +524,25 @@ public class MultiSocket implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int port = 1235;
-		ServerSocket serverSocket = null;
-		try {
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			System.out.println("Port " + port + " allready in use.");
-			e.printStackTrace();
+		int port = Integer.parseInt(args[0]);
+		if(port> 1000 && port <9999){
+			ServerSocket serverSocket = null;
+			try {
+				serverSocket = new ServerSocket(port);
+			} catch (IOException e) {
+				System.out.println("Port " + port + " allready in use.");
+				e.printStackTrace();
+			}
+	
+			// Thread thread = new Thread(newSocket);
+			// thread.start();
+			Listener listener = new Listener();
+			listener.setServerSocket(serverSocket);
+			Thread listenerThread = new Thread((Runnable) (listener));
+			listenerThread.start();
+		}else{
+			System.out.println("Invalid port number");
 		}
-
-		// Thread thread = new Thread(newSocket);
-		// thread.start();
-		Listener listener = new Listener();
-		listener.setServerSocket(serverSocket);
-		Thread listenerThread = new Thread((Runnable) (listener));
-		listenerThread.start();
 
 	}
 
