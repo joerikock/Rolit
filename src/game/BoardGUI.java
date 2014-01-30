@@ -69,8 +69,8 @@ public class BoardGUI {
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, changinsBallInit, newSelectedField,
-			choicesInit;
+	private boolean animationInProgress, changinsBallInit, newSelectedField, 
+	choicesInit;
 
 	/*
 	 * @ private invariant newBall != null;
@@ -183,7 +183,7 @@ public class BoardGUI {
 	 */
 	public void setFieldColor(int x, int y, float r, float g, float b,
 			float alpha) {
-		float[] color = { r, g, b, alpha };
+		float[] color = {r, g, b, alpha};
 		balls[x][y].setRenderColor(color);
 	}
 
