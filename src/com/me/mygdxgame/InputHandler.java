@@ -5,9 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
-//TODO: Comments
 public class InputHandler implements InputProcessor {
 	class CleanUpException extends Exception {
+		private static final long serialVersionUID = 1L;
+
 		// Parameterless Constructor
 		public CleanUpException() {
 		}
@@ -19,11 +20,11 @@ public class InputHandler implements InputProcessor {
 	}
 
 	/**
-	 * Responsible for fetching mouse and keyboard input
+	 * Responsible for fetching mouse and keyboard input.
 	 */
 	float mouseX, mouseY;
-	boolean mouseClicked, mouseDown, currentMouseState, keyReleased, keyDown,
-			currentKeyState;
+	boolean mouseClicked, mouseDown, currentMouseState, 
+	keyReleased, keyDown, currentKeyState;
 	private boolean clean;
 	char typedKey;
 	ArrayList<Character> lastC;
