@@ -71,7 +71,6 @@ public class Client implements Runnable {
 
 	public void login(String name) {
 		this.name = name;
-		System.out.println("Client init. " + name);
 		String[] a = { name };
 		sendMessage("login", a);
 		loginStatus = 1;

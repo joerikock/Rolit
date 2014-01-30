@@ -285,9 +285,10 @@ public class Game {
 				System.out.println("Failed to connect to Server");
 				e.printStackTrace();
 			}
+			client.login(login.getUser());
 		}
 
-		client.login(login.getUser());
+		
 		if (client.getLoginState() == 2) {
 			Thread clientThread = new Thread(client);
 			clientThread.start();
@@ -338,31 +339,23 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-		TextOutputField red;
-		red = (TextOutputField) (active.getElement("redScore"));
-		red.setText(this.board.getNumberOfFields(0) + "");
-
-		TextOutputField yellow;
-		yellow = (TextOutputField) (active.getElement("yellowScore"));
-		yellow.setText(this.board.getNumberOfFields(1) + "");
-
-		TextOutputField green;
-		green = (TextOutputField) (active.getElement("greenScore"));
-		green.setText(this.board.getNumberOfFields(3) + "");
-
-		TextOutputField blue;
-		blue = (TextOutputField) (active.getElement("blueScore"));
-		blue.setText(this.getBoard().getNumberOfFields(2) + "");
+		
+			ArrayList<Player> players = board.getPlayer();
+			for(int i=0; i<players.size();i++){
+				inGameMenu.setPlayerName(players.get(i).getName(), i);
+				inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
+			}
+		
 
 		if (this.getBoard().finished()) {
 			TextOutputField winner;
+			
 			winner = (TextOutputField) (active.getElement("winner"));
 			int winnerIndex = this.getBoard().getWinner();
 			if (winnerIndex == -1) {
 				winner.setText("It's a draw!");
 			} else {
-				winner.setText("The winner is " + this.getBoard().
-						getPlayer().get(winnerIndex).getName());
+				winner.setText("The winner is " + players.get(winnerIndex).getName());
 			}
 		}
 	}
@@ -381,10 +374,8 @@ public class Game {
 			 */
 			String[] playerColors = { "Player 1", "Player 2", "Player 3", "Player 4" };
 			for (int i = 0; i < 4; i++) {
-
 				if (active.getSelectedChild(playerColors[i]).equals(
 						"Human Player")) {
-
 					players[i] = new HumanPlayer("Max", boardPainter);
 				}
 				if (active.getSelectedChild(playerColors[i])
