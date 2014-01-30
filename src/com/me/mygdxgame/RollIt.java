@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class RollIt implements ApplicationListener, TextInputListener {
-	public static BitmapFont FONT;
+	public static BitmapFont font;
 	private SpriteBatch batch;
 	private InputHandler input;
 	ShapeRenderer shapes;
@@ -27,7 +27,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
 		// add Key Listener for keyboardInput
-		FONT = new BitmapFont();
+		font = new BitmapFont();
 		game = new Game();
 		input = new InputHandler();
 	}
@@ -48,7 +48,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-		FONT.setColor(0, 0, 0, 1);
+		font.setColor(0, 0, 0, 1);
 		input.update();
 		game.update(input.getMouseX(), input.getMouseY(), input.mouseClicked(),
 				input.getKey());

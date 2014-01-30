@@ -69,9 +69,9 @@ public class TextOutputField extends GuiObject {
 	}
 
 	public void batchDraw(SpriteBatch batch) {
-		RollIt.FONT.setColor(r, g, b, alpha);
-			RollIt.FONT.draw(batch, displayString, x, y + height / 2
-					+ RollIt.FONT.getCapHeight());
+		RollIt.font.setColor(r, g, b, alpha);
+			RollIt.font.draw(batch, displayString, x, y + height / 2
+					+ RollIt.font.getCapHeight());
 		
 	}
 }
