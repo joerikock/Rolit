@@ -15,14 +15,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class AnimatedBackGround {
 	private class Mover {
-		private int x, y, speed, delay, count, xdir, ydir;
+		private int x, y, delay, count, xdir, ydir;
 		private float r, g, b;
 
 		public Mover(int x, int y, int speed, int delay, float r, float g,
 				float b) {
 			this.x = x;
 			this.y = y;
-			this.speed = speed;
 			this.delay = delay;
 			this.r = r;
 			this.g = g;
