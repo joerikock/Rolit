@@ -136,10 +136,12 @@ public class Game {
 	 * Boolean deciding whether hints are displayed during the game.
 	 */
 	private boolean showHints;
+	
 	/**
-	 * Boolean deciding whether current game is online or not
+	 * Boolean deciding whether current game is online or not.
 	 */
 	private boolean onlineGame;
+	
 	/**
 	 * Standart port for connecting to the server.
 	 */
@@ -276,10 +278,7 @@ public class Game {
 			String serverNameFetch = login.getServerIp();
 
 			try {
-
 				client.connect(port, serverNameFetch);
-				// client = new Client(login.getUser(),
-				// login.getPassword(),1235, "localHost");
 			} catch (Exception e) {
 				System.out.println("Failed to connect to Server");
 				e.printStackTrace();
@@ -378,9 +377,8 @@ public class Game {
 			/**
 			 * Fetch players & hints
 			 */
-			String[] playerColors = { "Player 1", "Player 2", "Player 3", "Player 4" };
+			String[] playerColors = {"Player 1", "Player 2", "Player 3", "Player 4"};
 			for (int i = 0; i < 4; i++) {
-
 				if (active.getSelectedChild(playerColors[i]).equals(
 						"Human Player")) {
 
