@@ -18,14 +18,14 @@ public class AnimatedBackGround {
 		private int x, y, delay, count, xdir, ydir;
 		private float r, g, b;
 
-		public Mover(int x, int y, int speed, int delay, float r, float g,
-				float b) {
-			this.x = x;
-			this.y = y;
-			this.delay = delay;
-			this.r = r;
-			this.g = g;
-			this.b = b;
+		public Mover(int theX, int theY, int theSpeed, int theDelay, 
+				float theR, float theG, float theB) {
+			this.x = theX;
+			this.y = theY;
+			this.delay = theDelay;
+			this.r = theR;
+			this.g = theG;
+			this.b = theB;
 			count = 0;
 			xdir = Tools.randomDir();
 			ydir = Tools.randomDir();
@@ -63,7 +63,7 @@ public class AnimatedBackGround {
 	private BoardGUI bg;
 
 	/**
-	 * ArrayList of Movers that animate the background
+	 * ArrayList of Movers that animate the background.
 	 */
 	private ArrayList<Mover> movers;
 
