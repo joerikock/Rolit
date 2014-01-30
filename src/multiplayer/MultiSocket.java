@@ -139,9 +139,15 @@ public class MultiSocket implements Runnable {
 		 */
 		public void sendToPlayers(String message, String[] args) {
 			for (int i = 0; i < playerNames.size(); i++) {
+<<<<<<< HEAD
 				int clientIndex = clients.get(playerNames.get(i));
 				if (clientIndex != null) {
 					MultiSocket sock = socketList.get();
+=======
+				if (clients.get(playerNames.get(i)) != null) {
+					MultiSocket sock = socketList.get(clients.get(playerNames
+							.get(i)));
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 					if (sock != null) {
 						sock.sendMessage(message, args);
 					}
@@ -366,8 +372,16 @@ public class MultiSocket implements Runnable {
 	// }
 	// }
 
+<<<<<<< HEAD
 	private void close() {
 		System.out.println("Shutting down client " + clientName);
+=======
+	private void close(Session session) {
+		System.out.println("Shutting down client " + clientName);
+		if (session != null) {
+			session.gameOver(clientName);
+		}
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 		removeClient(clientName);
 		isActive = false;
 		shutDown = true;
@@ -381,7 +395,7 @@ public class MultiSocket implements Runnable {
 			e.printStackTrace();
 		}
 		for (int i = 0; i < socketList.size(); i++) {
-			socketList.get(i).close();
+			socketList.get(i).close(null);
 		}
 	}
 
@@ -420,7 +434,11 @@ public class MultiSocket implements Runnable {
 			message = reader.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+<<<<<<< HEAD
 			this.close();
+=======
+			this.close(null);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 			// e.printStackTrace();
 		}
 		if (message != null) {
@@ -469,7 +487,12 @@ public class MultiSocket implements Runnable {
 				// socketList.remove(clients.remove(clientName));
 				//
 				// } else {
+<<<<<<< HEAD
 
+=======
+				Session session = sessionHandler
+						.getPlayerSession(clientName);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 				if (!isClient) {
 
 					if (s.length == 2 && s[0].equals("login")) {
@@ -485,8 +508,11 @@ public class MultiSocket implements Runnable {
 					}
 
 				} else {
+<<<<<<< HEAD
 					Session session = sessionHandler
 							.getPlayerSession(clientName);
+=======
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 
 					if (!searching && session == null) {
 						if (s[0].equals("join") && s.length == 2) {
@@ -516,7 +542,11 @@ public class MultiSocket implements Runnable {
 				}
 				this.sendMessage(s[0] + "Ack", args);
 				if (s[0].equals("logOut")) {
+<<<<<<< HEAD
 					this.close();
+=======
+					this.close(session);
+>>>>>>> dd858885005f300a7e314163317026dc33598e62
 				}
 			}
 		}
