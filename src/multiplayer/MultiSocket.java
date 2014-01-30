@@ -107,9 +107,10 @@ public class MultiSocket implements Runnable {
 		 * Ends the current game and stops the session thread.
 		 */
 		//TODO: Don't stop thread but ask whether clients want to play again.
-		public void gameOver() {
+		public void gameOver(String player) {
 			System.out.println("Player left or game over");
-			sendToPlayers("gameOver", null);
+			String[] args = {player};
+			sendToPlayers("gameOver", args);
 			active = false;
 		}
 		/**
@@ -469,7 +470,7 @@ public class MultiSocket implements Runnable {
 										Integer.parseInt(s[2]), clientName);
 							}
 							if (s[0].equals("disjoin")) {
-								session.gameOver();
+								session.gameOver(clientName);
 								sessionHandler.updateSessions();
 							}
 
@@ -487,7 +488,7 @@ public class MultiSocket implements Runnable {
 			Session session = sessionHandler
 					.getPlayerSession(clientName);
 			if(session!=null){
-				session.gameOver();
+				session.gameOver(null);
 				sessionHandler.updateSessions();
 				
 			}

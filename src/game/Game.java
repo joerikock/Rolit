@@ -241,6 +241,10 @@ public class Game {
 		if (active == login) {
 			updateLoginMenu(active);
 		}
+		if(client.getMessage()!=null){
+			menus.openMessageBox(client.getMessage());
+			client.messageFetched();
+		}
 	}
 
 	private void updateGame(float x, float y, boolean mouseDown) {

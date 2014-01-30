@@ -25,6 +25,7 @@ public class Client implements Runnable {
 	private ClientListener listener;
 	private Board clientBoard;
 	private Thread listenerThread;
+	private String errorMessage;
 	/**
 	 * Defines the state in which the client is. 0 = not logged in. 1 = trying
 	 * to log in. 2 = logged in.
@@ -42,6 +43,7 @@ public class Client implements Runnable {
 		try {
 			ip = InetAddress.getByName(serverName);
 		} catch (UnknownHostException e1) {
+			this.errorMessage = "Server " + serverName + " not found on port " +port;
 			System.out.println("Server " + serverName + " not found on port "
 					+ port);
 			e1.printStackTrace();
@@ -50,6 +52,7 @@ public class Client implements Runnable {
 		try {
 			socket = new Socket(ip, port);
 		} catch (IOException e) {
+			this.errorMessage = "Could not connect to server.";
 			System.out.println(e.getMessage());
 		}
 		if (socket != null) {
@@ -77,14 +80,16 @@ public class Client implements Runnable {
 	}
 
 	public void close() {
-		sendMessage("logOut", null);
-		try {
-			socket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(socket!=null){
+			sendMessage("logOut", null);
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			loginStatus = 0;
 		}
-		loginStatus = 0;
 		running = false;
 
 	}
@@ -154,6 +159,7 @@ public class Client implements Runnable {
 				try {
 					message = bufferedReader.readLine();
 				} catch (IOException e) {
+					client.errorMessage = "Connection to the server lost";
 					System.out.println("Connection to the server lost");
 					// e.printStackTrace();
 					client.loginStatus = 0;
@@ -163,7 +169,7 @@ public class Client implements Runnable {
 				}
 				if (message != null) {
 					String[] messageParts = message.split(" ");
-					System.out.println("readMessage: " + message);
+					System.out.println("SERVER MESSAGE : "+ message);
 					if (messageParts.length > 0) {
 						if (messageParts[0].equals("newGame")) {
 							ArrayList<String> names = new ArrayList<String>();
@@ -185,6 +191,12 @@ public class Client implements Runnable {
 									client.getBoard().currentPlayerColor());
 						}
 						if (messageParts[0].equals("gameOver")) {
+							if(messageParts.length==1){
+								client.errorMessage = "The server shutdown";
+							}else{
+								client.errorMessage = messageParts[1]+ " left the game.";
+							}
+							
 							client.leaveGame();
 						}
 					}
@@ -192,9 +204,11 @@ public class Client implements Runnable {
 						if (messageParts[0].equals("loginAck")) {
 							if (messageParts[1].equals("welcome")) {
 								// Login worked
+								client.errorMessage = "You are now logged in!";
 								client.loginComplete();
 							}
 							if (messageParts[1].equals("incorrect")) {
+								client.errorMessage = "Login failed. Choose a different name";
 								// Login failed
 							}
 						}
@@ -206,7 +220,12 @@ public class Client implements Runnable {
 		}
 
 	};
-
+	public String getMessage(){
+		return this.errorMessage;
+	}
+	public void messageFetched(){
+		this.errorMessage = null;
+	}
 	public int getLoginState() {
 		return loginStatus;
 	}

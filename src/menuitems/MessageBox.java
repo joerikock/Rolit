@@ -7,7 +7,7 @@ public class MessageBox extends GuiObject{
 
 	public MessageBox(String name, String text){
 		super(name);
-		super.setDimensions(275, 275, 200, 200);
+		super.setDimensions(280, 275, 350, 200);
 
 	}
 
@@ -17,8 +17,12 @@ public class MessageBox extends GuiObject{
 		
 	}
 	@Override
+	public void drawOverLay(SpriteBatch batch){
+		
+	}
+	@Override
 	public void shapesDraw(ShapeRenderer shapes){
-		shapes.setColor(1, 1,1, .2f);
+		shapes.setColor(1, 1,1, alpha);
 		shapes.rect(x, y, width, height);
 	}
 }

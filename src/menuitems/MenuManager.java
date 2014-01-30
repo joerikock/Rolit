@@ -42,7 +42,7 @@ public class MenuManager {
 	 * Boolean preventing an update of the menus during animation.
 	 */
 	boolean animationDone;
-	
+
 	/**
 	 * Manages multiple Menus. Responsible for switching between menus and
 	 * updating the selected one.
@@ -50,8 +50,8 @@ public class MenuManager {
 	public MenuManager() {
 		this.currentMenuIndex = -1;
 		this.lastMenuIndex = -1;
-		this.superMenu = new SuperMenu();
-	
+		this.superMenu = new SuperMenu();	
+		superMenu.setAlpha(.8f);
 		this.menus = new ArrayList<Menu>();
 	}
 
@@ -94,12 +94,16 @@ public class MenuManager {
 	 */
 	public void update(float x, float y, boolean mouseDown, char input) {
 		// TODO Auto-generated method stub
-
-		if (menus.size() > 0 && currentMenuIndex >= 0) {
-			menus.get(currentMenuIndex).update(x, y, mouseDown, input);
+		if (this.messageBoxActive) {
+			superMenu.update(x, y, mouseDown, input);
+			messageBoxActive = !superMenu.okayClicked();
+		} else {
+			if (menus.size() > 0 && currentMenuIndex >= 0) {
+				menus.get(currentMenuIndex).update(x, y, mouseDown, input);
+			}
+			this.updateAnimation();
 		}
-		this.updateAnimation();
-		superMenu.update(x, y, mouseDown, input);
+
 	}
 
 	/**
@@ -135,18 +139,23 @@ public class MenuManager {
 		}
 		menus.get(currentMenuIndex).setAlpha(alpha);
 	}
-	public void openMessageBox(String message){
-		
-	}
-	public void shapesDraw(ShapeRenderer shapes) {
 
-		if (!animationDone && lastMenuIndex != -1) {
-			menus.get(lastMenuIndex).shapesDraw(shapes);
+	public void openMessageBox(String message) {
+		this.messageBoxActive = true;
+		superMenu.setMessage(message);
+	}
+
+	public void shapesDraw(ShapeRenderer shapes) {
+		if (this.messageBoxActive) {
+			superMenu.shapesDraw(shapes);
+			
+		} else {
+			if (!animationDone && lastMenuIndex != -1) {
+				menus.get(lastMenuIndex).shapesDraw(shapes);
+			}
+			menus.get(currentMenuIndex).setAlpha(alpha);
+			menus.get(currentMenuIndex).shapesDraw(shapes);
 		}
-		menus.get(currentMenuIndex).setAlpha(alpha);
-		menus.get(currentMenuIndex).shapesDraw(shapes);
-		superMenu.shapesDraw(shapes);
-		superMenu.setAlpha(1);
 	}
 
 	/**
@@ -156,13 +165,17 @@ public class MenuManager {
 	 */
 	public void batchDraw(SpriteBatch batch) {
 		batch.begin();
-		if (!animationDone) {
-			if (lastMenuIndex != -1) {
-				menus.get(lastMenuIndex).batchDraw(batch);
+		if (this.messageBoxActive) {
+			superMenu.batchDraw(batch);
+		} else {
+			if (!animationDone) {
+				if (lastMenuIndex != -1) {
+					menus.get(lastMenuIndex).batchDraw(batch);
+				}
 			}
+			menus.get(currentMenuIndex).batchDraw(batch);
+			
 		}
-		menus.get(currentMenuIndex).batchDraw(batch);
-		superMenu.batchDraw(batch);
 		batch.end();
 	}
 
@@ -174,6 +187,5 @@ public class MenuManager {
 	public Menu getActiveMenu() {
 		return menus.get(currentMenuIndex);
 	}
-
 
 }

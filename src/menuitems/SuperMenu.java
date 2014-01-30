@@ -8,9 +8,10 @@ public class SuperMenu extends Menu{
 		super("super");
 		box = new MessageBox("box", "HAllo");
 		this.addGuiObject(box);
-		message = new TextOutputField("text", 100,300);
+		message = new TextOutputField("text", 320,390);
+		message.setColor(0, 0, 0);
 		this.addGuiObject(message);
-		okay = new Button("Okay", 350, 350);
+		okay = new Button("Okay", 400, 300);
 		this.addGuiObject(okay);
 		// TODO Auto-generated constructor stub
 	}
