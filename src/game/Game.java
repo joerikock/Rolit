@@ -218,7 +218,7 @@ public class Game {
 		}
 		if (active == mainMenu) {
 			if (active.lastClickedElement() == "Exit") {
-				if (client.getLoginState()>0) {
+				if (client.getLoginState() > 0) {
 					client.close();
 				}
 				System.exit(0);
@@ -237,7 +237,7 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-		if (active == login) {	
+		if (active == login) {
 			updateLoginMenu(active);
 		}
 	}
@@ -275,27 +275,25 @@ public class Game {
 			System.out.println(login.getPort());
 			int port = Integer.parseInt(login.getPort());
 			String serverNameFetch = login.getServerIp();
-			if (serverNameFetch.equals("localHost")) {
-				try {
 
-					client.connect(port, serverNameFetch);
-					// client = new Client(login.getUser(),
-					// login.getPassword(),1235, "localHost");
-				} catch (Exception e) {
-					System.out.println("Failed to connect to Server");
-					e.printStackTrace();
-				}
-			} else {
+			try {
 
-			}
-
-			client.login(login.getUser());
-			if (client.getLoginState() == 2) {
-				Thread clientThread = new Thread(client);
-				clientThread.start();
-				menus.setActiveMenu(onlineGameMenu);
+				client.connect(port, serverNameFetch);
+				// client = new Client(login.getUser(),
+				// login.getPassword(),1235, "localHost");
+			} catch (Exception e) {
+				System.out.println("Failed to connect to Server");
+				e.printStackTrace();
 			}
 		}
+
+		client.login(login.getUser());
+		if (client.getLoginState() == 2) {
+			Thread clientThread = new Thread(client);
+			clientThread.start();
+			menus.setActiveMenu(onlineGameMenu);
+		}
+
 		if (active.lastClickedElement() == "Cancel") {
 			menus.setActiveMenu(mainMenu);
 		}
@@ -310,7 +308,8 @@ public class Game {
 			}
 			if (active.lastClickedElement() == "Connect") {
 				System.out.println(active.getSelectedChild("Opponents"));
-				int playerCount = Integer.parseInt(active.getSelectedChild("Opponents"))+1;
+				int playerCount = Integer.parseInt(active
+						.getSelectedChild("Opponents")) + 1;
 				onlineGame = true;
 				client.requestGame(playerCount);
 
@@ -333,7 +332,7 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 				client.leaveGame();
 			}
-		}else{
+		} else {
 			if (active.lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
