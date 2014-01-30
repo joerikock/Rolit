@@ -514,7 +514,7 @@ public class MultiSocket implements Runnable {
 
 		Listener listener = new Listener();
 		listener.setServerSocket(serverSocket);
-		Thread listenerThread = new Thread((Runnable) (listener));
+		Thread listenerThread = new Thread((Runnable) listener);
 		listenerThread.start();
 	}
 
@@ -524,20 +524,8 @@ public class MultiSocket implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-		int port = 1235;
-		ServerSocket serverSocket = null;
-		try {
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			System.out.println("Port " + port + " already in use.");
-			e.printStackTrace();
-=======
-=======
->>>>>>> 1af1a01a7f224e61a744e568c3529b8f560b7285
 		int port = Integer.parseInt(args[0]);
-		if(port> 1000 && port <9999){
+		if (port > 1000 && port < 9999) {
 			ServerSocket serverSocket = null;
 			try {
 				serverSocket = new ServerSocket(port);
@@ -550,16 +538,10 @@ public class MultiSocket implements Runnable {
 			// thread.start();
 			Listener listener = new Listener();
 			listener.setServerSocket(serverSocket);
-			Thread listenerThread = new Thread((Runnable) (listener));
+			Thread listenerThread = new Thread((Runnable) listener);
 			listenerThread.start();
-		}else{
+		} else {
 			System.out.println("Invalid port number");
-<<<<<<< HEAD
->>>>>>> 1af1a01a7f224e61a744e568c3529b8f560b7285
-=======
->>>>>>> 1af1a01a7f224e61a744e568c3529b8f560b7285
 		}
-
 	}
-
 }
