@@ -104,30 +104,12 @@ public class Client implements Runnable {
 							this.sendMessage("move", args);
 						}
 					}
-					// clientBoard.currentPlayer().makeMove(clientBoard);
 
 				}
 			}
 		}
 
 	}
-
-	private void sendMessage(String command) {
-		if (socket != null) {
-			PrintWriter printWriter = null;
-			try {
-				printWriter = new PrintWriter(new OutputStreamWriter(
-						socket.getOutputStream()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			printWriter.println(command);
-			printWriter.flush();
-		}
-
-	}
-
 	public void sendMessage(String command, String[] args) {
 		if (socket != null) {
 			PrintWriter printWriter = null;
@@ -142,7 +124,7 @@ public class Client implements Runnable {
 			for (int i = 0; i < args.length; i++) {
 				message += " " + args[i];
 			}
-			System.out.println("NEW COMMAND SEND TO SERVER: " + command);
+			System.out.println("NEW COMMAND SEND TO SERVER: " + message);
 			printWriter.println(message);
 			printWriter.flush();
 			// set gotAck to false. only can send next message if the previous
@@ -164,7 +146,8 @@ public class Client implements Runnable {
 		@Override
 		public void run() {
 			while (running) {
-				System.out.println("Client listening");
+				System.out.println("");
+				System.out.println("Client waiting for new input from the server");
 				String message = null;
 				try {
 					message = bufferedReader.readLine();
@@ -235,7 +218,6 @@ public class Client implements Runnable {
 	}
 
 	public void startGame(ArrayList<String> players) {
-		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		// playerList.remove(name);
 		// playerList.add(new HumanPlayer(name, 0, boardGui));
@@ -243,6 +225,9 @@ public class Client implements Runnable {
 			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);
 		}
+		System.out.println(" - -");
+		System.out.println("RESETTING BOARD AND STARTING A NEW GAME");
+		System.out.println("- -");
 		clientBoard = new Board();
 		this.clientBoard.newGame(playerList);
 		inGame = true;
@@ -266,7 +251,7 @@ public class Client implements Runnable {
 	}
 	public void leaveGame(){
 		inGame = false;
-		sendMessage("disjoin");
+		sendMessage("disjoin",null);
 	}
 	public void makeMove(int x, int y) {
 		if (currentPlayer) {

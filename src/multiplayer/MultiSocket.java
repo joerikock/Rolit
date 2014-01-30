@@ -65,7 +65,7 @@ public class MultiSocket implements Runnable {
 			playerNames.add(clientName);
 			board = new Board();
 			this.playerCount = playerCount;
-			System.out.println("New session created by" + clientName);
+			System.out.println("New session created by " + clientName);
 			active = true;
 		}
 		/**
@@ -149,7 +149,7 @@ public class MultiSocket implements Runnable {
 				if (player.equals(playerNames.get(i))) {
 					if (board.currentPlayer().getName().equals(player)) {
 						
-						if (board.tryMove(x, y, board.currentPlayerColor())) {
+						if (!board.tryMove(x, y, board.currentPlayerColor())) {
 							// kick player
 							System.out.println("Player "+board.currentPlayer().getName().equals(player)+" send an invalid move");
 						
@@ -279,6 +279,8 @@ public class MultiSocket implements Runnable {
 				System.out.println("Sessions founds but full. Starting new one");
 				Session session = new Session(playerCount, playerName);
 				sessions.add(session);
+				Thread sessionThread = new Thread(session);
+				sessionThread.start();
 				playerSession.put(playerName, session);
 				return session;
 			}
