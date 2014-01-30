@@ -13,15 +13,15 @@ public abstract class GuiObject {
 	/**
 	 * Defines the color for the mouse over effect.
 	 */
-	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
+	public static final float[] MOUSEOVER_COLOR = { .3f, .3f, .3f };
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = {.1f, .5f, .5f};
+	public static final float[] COLOR = { .8f, .2f, .5f };
 	/**
 	 * Defines the font color.
 	 */
-	public static final float[] FONT_COLOR = {.9f, .9f, .9f};
+	public static final float[] FONT_COLOR = { .9f, .9f, .9f };
 	/**
 	 * Defines the standard height of GuiObjects.
 	 */
@@ -33,7 +33,7 @@ public abstract class GuiObject {
 	/**
 	 * Defines the speed of the mouse over effect.
 	 */
-	private static final float MOUSEOVER_EFFECT_SPEED = 4.5f;
+	private static final float MOUSEOVER_EFFECT_SPEED = 2f;
 	/**
 	 * Defines whether the mouse is hovering over the element.
 	 */
@@ -56,7 +56,10 @@ public abstract class GuiObject {
 	 * object.
 	 */
 	boolean selectAble;
-
+	/**
+	 * Defines whether the object can be interacted with.
+	 */
+	boolean clickAble;
 	/**
 	 * Defines the position of the element.
 	 */
@@ -100,6 +103,7 @@ public abstract class GuiObject {
 		children = new ArrayList<GuiObject>();
 		this.name = theName;
 		this.selectAble = true;
+		this.clickAble = true;
 	}
 
 	/**
@@ -123,7 +127,10 @@ public abstract class GuiObject {
 	public void setSelectAble(boolean isSelectAble) {
 		this.selectAble = isSelectAble;
 	}
-
+	public void setClickAble(boolean clickeAble){
+		setSelectAble(clickeAble);
+		this.clickAble = false;
+	}
 	/**
 	 * Adds a child to this object.
 	 * 
@@ -227,8 +234,12 @@ public abstract class GuiObject {
 	public void update(float x, float y, boolean mouseDown) {
 
 		clicked = false;
-		mouseOver = (x > this.x && x < this.x + this.width && y > this.y && y < this.y
-				+ this.height);
+		if(clickAble){
+			
+			mouseOver = (x > this.x && x < this.x + this.width && y > this.y && y < this.y
+					+ this.height);
+		}
+
 
 		if (mouseDown) {
 			/**

@@ -44,7 +44,7 @@ public class Button extends GuiObject {
 
 		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
 				GuiObject.FONT_COLOR[2], alpha);
-		RollIt.FONT.draw(batch, text, x+10, y + 30);
+		RollIt.FONT.draw(batch, text, x + 10, y + 30);
 	}
 
 	@Override

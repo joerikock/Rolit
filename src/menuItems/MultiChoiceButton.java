@@ -27,14 +27,15 @@ public class MultiChoiceButton extends GuiObject {
 		// Set Text;
 		super.setDimensions(x, y, GuiObject.ELEMENT_WIDTH,
 				GuiObject.ELEMENT_HEIGHT);
+		super.setClickAble(false);
 		// Add Buttons
-		this.setSelectAble(false);
 		menu.addGuiObject(this);
 		buttons = new Button[buttonNames.length];
 		for (int i = 0; i < buttonNames.length; i++) {
 
 			buttons[i] = new Button(buttonNames[i], x + width + i * width, y);
 			buttons[i].setParentObject(this);
+			buttons[i].setSelectAble(true);
 			if (i == 0) {
 				buttons[i].setSelected(true);
 			}
@@ -45,7 +46,7 @@ public class MultiChoiceButton extends GuiObject {
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT
 				.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], alpha);
-		RollIt.FONT.draw(batch, this.name, x, y + 20);
+		RollIt.FONT.draw(batch, this.name, x + 10, y + 30);
 	}
 
 }

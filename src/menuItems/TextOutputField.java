@@ -28,7 +28,7 @@ public class TextOutputField extends GuiObject {
 		this.displayString = "";
 		this.textVisible = true;
 		super.setDimensions(x, y, 150, 40);
-		
+
 	}
 
 	public void setText(String text) {
@@ -47,7 +47,7 @@ public class TextOutputField extends GuiObject {
 	public String getInput() {
 		return this.string;
 	}
-	
+
 	/**
 	 * Function for setting the colour of the text.
 	 */
@@ -76,11 +76,13 @@ public class TextOutputField extends GuiObject {
 	 * Draws the String.
 	 */
 	@Override
-	public void drawOverLay(SpriteBatch batch) { }
-	
+	public void drawOverLay(SpriteBatch batch) {
+	}
+
 	@Override
-	public void shapesDraw(ShapeRenderer shapes) { }
-	
+	public void shapesDraw(ShapeRenderer shapes) {
+	}
+
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT.setColor(r, g, b, alpha);
 		if (string.length() == 0) {

@@ -20,17 +20,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class RollIt implements ApplicationListener, TextInputListener {
 	public static BitmapFont FONT;
-
 	private SpriteBatch batch;
-
 	private InputHandler input;
 	ShapeRenderer shapes;
-	MenuManager menu;
-	Button switcher;
-	TextInputField text;
-	BoardGUI boardPainter;
-	Board board;
-	Camera camera;
 	Game game;
 
 	@Override
@@ -50,7 +42,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 	@Override
 	public void dispose() {
 		batch.dispose();
-
+		shapes.dispose();
 	}
 
 	// TODO: Fix alpha blending in menus
@@ -75,6 +67,8 @@ public class RollIt implements ApplicationListener, TextInputListener {
 
 	@Override
 	public void resize(int width, int height) {
+		System.out.println(width + ", " + height);
+
 	}
 
 	@Override

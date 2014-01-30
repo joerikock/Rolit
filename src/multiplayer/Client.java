@@ -18,21 +18,25 @@ import java.util.ArrayList;
 
 public class Client implements Runnable {
 	private Socket socket;
-	private static int count = 0;
 	private String name;
-	private boolean gotAck;
 	private boolean inGame;
-	private Player player;
-	private boolean sendGameRequest, currentPlayer;
-	private int gamePlayerCount;
+	private boolean currentPlayer;
 	private BufferedReader bufferedReader;
-	private String lastServerMessage;
 	private ClientListener listener;
 	private Board clientBoard;
-	BoardGUI boardGui;
+	private Thread listenerThread;
+	/**
+	 * Defines the state in which the client is. 0 = not logged in. 1 = trying
+	 * to log in. 2 = logged in.
+	 */
+	private int loginStatus;
+	private static boolean running = true;
 
-	public Client(String name, String password, int port, String serverName,
-			Board board, BoardGUI boardgui) {
+	public Client() {
+
+	}
+
+	public void connect(int port, String serverName) {
 		InetAddress ip = null;
 
 		try {
@@ -46,40 +50,52 @@ public class Client implements Runnable {
 		try {
 			socket = new Socket(ip, port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-		bufferedReader = null;
-		try {
-			bufferedReader = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (socket != null) {
+			bufferedReader = null;
+			try {
+				bufferedReader = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Start a new Thread for listening for incoming messages
+			listener = new ClientListener(bufferedReader, this);
+			listenerThread = new Thread(listener);
+			listenerThread.start();
+
 		}
-		// Start a new Thread for listening for incoming messages
-		listener = new ClientListener(bufferedReader, this);
-		Thread listenerThread = new Thread(listener);
-		listenerThread.start();
-		count++;
+	}
+
+	public void login(String name) {
 		this.name = name;
 		System.out.println("Client init. " + name);
-		String[] a = { name, password };
+		String[] a = { name };
 		sendMessage("login", a);
-//		this.clientBoard = board;
-		this.boardGui = boardgui;
+		loginStatus = 1;
 	}
 
 	public void close() {
 		sendMessage("logOut");
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		loginStatus = 0;
+		running = false;
+
 	}
 
 	@Override
 	public void run() {
-		while (true) {
+		while (running) {
 			if (this.inGame) {
 				if (this.currentPlayer) {
-					System.out.println(this.name+" is current player");
+					System.out.println(this.name + " is current player");
 					if (clientBoard.currentPlayer().hasMove()) {
 						int[] position = clientBoard.currentPlayer()
 								.determineMove(clientBoard);
@@ -98,37 +114,42 @@ public class Client implements Runnable {
 	}
 
 	private void sendMessage(String command) {
-		PrintWriter printWriter = null;
-		try {
-			printWriter = new PrintWriter(new OutputStreamWriter(
-					socket.getOutputStream()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (socket != null) {
+			PrintWriter printWriter = null;
+			try {
+				printWriter = new PrintWriter(new OutputStreamWriter(
+						socket.getOutputStream()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			printWriter.println(command);
+			printWriter.flush();
 		}
-		printWriter.println(command);
-		printWriter.flush();
+
 	}
 
 	public void sendMessage(String command, String[] args) {
-		PrintWriter printWriter = null;
-		try {
-			printWriter = new PrintWriter(new OutputStreamWriter(
-					socket.getOutputStream()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (socket != null) {
+			PrintWriter printWriter = null;
+			try {
+				printWriter = new PrintWriter(new OutputStreamWriter(
+						socket.getOutputStream()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String message = command;
+			for (int i = 0; i < args.length; i++) {
+				message += " " + args[i];
+			}
+			System.out.println("NEW COMMAND SEND TO SERVER: " + command);
+			printWriter.println(message);
+			printWriter.flush();
+			// set gotAck to false. only can send next message if the previous
+			// one
+			// has been ackknwoledged
 		}
-		String message = command;
-		for (int i = 0; i < args.length; i++) {
-			message += " " + args[i];
-		}
-		System.out.println("NEW COMMAND SEND TO SERVER: " + command);
-		printWriter.println(message);
-		printWriter.flush();
-		// set gotAck to false. only can send next message if the previous one
-		// has been ackknwoledged
-		gotAck = false;
 	}
 
 	private static class ClientListener implements Runnable {
@@ -143,14 +164,16 @@ public class Client implements Runnable {
 
 		@Override
 		public void run() {
-			while (true) {
+			while (running) {
 				System.out.println("Client listening");
 				String message = null;
 				try {
 					message = bufferedReader.readLine();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Connection to the server lost");
+					// e.printStackTrace();
+					break;
+
 				}
 				if (message != null) {
 					String[] messageParts = message.split(" ");
@@ -168,12 +191,22 @@ public class Client implements Runnable {
 						if (messageParts[0].equals("yourTurn")) {
 							client.setActive();
 						}
+						if (messageParts[0].equals("update")
+								&& messageParts.length == 3) {
+							int x = Integer.parseInt(messageParts[1]);
+							int y = Integer.parseInt(messageParts[2]);
+							client.getBoard().tryMove(x, y,
+									client.getBoard().currentPlayerColor());
+						}
+						if(messageParts[0].equals("gameOver")){
+							client.leaveGame();
+						}
 					}
 					if (messageParts.length == 2) {
 						if (messageParts[0].equals("loginAck")) {
 							if (messageParts[1].equals("welcome")) {
 								// Login worked
-								System.out.println("Loggin worked!!!!!");
+								client.loginComplete();
 							}
 							if (messageParts[1].equals("incorrect")) {
 								// Login failed
@@ -188,6 +221,14 @@ public class Client implements Runnable {
 
 	};
 
+	public int getLoginState() {
+		return loginStatus;
+	}
+
+	private void loginComplete() {
+		loginStatus = 2;
+	}
+
 	public void requestGame(int playerCount) {
 		System.out.println("requestGame called");
 		String[] c = { String.valueOf(playerCount) };
@@ -197,8 +238,8 @@ public class Client implements Runnable {
 	public void startGame(ArrayList<String> players) {
 		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
-//		playerList.remove(name);
-//		playerList.add(new HumanPlayer(name, 0, boardGui));
+		// playerList.remove(name);
+		// playerList.add(new HumanPlayer(name, 0, boardGui));
 		for (int i = 0; i < players.size(); i++) {
 			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);
@@ -221,14 +262,23 @@ public class Client implements Runnable {
 		return this.clientBoard;
 	}
 
-	public static void main(String[] args) {
-
-		Client client1 = new Client("Dr.Schnappus", "sda", 1235, "localHost");
-		Thread client1Thread = new Thread((Runnable) client1);
-		client1Thread.start();
-		Client client2 = new Client("Horst-Peter-Hararld", "sda", 1235,
-				"localHost");
-		Thread client2Thread = new Thread((Runnable) client2);
-		client2Thread.start();
+	public boolean isCurrentPlayer() {
+		return this.currentPlayer;	
 	}
+	public void leaveGame(){
+		inGame = false;
+		sendMessage("disjoin");
+	}
+	public void makeMove(int x, int y) {
+		if (currentPlayer) {
+			if (clientBoard.validateMove(x, y)) {
+				String[] args = { x + "", y + "" };
+				this.sendMessage("move", args);
+				currentPlayer = false;
+			}
+
+		}
+	}
+
+
 }

@@ -12,15 +12,15 @@ public class Board {
 
 	// Constants -------------------------------------------------------------
 
-	/*@
-	 * private invariant VECTORS.length == 8;			
+	/*
+	 * @ private invariant VECTORS.length == 8;
 	 */
 	/**
 	 * The vectors used for checking all directions from a desired field on the
 	 * board.
 	 */
-	public static final int[][] VECTORS = {{1, 0}, {-1, 0}, {0, 1}, 
-		{0, -1}, {1, 1}, {-1, 1}, {-1, -1}, {1, -1}};
+	public static final int[][] VECTORS = { { 1, 0 }, { -1, 0 }, { 0, 1 },
+			{ 0, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 }, { 1, -1 } };
 
 	/**
 	 * The width of the field.
@@ -34,40 +34,38 @@ public class Board {
 
 	// Instance variables ----------------------------------------------------
 
-	/*@
-	 *	private invariant fields.length == FIELD_WIDTH * FIELD_HEIGHT;
-	 *	invariant 	(\forall int i; 0 <= i & i < FIELD_WIDTH;
-	 *					(\forall int j; 0 <= i & i < FIELD_HEIGHT;
-	 *   					getField(i, j) == 0 || getField(i,j) == 1 ||
-	 *   					getField(i, j) == 2 || getField(i,j) == 3 ||
-	 *   					getField(i,j) == -1));
+	/*
+	 * @ private invariant fields.length == FIELD_WIDTH * FIELD_HEIGHT;
+	 * invariant (\forall int i; 0 <= i & i < FIELD_WIDTH; (\forall int j; 0 <=
+	 * i & i < FIELD_HEIGHT; getField(i, j) == 0 || getField(i,j) == 1 ||
+	 * getField(i, j) == 2 || getField(i,j) == 3 || getField(i,j) == -1));
 	 */
 	/**
 	 * Two-dimensional array for the fields on the board.
 	 */
 	private int[][] field;
 
-	/*@
-	 * private invariant newBall == true || newBall == false;
-	 * private invariant modified == true || modified == false;
+	/*
+	 * @ private invariant newBall == true || newBall == false; private
+	 * invariant modified == true || modified == false;
 	 */
 	/**
 	 * Booleans for telling if a player has a new ball or modified a ball.
 	 */
 	private boolean newBall, modified;
 
-	/*@
-	 * private invariant newBallX >= 0 && newBallX < FIELD_WIDTH;
-	 * private invariant newBallY >= 0 && newBallY < FIELD_HEIGHT;
-	 * private invariant newBallColor >= 0 && newBallColor < 3;
+	/*
+	 * @ private invariant newBallX >= 0 && newBallX < FIELD_WIDTH; private
+	 * invariant newBallY >= 0 && newBallY < FIELD_HEIGHT; private invariant
+	 * newBallColor >= 0 && newBallColor < 3;
 	 */
 	/**
 	 * X and Y coordinates and the colour of a new ball.
 	 */
 	private int newBallX, newBallY, newBallColor;
 
-	/*@
-	 * private invariant currentPlayer >= 0 && currentPlayer < 4;
+	/*
+	 * @ private invariant currentPlayer >= 0 && currentPlayer < 4;
 	 */
 	/**
 	 * Variable indicating the current player.
@@ -92,10 +90,10 @@ public class Board {
 
 	// Constructors -------------------------------------------------------
 
-	/*@
-	 * ensures 	this.newBall == false && this.modified == false &&
-	 * 			getField(3, 3) == 0 && getField(3, 4) == 1 &&
-	 * 			getField(4, 4) == 2 && getField(4, 3) == 3;
+	/*
+	 * @ ensures this.newBall == false && this.modified == false && getField(3,
+	 * 3) == 0 && getField(3, 4) == 1 && getField(4, 4) == 2 && getField(4, 3)
+	 * == 3;
 	 */
 	/**
 	 * Create the board and reset it to its initial state.
@@ -109,8 +107,8 @@ public class Board {
 
 	// Queries ------------------------------------------------------------
 
-	/*@
-	 * requires playerDate != null;
+	/*
+	 * @ requires playerDate != null;
 	 */
 	/**
 	 * Sets the board up for a new game.
@@ -119,21 +117,26 @@ public class Board {
 	 *            Array of Player instances that will participate in the game.
 	 */
 	public void newGame(ArrayList<Player> playerData) {
-		System.out.println("Starting a new game with "+playerData.size()+" players");
+		System.out.println("Starting a new game with " + playerData.size()
+				+ " players");
 		this.players = playerData;
+		System.out.println("---");
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).setID(i);
+			System.out.println(players.get(i).getName());
+		}
+		System.out.println("---");
 	}
 
-	/*@
-	 * requires id != null;
-	 * ensures \result >= 0 && \result <= 64;
+	/*
+	 * @ requires id >-1 && id<4; ensures \result >= 0 && \result <= 64;
 	 */
 	/**
 	 * Method for counting the number of fields a given player has.
 	 * 
 	 * @param id
-	 * 			the color of the player.
-	 * @return
-	 * 			the number of fields the player has.
+	 *            the color of the player.
+	 * @return the number of fields the player has.
 	 */
 	public int getNumberOfFields(int id) {
 		int result = 0;
@@ -148,25 +151,36 @@ public class Board {
 	}
 
 	/*
-	 * ensures \result == this.newBall;
+	 * ensures \result >=0 && \result <8;
 	 */
 	/**
 	 * Method for returning the newBall.
 	 * 
-	 * @return the newBall;
+	 * @return x position of the new Ball;
 	 */
-	public boolean getNewBall() {
-		return this.newBall;
+	public int getNewBallXPos() {
+		return this.newBallX;
 	}
 
-	/*@
-	 * ensures changes != null && modifiedBalls != null;
-	 * ensures	getField(3, 3) == 0 && getField(3, 4) == 1 &&
-	 * 			getField(4, 4) == 2 && getField(4, 3) == 3;
+	/*
+	 * ensures \result >=0 && \result <8;
+	 */
+	/**
+	 * Method for returning the newBall.
 	 * 
-	 * loop_invariant 	int i, i >= 0 && i <= 64;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * 					getfield(j) == -1;
+	 * @return y position of the new Ball;
+	 */
+	public int getNewBallYPos() {
+		return this.newBallY;
+	}
+
+	/*
+	 * @ ensures changes != null && modifiedBalls != null; ensures getField(3,
+	 * 3) == 0 && getField(3, 4) == 1 && getField(4, 4) == 2 && getField(4, 3)
+	 * == 3;
+	 * 
+	 * loop_invariant int i, i >= 0 && i <= 64; loop_invariant \forall (int j, j
+	 * >= 0 && j < i; getfield(j) == -1;
 	 */
 	/**
 	 * Resets the board to the initial Rolit state.
@@ -186,8 +200,8 @@ public class Board {
 		field[4][3] = 3;
 	}
 
-	/*@
-	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	/*
+	 * @ ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
 	 */
 	/**
 	 * Method for retrieving the color of the current player.
@@ -198,8 +212,8 @@ public class Board {
 		return players.get(currentPlayer).getID();
 	}
 
-	/*@
-	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	/*
+	 * @ ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
 	 */
 	/**
 	 * Method for retrieving the current player.
@@ -210,10 +224,10 @@ public class Board {
 		return players.get(currentPlayer);
 	}
 
-	/*@
-	 * ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
-	 * ensures \result == 	(currentPlayer != players.size() ? 
-	 * 						\old(currentPlayer)++ : 0);
+	/*
+	 * @ ensures \result == 0 || \result == 1 || \result == 2 || \result == 3;
+	 * ensures \result == (currentPlayer != players.size() ?
+	 * \old(currentPlayer)++ : 0);
 	 */
 	/**
 	 * Passing the turn to the next player.
@@ -225,9 +239,9 @@ public class Board {
 		}
 	}
 
-	/*@
-	 * ensures 	\result == (0 <= x < FIELD_WIDTH && 0 <= y < FIELD_HEIGHT)
-	 * 			? 0 || 1 || 2 || 3 : -1;
+	/*
+	 * @ ensures \result == (0 <= x < FIELD_WIDTH && 0 <= y < FIELD_HEIGHT) ? 0
+	 * || 1 || 2 || 3 : -1;
 	 */
 	/**
 	 * Method for retrieving the colour of a given field.
@@ -247,9 +261,9 @@ public class Board {
 		}
 	}
 
-	/*@
-	 * ensures	\result == (x >= 0 && x < FIELD_WIDTH && 
-	 * 			y >= 0 && y < FIELD_HEIGHT);
+	/*
+	 * @ ensures \result == (x >= 0 && x < FIELD_WIDTH && y >= 0 && y <
+	 * FIELD_HEIGHT);
 	 */
 	/**
 	 * Test if a given field is existing on the field or not.
@@ -264,10 +278,9 @@ public class Board {
 		return x >= 0 && x < FIELD_WIDTH && y >= 0 && y < FIELD_HEIGHT;
 	}
 
-	/*@
-	 * requires boundTest(x, y);
-	 * ensures \result == 	this.resultingChangesForMove(x, y, 
-	 * 						currentPlayerColor()).size() > 0;
+	/*
+	 * @ requires boundTest(x, y); ensures \result ==
+	 * this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0;
 	 */
 	/**
 	 * Method for checking whether a given move MUST be made, meaning no other
@@ -283,10 +296,9 @@ public class Board {
 		return this.resultingChangesForMove(x, y, currentPlayerColor()).size() > 0;
 	}
 
-	/*@
-	 * ensures 	\result != null;
-	 * ensures 	\result == (validMovesForMextPlayer == null
-	 * 			? this.getValidMoves() : null);
+	/*
+	 * @ ensures \result != null; ensures \result == (validMovesForMextPlayer ==
+	 * null ? this.getValidMoves() : null);
 	 */
 	/**
 	 * Generates a list of {x, y} coordinates containing all the possible valid
@@ -301,8 +313,8 @@ public class Board {
 		return validMovesForNextPlayer;
 	}
 
-	/*@
-	 * ensures \result != null;
+	/*
+	 * @ ensures \result != null;
 	 */
 	/**
 	 * Generates a list of {x, y} coordinates containing all the possible valid
@@ -317,7 +329,7 @@ public class Board {
 			for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
 				if (getField(x, y) == -1) {
 					if (hasNeighbours(x, y)) {
-						int[] freeField = {x, y};
+						int[] freeField = { x, y };
 						freeMoves.add(freeField);
 					}
 				}
@@ -337,12 +349,10 @@ public class Board {
 		return validMoves;
 	}
 
-	/*@
-	 * ensures 	\result == (boundTest(x, y) ? (;
-	 * 				loop_invariant 	\forall (int[] vec : VECTORS);
-	 * 					getField(x + vec[0], y + vec[1]) != -1 ?
-	 * 					\result == true;
-	 * 			) : false);
+	/*
+	 * @ ensures \result == (boundTest(x, y) ? (; loop_invariant \forall (int[]
+	 * vec : VECTORS); getField(x + vec[0], y + vec[1]) != -1 ? \result == true;
+	 * ) : false);
 	 */
 	/**
 	 * Checks whether a given field x, y has neighbours.
@@ -364,8 +374,8 @@ public class Board {
 		return false;
 	}
 
-	/*@
-	 * ensures \result == true || \result == false;
+	/*
+	 * @ ensures \result == true || \result == false;
 	 */
 	/**
 	 * Method for checking if the game has ended.
@@ -384,12 +394,12 @@ public class Board {
 		return result;
 	}
 
-	/*@
-	 * ensures \result == (finished() ? players.get(currentBest) : null);
+	/*
+	 * @ ensures \result == (finished() ? players.get(currentBest) : null);
 	 */
 	/**
-	 * Method for returning the winner of the game. If it is a draw, -1 is returned.
-	 * If the game is not finished yet, -2 is returned.
+	 * Method for returning the winner of the game. If it is a draw, -1 is
+	 * returned. If the game is not finished yet, -2 is returned.
 	 * 
 	 * @return Returns the player instance that won the game.
 	 */
@@ -425,9 +435,14 @@ public class Board {
 		return 0;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y);
 	 * ensures \result == true || \result == false;
+=======
+	/*
+	 * @ requires boundTest(x, y); ensures \result == true || \result == false;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for checking if a certain move is valid.
@@ -438,10 +453,20 @@ public class Board {
 	 *            the Y-coordinate of the move.
 	 * @return Returns true if the move x,y is valid.
 	 */
+<<<<<<< HEAD
 	private boolean validateMove(int x, int y) {
 		int[] pos = {x, y};
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
+=======
+	public boolean validateMove(int x, int y) {
+		int[] pos = { x, y };
+		ArrayList<int[]> temp = getValidMoveList();
+		for (int i = 0; i < temp.size(); i++) {
+			System.out.println(temp.get(i)[0] + ", " + temp.get(i)[1] + " - "
+					+ x + ", " + y);
+
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
 				return true;
 			}
@@ -449,9 +474,15 @@ public class Board {
 		return false;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y) && 0 <= color && color <= 3;
 	 * ensures \result == validateMove(x, y);
+=======
+	/*
+	 * @ requires boundTest(x, y) && 0 <= color && color <= 3; ensures \result
+	 * == validateMove(x, y);
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Tries to place a new Ball onto the Board. Places the a ball with the
@@ -475,11 +506,17 @@ public class Board {
 		return false;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * requires 0 <= id && id < 4;
 	 * loop_invariant 	int i, i >= 0 && i <= 64;
 	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
 	 * 					result == \old(result)++;
+=======
+	/*
+	 * @ requires 0 <= id && id < 4; loop_invariant int i, i >= 0 && i <= 64;
+	 * loop_invariant \forall (int j, j >= 0 && j < i; result == \old(result)++;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 * ensures \result >= 0 && \result < 64;
 	 */
 	/**
@@ -501,9 +538,15 @@ public class Board {
 		return result;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * ensures \result == true || \result == false;
 	 * ensures \result == this.modified;
+=======
+	/*
+	 * @ ensures \result == true || \result == false; ensures \result ==
+	 * this.modified;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for checking if the board has been modified since last move.
@@ -515,8 +558,13 @@ public class Board {
 		return this.modified;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * ensures \result == this.modifiedBalls;
+=======
+	/*
+	 * @ ensures \result == this.modifiedBalls;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for retrieving a list of the recent changes in the board.
@@ -528,9 +576,15 @@ public class Board {
 		return this.modifiedBalls;
 	}
 
+<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y) && 0 <= color && color < 4;
 	 * ensures \result != null;
+=======
+	/*
+	 * @ requires boundTest(x, y) && 0 <= color && color < 4; ensures \result !=
+	 * null;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method that at first makes a given move on the board, then checks in all
@@ -581,7 +635,11 @@ public class Board {
 					if (distance == 1) {
 						break;
 					}
+<<<<<<< HEAD
 					int[] newChange = {i, distance};
+=======
+					int[] newChange = { i, distance };
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 					requiredChanges.add(newChange);
 					break;
 				}
@@ -614,9 +672,15 @@ public class Board {
 					newBallColor);
 			for (int i = 0; i < changes.size(); i++) {
 				System.out
+<<<<<<< HEAD
 				.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
 			int[] newBallData = {newBallX, newBallY, newBallColor};
+=======
+						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
+			}
+			int[] newBallData = { newBallX, newBallY, newBallColor };
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 
 			modifiedBalls.add(newBallData);
 
@@ -628,7 +692,11 @@ public class Board {
 
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
+<<<<<<< HEAD
 								     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
+=======
+								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 						int[] s = new int[3];
 						s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
 								* d;
@@ -642,6 +710,10 @@ public class Board {
 			this.modified = true;
 			this.newBall = false;
 			this.nextPlayer();
+<<<<<<< HEAD
+=======
+			System.out.println("Board next player : " + this.currentPlayer);
+>>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 			validMovesForNextPlayer = null;
 			this.validMovesForNextPlayer = this.getValidMoveList();
 		}

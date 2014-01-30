@@ -10,35 +10,36 @@ public abstract class Player {
 
 	// Instance variables ------------------------------------------------------
 
-	/*@
-	 * private invariant name != null;
+	/*
+	 * @ private invariant name != null;
 	 */
 	/**
 	 * The name of the player.
 	 */
 	private String name;
 
-	/*@
-	 * private invariant id != null;
+	/*
+	 * @ private invariant id != null;
 	 */
 	/**
 	 * The ID of the player.
 	 */
 	private int id;
 
-	/*@
-	 * private invariant board != null;
+	/*
+	 * @ private invariant board != null;
 	 */
 	/**
 	 * The board the player is playing on.
 	 */
 	Board board;
 
-	// Construcors ----------------------------------------------------------------
-	
-	/*@
-	 * requires theName != null && theID != null;
-	 * ensures this.name == theName && this.id == theID;
+	// Construcors
+	// ----------------------------------------------------------------
+
+	/*
+	 * @ requires theName != null && theID != null; ensures this.name == theName
+	 * && this.id == theID;
 	 */
 	/**
 	 * Create a player.
@@ -48,27 +49,32 @@ public abstract class Player {
 	 * @param id
 	 *            the ID of the player.
 	 */
-	public Player(String theName, int theID) {
+	public Player(String theName) {
 		this.name = theName;
-		this.id = theID;
+
 	}
 
-	// Queries ------------------------------------------------------------------
-	
-	/*@
-	 * ensures \result == this.id;
+	// Queries
+	// ------------------------------------------------------------------
+
+	/*
+	 * @ ensures \result == this.id;
 	 */
 	/**
 	 * Method for setting the id to the instance variable id.
 	 * 
 	 * @return the id.
 	 */
+	public void setID(int color) {
+		this.id = color;
+	}
+
 	public int getID() {
 		return id;
 	}
-	
-	/*@
-	 * ensures \result == this.name;
+
+	/*
+	 * @ ensures \result == this.name;
 	 */
 	/**
 	 * Method for setting the name to the instance variable name.
@@ -79,23 +85,21 @@ public abstract class Player {
 		return name;
 	}
 
-	/*@
-	 * requires b != null;
-	 * ensures this.board == b;
+	/*
+	 * @ requires b != null; ensures this.board == b;
 	 */
 	/**
 	 * Method for setting the board to the instance variable.
 	 * 
 	 * @param b
-	 * 			the board.
+	 *            the board.
 	 */
 	public void setBoard(Board b) {
 		this.board = b;
 	}
 
-	/*@
-	 * requires b != null;
-	 * ensures \result != null;
+	/*
+	 * @ requires b != null; ensures \result != null;
 	 */
 	/**
 	 * Method determining the move for the player. This method is further
@@ -108,8 +112,8 @@ public abstract class Player {
 	 */
 	public abstract int[] determineMove(Board b);
 
-	/*@
-	 * ensures \result == true || \result == false;
+	/*
+	 * @ ensures \result == true || \result == false;
 	 */
 	/**
 	 * Method for checking if the player has a possible move to make. This
@@ -120,8 +124,8 @@ public abstract class Player {
 	 */
 	public abstract boolean hasMove();
 
-	/*@
-	 * requires b != null;
+	/*
+	 * @ requires b != null;
 	 */
 	/**
 	 * Method for making a move.

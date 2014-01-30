@@ -17,8 +17,8 @@ public class DumbPlayer extends Player {
 	 * @param color
 	 *            the colour the player needs to be assigned to.
 	 */
-	public DumbPlayer(int color) {
-		super("Dumb Player", color);
+	public DumbPlayer() {
+		super("Dumb Player");
 	}
 
 	/**

@@ -10,7 +10,7 @@ public class Main {
 		cfg.useGL20 = false;
 		cfg.width = 900;
 		cfg.height = 600;
-
+		cfg.resizable = true;
 		new LwjglApplication(new RollIt(), cfg);
 	}
 }

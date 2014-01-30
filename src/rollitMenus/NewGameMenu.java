@@ -6,9 +6,9 @@ import menuItems.MenuManager;
 import menuItems.MultiChoiceButton;
 
 public class NewGameMenu extends Menu {
-	
+
 	MultiChoiceButton hints;
-	String[] names = new String[]{"Off", "On"};
+	String[] names = new String[] { "Off", "On" };
 
 	public NewGameMenu(MenuManager manager) {
 		super("newGameMenu");
@@ -33,7 +33,7 @@ public class NewGameMenu extends Menu {
 		this.addGuiObject(opponentChooser2);
 		this.addGuiObject(opponentChooser3);
 		this.addGuiObject(opponentChooser4);
-		
+
 		this.hints = new MultiChoiceButton("Show hints", names, this, 50, 150);
 		this.addGuiObject(hints);
 	}
