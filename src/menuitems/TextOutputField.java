@@ -1,7 +1,5 @@
 package menuitems;
 
-import java.awt.Color;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.me.mygdxgame.RollIt;
@@ -9,7 +7,6 @@ import com.me.mygdxgame.RollIt;
 public class TextOutputField extends GuiObject {
 	String string, displayString;
 	String empty;
-	private boolean textVisible;
 	private float r, g, b;
 
 	/**
@@ -26,7 +23,6 @@ public class TextOutputField extends GuiObject {
 		this.empty = start;
 		this.string = "";
 		this.displayString = "";
-		this.textVisible = true;
 		super.setDimensions(x, y, 150, 40);
 
 	}

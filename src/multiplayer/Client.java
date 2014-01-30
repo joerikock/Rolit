@@ -1,8 +1,6 @@
 package multiplayer;
 
 import game.Board;
-import game.BoardGUI;
-import game.HumanPlayer;
 import game.NetworkPlayer;
 import game.Player;
 
@@ -61,10 +59,11 @@ public class Client implements Runnable {
 				bufferedReader = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// Start a new Thread for listening for incoming messages
+			/**
+			 * Start a new Thread for listening for incoming messages
+			 */
 			listener = new ClientListener(bufferedReader, this);
 			listenerThread = new Thread(listener);
 			listenerThread.start();
@@ -85,7 +84,6 @@ public class Client implements Runnable {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			loginStatus = 0;
@@ -123,7 +121,6 @@ public class Client implements Runnable {
 				printWriter = new PrintWriter(new OutputStreamWriter(
 						socket.getOutputStream()));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String message = command;
