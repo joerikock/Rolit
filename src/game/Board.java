@@ -405,40 +405,40 @@ public class Board {
 	 */
 	public int getWinner() {
 
-		//		if (finished()) {
-		//			int[] ballCount = new int[4];
-		//			for (int x = 0; x < Board.FIELD_WIDTH; x++) {
-		//				for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
-		//					ballCount[this.getField(x, y)]++;
-		//				}
-		//			}
-		//			int max = 0;
-		//			int currentBest = 0;
-		//			for (int index = 0; index < players.size(); index++) {
-		//				if (ballCount[index] > max) {
-		//					max = ballCount[index];
-		//					currentBest = index;
-		//				}
-		//			}
-		//			for (int j = 0; j < ballCount.length; j++) {
-		//				for (int k = j + 1; k < ballCount.length; k++) {
-		//					if (k != j && ballCount[k] == ballCount[j] && 
-		//							ballCount[k] == max) {
-		//						System.out.println("DRAW");
-		//						return -1;
-		//					}
-		//				}
-		//			}
-		//			return currentBest;
-		//		}
-		//		return -2;
+		// if (finished()) {
+		// int[] ballCount = new int[4];
+		// for (int x = 0; x < Board.FIELD_WIDTH; x++) {
+		// for (int y = 0; y < Board.FIELD_HEIGHT; y++) {
+		// ballCount[this.getField(x, y)]++;
+		// }
+		// }
+		// int max = 0;
+		// int currentBest = 0;
+		// for (int index = 0; index < players.size(); index++) {
+		// if (ballCount[index] > max) {
+		// max = ballCount[index];
+		// currentBest = index;
+		// }
+		// }
+		// for (int j = 0; j < ballCount.length; j++) {
+		// for (int k = j + 1; k < ballCount.length; k++) {
+		// if (k != j && ballCount[k] == ballCount[j] &&
+		// ballCount[k] == max) {
+		// System.out.println("DRAW");
+		// return -1;
+		// }
+		// }
+		// }
+		// return currentBest;
+		// }
+		// return -2;
 		return 0;
 	}
 
-	/*@
-	 * requires boundTest(x, y);
-	 * ensures \result == true || \result == false;
 	/*
+	 * @ requires boundTest(x, y); ensures \result == true || \result == false;
+	 * /*
+	 * 
 	 * @ requires boundTest(x, y); ensures \result == true || \result == false;
 	 */
 	/**
@@ -454,8 +454,6 @@ public class Board {
 		int[] pos = { x, y };
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
-			System.out.println(temp.get(i)[0] + ", " + temp.get(i)[1] + " - "
-					+ x + ", " + y);
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
 				return true;
 			}
@@ -463,10 +461,10 @@ public class Board {
 		return false;
 	}
 
-	/*@
-	 * requires boundTest(x, y) && 0 <= color && color <= 3;
-	 * ensures \result == validateMove(x, y);
 	/*
+	 * @ requires boundTest(x, y) && 0 <= color && color <= 3; ensures \result
+	 * == validateMove(x, y); /*
+	 * 
 	 * @ requires boundTest(x, y) && 0 <= color && color <= 3; ensures \result
 	 * == validateMove(x, y);
 	 */
@@ -492,12 +490,11 @@ public class Board {
 		return false;
 	}
 
-	/*@
-	 * requires 0 <= id && id < 4;
-	 * loop_invariant 	int i, i >= 0 && i <= 64;
-	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
-	 * 					result == \old(result)++;
 	/*
+	 * @ requires 0 <= id && id < 4; loop_invariant int i, i >= 0 && i <= 64;
+	 * loop_invariant \forall (int j, j >= 0 && j < i; result == \old(result)++;
+	 * /*
+	 * 
 	 * @ requires 0 <= id && id < 4; loop_invariant int i, i >= 0 && i <= 64;
 	 * loop_invariant \forall (int j, j >= 0 && j < i; result == \old(result)++;
 	 * ensures \result >= 0 && \result < 64;
@@ -521,10 +518,10 @@ public class Board {
 		return result;
 	}
 
-	/*@
-	 * ensures \result == true || \result == false;
-	 * ensures \result == this.modified;
 	/*
+	 * @ ensures \result == true || \result == false; ensures \result ==
+	 * this.modified; /*
+	 * 
 	 * @ ensures \result == true || \result == false; ensures \result ==
 	 * this.modified;
 	 */
@@ -538,8 +535,8 @@ public class Board {
 		return this.modified;
 	}
 
-	/*@
-	 * ensures \result == this.modifiedBalls;
+	/*
+	 * @ ensures \result == this.modifiedBalls;
 	 */
 	/**
 	 * Method for retrieving a list of the recent changes in the board.
@@ -551,10 +548,10 @@ public class Board {
 		return this.modifiedBalls;
 	}
 
-	/*@
-	 * requires boundTest(x, y) && 0 <= color && color < 4;
-	 * ensures \result != null;
 	/*
+	 * @ requires boundTest(x, y) && 0 <= color && color < 4; ensures \result !=
+	 * null; /*
+	 * 
 	 * @ requires boundTest(x, y) && 0 <= color && color < 4; ensures \result !=
 	 * null;
 	 */
@@ -607,7 +604,7 @@ public class Board {
 					if (distance == 1) {
 						break;
 					}
-					int[] newChange = {i, distance};
+					int[] newChange = { i, distance };
 					requiredChanges.add(newChange);
 					break;
 				}
@@ -635,14 +632,9 @@ public class Board {
 			changes.clear();
 		}
 		if (newBall) {
-			System.out.println("BOARD NEW BALL");
+
 			changes = this.resultingChangesForMove(newBallX, newBallY,
 					newBallColor);
-			for (int i = 0; i < changes.size(); i++) {
-				System.out.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
-			}
-			int[] newBallData = {newBallX, newBallY, newBallColor};
-			}
 			int[] newBallData = { newBallX, newBallY, newBallColor };
 
 			modifiedBalls.add(newBallData);
@@ -655,11 +647,7 @@ public class Board {
 
 						field[this.newBallX + VECTORS[currentVectorIndex][0]
 								* d][this.newBallY
-<<<<<<< HEAD
-								     + VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
-=======
 								+ VECTORS[currentVectorIndex][1] * d] = this.newBallColor;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 						int[] s = new int[3];
 						s[0] = this.newBallX + VECTORS[currentVectorIndex][0]
 								* d;
@@ -673,10 +661,6 @@ public class Board {
 			this.modified = true;
 			this.newBall = false;
 			this.nextPlayer();
-<<<<<<< HEAD
-=======
-			System.out.println("Board next player : " + this.currentPlayer);
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 			validMovesForNextPlayer = null;
 			this.validMovesForNextPlayer = this.getValidMoveList();
 		}
