@@ -13,11 +13,9 @@ public class InputHandler implements InputProcessor {
 	class CleanUpException extends Exception {
 		private static final long serialVersionUID = 1L;
 
-		// Parameterless Constructor
 		public CleanUpException() {
 		}
 
-		// Constructor that accepts a message
 		public CleanUpException(String message) {
 			super(message);
 		}
@@ -29,7 +27,6 @@ public class InputHandler implements InputProcessor {
 	float mouseX, mouseY,startWidth, startHeight;
 	boolean mouseClicked, mouseDown, currentMouseState, 
 	keyReleased, keyDown, currentKeyState;
-	private boolean clean;
 	char typedKey;
 	ArrayList<Character> lastC;
 
@@ -40,12 +37,8 @@ public class InputHandler implements InputProcessor {
 		this.startHeight = standartHeight;
 		this.startWidth = standartWidth;
 		mouseDown = false;
-		clean = true;
-		// enableRepeatEvents(true);
-		
 	}
 
-	//
 	/**
 	 * Updates the the position of the mouse and checks whether it has been
 	 * clicked. Note: All required data has to be fetched via the given queries
@@ -57,23 +50,19 @@ public class InputHandler implements InputProcessor {
 		mouseX = Gdx.input.getX() * ( this.startWidth / Gdx.graphics.getWidth());
 		mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY())
 				* (this.startHeight/Gdx.graphics.getHeight());
-		// mouseClicked = false;
 
 		if (!Gdx.input.isButtonPressed(0)) {
 			if (mouseDown) {
-
 				mouseClicked = true;
 				mouseDown = false;
 			}
 		}
 		mouseDown = Gdx.input.isButtonPressed(0);
-
 	}
 
 	public void cleanUp() {
 		mouseClicked = false;
 		typedKey = '\0';
-		clean = true;
 	}
 
 	public boolean hasNewKey() {
@@ -81,7 +70,6 @@ public class InputHandler implements InputProcessor {
 	}
 
 	public char getKey() {
-
 		return typedKey;
 	}
 
@@ -119,53 +107,43 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		// System.out.println(keycode+" FAG");
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		typedKey = character;
-		// System.out.println(character+" FAG");
 		return false;
 
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
