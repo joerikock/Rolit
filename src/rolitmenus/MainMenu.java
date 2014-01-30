@@ -1,8 +1,8 @@
 package rolitmenus;
 
-import menuItems.Button;
-import menuItems.Menu;
-import menuItems.MenuManager;
+import menuitems.Button;
+import menuitems.Menu;
+import menuitems.MenuManager;
 
 public class MainMenu extends Menu {
 

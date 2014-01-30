@@ -1,9 +1,9 @@
 package rolitmenus;
 
-import menuItems.Button;
-import menuItems.Menu;
-import menuItems.MenuManager;
-import menuItems.TextInputField;
+import menuitems.Button;
+import menuitems.Menu;
+import menuitems.MenuManager;
+import menuitems.TextInputField;
 
 public class LoginMenu extends Menu {
 	TextInputField username, portField, server;

@@ -1,4 +1,4 @@
-package menuItems;
+package menuitems;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.mygdxgame.RollIt;

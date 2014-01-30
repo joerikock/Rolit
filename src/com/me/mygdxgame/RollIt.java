@@ -1,8 +1,8 @@
 package com.me.mygdxgame;
 
-import menuItems.Button;
-import menuItems.MenuManager;
-import menuItems.TextInputField;
+import menuitems.Button;
+import menuitems.MenuManager;
+import menuitems.TextInputField;
 import game.Board;
 import game.BoardGUI;
 import game.Game;

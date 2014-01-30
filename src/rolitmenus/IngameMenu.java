@@ -1,6 +1,6 @@
 package rolitmenus;
 
-import menuItems.*;
+import menuitems.*;
 
 public class IngameMenu extends Menu {
 	Button back;
@@ -58,7 +58,7 @@ public class IngameMenu extends Menu {
 		p4Score.setColor(1, 1, 1);
 		this.addGuiObject(p4Score);
 
-		this.winner = new TextOutputField("winner", 150, 100);
+		this.winner = new TextOutputField("winner", 50, 100);
 		winner.setText("");
 		winner.setColor(1, 1, 1);
 		this.addGuiObject(winner);

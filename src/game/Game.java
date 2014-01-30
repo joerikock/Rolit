@@ -2,9 +2,9 @@ package game;
 
 import java.util.ArrayList;
 
-import menuItems.Menu;
-import menuItems.MenuManager;
-import menuItems.TextOutputField;
+import menuitems.Menu;
+import menuitems.MenuManager;
+import menuitems.TextOutputField;
 import multiplayer.Client;
 import rolitmenus.IngameMenu;
 import rolitmenus.LoginMenu;

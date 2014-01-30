@@ -1,10 +1,10 @@
 package rolitmenus;
 
-import menuItems.Button;
-import menuItems.Menu;
-import menuItems.MenuManager;
-import menuItems.MultiChoiceButton;
-import menuItems.TextInputField;
+import menuitems.Button;
+import menuitems.Menu;
+import menuitems.MenuManager;
+import menuitems.MultiChoiceButton;
+import menuitems.TextInputField;
 
 public class OnlineGameMenu extends Menu {
 	TextInputField portField;

@@ -1,4 +1,4 @@
-package menuItems;
+package menuitems;
 
 public class ChatBox {
 

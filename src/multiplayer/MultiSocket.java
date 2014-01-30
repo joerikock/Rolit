@@ -120,7 +120,7 @@ public class MultiSocket implements Runnable {
 				if (gameRunning) {
 					if (newBall) {
 						System.out.println("WAITING FOR NEW BALL");
-						String[] args = { board.getNewBallXPos() + "",
+						String[] args = {board.getNewBallXPos() + "",
 								board.getNewBallYPos() + "" };
 						sendToPlayers("update", args);
 						socketList.get(
@@ -519,7 +519,7 @@ public class MultiSocket implements Runnable {
 	}
 
 	/**
-	 * Main loop for testing init()
+	 * Main loop for testing init().
 	 * 
 	 * @param args
 	 */
@@ -529,7 +529,7 @@ public class MultiSocket implements Runnable {
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
-			System.out.println("Port " + port + " allready in use.");
+			System.out.println("Port " + port + " already in use.");
 			e.printStackTrace();
 		}
 
