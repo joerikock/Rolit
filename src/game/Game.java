@@ -241,7 +241,7 @@ public class Game {
 		if (active == login) {
 			updateLoginMenu(active);
 		}
-		if(client.getMessage()!=null){
+		if (client.getMessage() != null) {
 			menus.openMessageBox(client.getMessage());
 			client.messageFetched();
 		}
@@ -281,12 +281,8 @@ public class Game {
 			int port = Integer.parseInt(login.getPort());
 			String serverNameFetch = login.getServerIp();
 
-			try {
-				client.connect(port, serverNameFetch);
-			} catch (Exception e) {
-				System.out.println("Failed to connect to Server");
-				e.printStackTrace();
-			}
+			client.connect(port, serverNameFetch);
+			
 			client.login(login.getUser());
 		}
 
@@ -343,7 +339,7 @@ public class Game {
 		}
 
 		ArrayList<Player> players = board.getPlayer();
-		for(int i=0; i<players.size();i++){
+		for (int i = 0; i < players.size(); i++) {
 			inGameMenu.setPlayerName(players.get(i).getName(), i);
 			inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
 		}
