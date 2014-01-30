@@ -435,14 +435,11 @@ public class Board {
 		return 0;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y);
 	 * ensures \result == true || \result == false;
-=======
 	/*
 	 * @ requires boundTest(x, y); ensures \result == true || \result == false;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for checking if a certain move is valid.
@@ -453,20 +450,12 @@ public class Board {
 	 *            the Y-coordinate of the move.
 	 * @return Returns true if the move x,y is valid.
 	 */
-<<<<<<< HEAD
-	private boolean validateMove(int x, int y) {
-		int[] pos = {x, y};
-		ArrayList<int[]> temp = getValidMoveList();
-		for (int i = 0; i < temp.size(); i++) {
-=======
 	public boolean validateMove(int x, int y) {
 		int[] pos = { x, y };
 		ArrayList<int[]> temp = getValidMoveList();
 		for (int i = 0; i < temp.size(); i++) {
 			System.out.println(temp.get(i)[0] + ", " + temp.get(i)[1] + " - "
 					+ x + ", " + y);
-
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 			if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
 				return true;
 			}
@@ -474,15 +463,12 @@ public class Board {
 		return false;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y) && 0 <= color && color <= 3;
 	 * ensures \result == validateMove(x, y);
-=======
 	/*
 	 * @ requires boundTest(x, y) && 0 <= color && color <= 3; ensures \result
 	 * == validateMove(x, y);
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Tries to place a new Ball onto the Board. Places the a ball with the
@@ -506,17 +492,14 @@ public class Board {
 		return false;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * requires 0 <= id && id < 4;
 	 * loop_invariant 	int i, i >= 0 && i <= 64;
 	 * loop_invariant 	\forall (int j, j >= 0 && j < i;
 	 * 					result == \old(result)++;
-=======
 	/*
 	 * @ requires 0 <= id && id < 4; loop_invariant int i, i >= 0 && i <= 64;
 	 * loop_invariant \forall (int j, j >= 0 && j < i; result == \old(result)++;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 * ensures \result >= 0 && \result < 64;
 	 */
 	/**
@@ -538,15 +521,12 @@ public class Board {
 		return result;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * ensures \result == true || \result == false;
 	 * ensures \result == this.modified;
-=======
 	/*
 	 * @ ensures \result == true || \result == false; ensures \result ==
 	 * this.modified;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for checking if the board has been modified since last move.
@@ -558,13 +538,8 @@ public class Board {
 		return this.modified;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * ensures \result == this.modifiedBalls;
-=======
-	/*
-	 * @ ensures \result == this.modifiedBalls;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method for retrieving a list of the recent changes in the board.
@@ -576,15 +551,12 @@ public class Board {
 		return this.modifiedBalls;
 	}
 
-<<<<<<< HEAD
 	/*@
 	 * requires boundTest(x, y) && 0 <= color && color < 4;
 	 * ensures \result != null;
-=======
 	/*
 	 * @ requires boundTest(x, y) && 0 <= color && color < 4; ensures \result !=
 	 * null;
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 	 */
 	/**
 	 * Method that at first makes a given move on the board, then checks in all
@@ -635,11 +607,7 @@ public class Board {
 					if (distance == 1) {
 						break;
 					}
-<<<<<<< HEAD
 					int[] newChange = {i, distance};
-=======
-					int[] newChange = { i, distance };
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 					requiredChanges.add(newChange);
 					break;
 				}
@@ -671,16 +639,11 @@ public class Board {
 			changes = this.resultingChangesForMove(newBallX, newBallY,
 					newBallColor);
 			for (int i = 0; i < changes.size(); i++) {
-				System.out
-<<<<<<< HEAD
-				.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
+				System.out.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
 			int[] newBallData = {newBallX, newBallY, newBallColor};
-=======
-						.println(changes.get(i)[0] + ", " + changes.get(i)[1]);
 			}
 			int[] newBallData = { newBallX, newBallY, newBallColor };
->>>>>>> 266fe245455223d95e8799d282cf89dd9f916cca
 
 			modifiedBalls.add(newBallData);
 
