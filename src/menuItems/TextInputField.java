@@ -96,7 +96,7 @@ public class TextInputField extends GuiObject implements TextInput {
 
 		// batch.begin();
 		// RollIt.FONT.setScale(.8f);
-		RollIt.FONT.setColor(1, 0, 0, alpha);
+		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1], GuiObject.FONT_COLOR[2], alpha);
 		// If the string is empty display standart text e.g "name" or "password"
 		if (string.length() == 0) {
 			RollIt.FONT.draw(batch, empty, x,
@@ -128,5 +128,7 @@ public class TextInputField extends GuiObject implements TextInput {
 		// batch.end();
 
 	}
-
+	@Override
+	public void drawOverLay(SpriteBatch batch) { }
+	
 }

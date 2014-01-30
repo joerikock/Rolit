@@ -29,10 +29,8 @@ public class Client implements Runnable {
 	private String lastServerMessage;
 	private ClientListener listener;
 	private Board clientBoard;
-	BoardGUI boardGui;
-
-	public Client(String name, String password, int port, String serverName,
-			Board board, BoardGUI boardgui) {
+	private Thread listenerThread;
+	public Client(String name, String password, int port, String serverName) {
 		InetAddress ip = null;
 
 		try {
@@ -59,7 +57,7 @@ public class Client implements Runnable {
 		}
 		// Start a new Thread for listening for incoming messages
 		listener = new ClientListener(bufferedReader, this);
-		Thread listenerThread = new Thread(listener);
+		listenerThread = new Thread(listener);
 		listenerThread.start();
 		count++;
 		this.name = name;
@@ -67,11 +65,19 @@ public class Client implements Runnable {
 		String[] a = { name, password };
 		sendMessage("login", a);
 //		this.clientBoard = board;
-		this.boardGui = boardgui;
+
 	}
 
 	public void close() {
 		sendMessage("logOut");
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listenerThread.stop();
+		
 	}
 
 	@Override
@@ -168,6 +174,11 @@ public class Client implements Runnable {
 						if (messageParts[0].equals("yourTurn")) {
 							client.setActive();
 						}
+						if(messageParts[0].equals("update")&&messageParts.length==3){
+							int x = Integer.parseInt(messageParts[1]);
+							int y = Integer.parseInt(messageParts[2]);
+							client.getBoard().tryMove(x, y, client.getBoard().currentPlayerColor());
+						}
 					}
 					if (messageParts.length == 2) {
 						if (messageParts[0].equals("loginAck")) {
@@ -220,7 +231,19 @@ public class Client implements Runnable {
 	public Board getBoard() {
 		return this.clientBoard;
 	}
+	public boolean isCurrentPlayer(){
+		return this.currentPlayer;
+	}
+	public void makeMove(int x, int y){
+		if(currentPlayer){
+			if(clientBoard.validateMove(x, y)){
+				String[ ] args = {x+"",y+""};
+				this.sendMessage("move", args);
+				currentPlayer = false;
+			}
 
+		}
+	}
 	public static void main(String[] args) {
 
 		Client client1 = new Client("Dr.Schnappus", "sda", 1235, "localHost");

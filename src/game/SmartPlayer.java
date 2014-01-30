@@ -19,8 +19,8 @@ public class SmartPlayer extends Player {
 	 * @param color
 	 *            the colour the player needs to be assigned to.
 	 */
-	public SmartPlayer(int color) {
-		super("Smart Player", color);
+	public SmartPlayer() {
+		super("Smart Player");
 	}
 
 	/**

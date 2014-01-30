@@ -17,7 +17,7 @@ public abstract class GuiObject {
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = {.1f, .5f, .5f};
+	public static final float[] COLOR = {.5f, .5f, .5f};
 	/**
 	 * Defines the font color.
 	 */
@@ -33,7 +33,7 @@ public abstract class GuiObject {
 	/**
 	 * Defines the speed of the mouse over effect.
 	 */
-	private static final float MOUSEOVER_EFFECT_SPEED = 4.5f;
+	private static final float MOUSEOVER_EFFECT_SPEED = 2f;
 	/**
 	 * Defines whether the mouse is hovering over the element.
 	 */

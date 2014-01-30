@@ -47,9 +47,12 @@ public class InputHandler implements InputProcessor {
 	 * @throws CleanUpException
 	 */
 	public void update() {
-
-		mouseX = Gdx.input.getX();
-		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+		
+		mouseX = Gdx.input.getX() * (900/Gdx.graphics.getWidth());
+		mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) * (600/Gdx.graphics.getHeight());
+//		System.out.println(mouseX+" ,"+(900/Gdx.graphics.getWidth()));
+//		System.out.println(mouseY+" , "+(600/Gdx.graphics.getHeight()));
+//		System.out.println("");
 		// mouseClicked = false;
 
 		if (!Gdx.input.isButtonPressed(0)) {

@@ -23,8 +23,8 @@ public class AITest {
 		 * Create two DumbPlayers (who are using a naive/random strategy)
 		 */
 		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(new DumbPlayer(0));
-		players.add(new DumbPlayer(1));
+		players.add(new DumbPlayer());
+		players.add(new DumbPlayer());
 		Board b = new Board();
 		b.newGame(players);
 		b.print();

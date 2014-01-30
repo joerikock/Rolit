@@ -48,9 +48,9 @@ public abstract class Player {
 	 * @param id
 	 *            the ID of the player.
 	 */
-	public Player(String theName, int theID) {
+	public Player(String theName) {
 		this.name = theName;
-		this.id = theID;
+
 	}
 
 	// Queries ------------------------------------------------------------------
@@ -63,6 +63,9 @@ public abstract class Player {
 	 * 
 	 * @return the id.
 	 */
+	public void setID(int color){
+		this.id = color;
+	}
 	public int getID() {
 		return id;
 	}

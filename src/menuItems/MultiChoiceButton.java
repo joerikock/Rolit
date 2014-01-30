@@ -45,7 +45,7 @@ public class MultiChoiceButton extends GuiObject {
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT
 				.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], alpha);
-		RollIt.FONT.draw(batch, this.name, x, y + 20);
+		RollIt.FONT.draw(batch, this.name, x+10, y + 30);
 	}
 
 }

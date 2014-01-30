@@ -121,10 +121,16 @@ public class Board {
 	public void newGame(ArrayList<Player> playerData) {
 		System.out.println("Starting a new game with "+playerData.size()+" players");
 		this.players = playerData;
+		System.out.println("---");
+		for(int i=0;i<players.size();i++){
+			players.get(i).setID(i);
+			System.out.println(players.get(i).getName());
+		}
+		System.out.println("---");
 	}
 
 	/*@
-	 * requires id != null;
+	 * requires id >-1 && id<4;
 	 * ensures \result >= 0 && \result <= 64;
 	 */
 	/**
@@ -148,17 +154,28 @@ public class Board {
 	}
 
 	/*
-	 * ensures \result == this.newBall;
+	 * ensures \result >=0 && \result <8;
 	 */
 	/**
 	 * Method for returning the newBall.
 	 * 
-	 * @return the newBall;
+	 * @return x position of the new Ball;
 	 */
-	public boolean getNewBall() {
-		return this.newBall;
+	public int getNewBallXPos() {
+		return this.newBallX;
 	}
-
+	/*
+	 * ensures \result >=0 && \result <8;
+	 */
+	/**
+	 * Method for returning the newBall.
+	 * 
+	 * @return y position of the new Ball;
+	 */
+	public int getNewBallYPos()
+	{
+		return this.newBallY;
+	}
 	/*@
 	 * ensures changes != null && modifiedBalls != null;
 	 * ensures	getField(3, 3) == 0 && getField(3, 4) == 1 &&
@@ -487,10 +504,12 @@ public class Board {
 			 *            the Y-coordinate of the move.
 			 * @return Returns true if the move x,y is valid.
 			 */
-			private boolean validateMove(int x, int y) {
+			public boolean validateMove(int x, int y) {
 				int[] pos = {x, y};
 				ArrayList<int[]> temp = getValidMoveList();
 				for (int i = 0; i < temp.size(); i++) {
+					System.out.println(temp.get(i)[0]+", "+temp.get(i)[1]+" - "+x+", "+y);
+				
 					if (temp.get(i)[0] == pos[0] && temp.get(i)[1] == pos[1]) {
 						return true;
 					}
@@ -691,6 +710,7 @@ public class Board {
 					this.modified = true;
 					this.newBall = false;
 					this.nextPlayer();
+					System.out.println("Board next player : " +this.currentPlayer);
 					validMovesForNextPlayer = null;
 					this.validMovesForNextPlayer = this.getValidMoveList();
 				}
