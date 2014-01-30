@@ -20,13 +20,13 @@ public class NewGameMenu extends Menu {
 		this.addGuiObject(back);
 		String[] choices = { "No Player", "Human Player", "Simple AI",
 				"Smart AI" };
-		MultiChoiceButton opponentChooser1 = new MultiChoiceButton("Red",
+		MultiChoiceButton opponentChooser1 = new MultiChoiceButton("Player 1",
 				choices, this, 50, 450);
-		MultiChoiceButton opponentChooser2 = new MultiChoiceButton("Blue",
+		MultiChoiceButton opponentChooser2 = new MultiChoiceButton("Player 2",
 				choices, this, 50, 400);
-		MultiChoiceButton opponentChooser3 = new MultiChoiceButton("Green",
+		MultiChoiceButton opponentChooser3 = new MultiChoiceButton("Player 3",
 				choices, this, 50, 350);
-		MultiChoiceButton opponentChooser4 = new MultiChoiceButton("Yellow",
+		MultiChoiceButton opponentChooser4 = new MultiChoiceButton("Player 4",
 				choices, this, 50, 300);
 
 		this.addGuiObject(opponentChooser1);

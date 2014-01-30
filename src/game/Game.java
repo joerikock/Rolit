@@ -379,7 +379,7 @@ public class Game {
 			/**
 			 * Fetch players & hints
 			 */
-			String[] playerColors = { "Red", "Green", "Blue", "Yellow" };
+			String[] playerColors = { "Player 1", "Player 2", "Player 3", "Player 4" };
 			for (int i = 0; i < 4; i++) {
 
 				if (active.getSelectedChild(playerColors[i]).equals(
