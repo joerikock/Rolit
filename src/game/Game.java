@@ -309,7 +309,8 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 			if (active.lastClickedElement() == "Connect") {
-				int playerCount = Integer.parseInt(login.getSelectedChild("Opponents"));
+				System.out.println(active.getSelectedChild("Opponents"));
+				int playerCount = Integer.parseInt(active.getSelectedChild("Opponents"))+1;
 				onlineGame = true;
 				client.requestGame(playerCount);
 
@@ -327,9 +328,10 @@ public class Game {
 	private void updateInGameMenu(Menu active) {
 		if (onlineGame) {
 			this.board = client.getBoard();
-			if (active.lastClickedElement() == "Back") {
+			if (active.lastClickedElement() == "Back" || !client.inGame()) {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
+				client.leaveGame();
 			}
 		}else{
 			if (active.lastClickedElement() == "Back") {

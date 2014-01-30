@@ -198,6 +198,9 @@ public class Client implements Runnable {
 							client.getBoard().tryMove(x, y,
 									client.getBoard().currentPlayerColor());
 						}
+						if(messageParts[0].equals("gameOver")){
+							client.leaveGame();
+						}
 					}
 					if (messageParts.length == 2) {
 						if (messageParts[0].equals("loginAck")) {
@@ -263,7 +266,8 @@ public class Client implements Runnable {
 		return this.currentPlayer;	
 	}
 	public void leaveGame(){
-		
+		inGame = false;
+		sendMessage("disjoin");
 	}
 	public void makeMove(int x, int y) {
 		if (currentPlayer) {

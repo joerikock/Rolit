@@ -13,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 public class MultiSocket implements Runnable {
@@ -22,7 +23,7 @@ public class MultiSocket implements Runnable {
 		private ArrayList<Player> players;
 
 		private Board board;
-		boolean gameRunning, justStarted;
+		boolean gameRunning, justStarted, active;
 		public int playerCount;
 
 		public Session(int playerCount, String clientName) {
@@ -33,6 +34,11 @@ public class MultiSocket implements Runnable {
 			board = new Board();
 			this.playerCount = playerCount;
 			System.out.println("New session created by" + clientName);
+			active = true;
+		}
+
+		public boolean active() {
+			return active;
 		}
 
 		public int getPlayerCount() {
@@ -45,6 +51,12 @@ public class MultiSocket implements Runnable {
 
 		public boolean isInGame() {
 			return gameRunning;
+		}
+
+		public void gameOver() {
+			System.out.println("Player left or game over");
+			sendToPlayers("gameOver", null);
+			active = false;
 		}
 
 		public void sendToPlayers(String message, String[] args) {
@@ -100,7 +112,7 @@ public class MultiSocket implements Runnable {
 
 		@Override
 		public void run() {
-			while (true) {
+			while (active) {
 				System.out.print("");
 				if (gameRunning) {
 					board.update();
@@ -135,11 +147,11 @@ public class MultiSocket implements Runnable {
 	}
 
 	private static class SessionHandler {
-		ArrayList<Session> sessions = new ArrayList<Session>();
+		private static ArrayList<Session> sessions = new ArrayList<Session>();
 		private static HashMap<String, Session> playerSession = new HashMap<String, Session>();
 
 		public SessionHandler() {
-			this.sessions = new ArrayList<Session>();
+
 		}
 
 		private Session getPlayerSession(String name) {
@@ -147,6 +159,29 @@ public class MultiSocket implements Runnable {
 			for (String s : playerSession.keySet()) {
 			}
 			return playerSession.get(name);
+		}
+
+		/**
+		 * Deletes sessions that are no longer active and removes their players
+		 * from the list of active player so they can join a new session.
+		 */
+		public void updateSessions() {
+
+			Iterator<Session> ses = sessions.iterator();
+			ArrayList<String> inactivePlayerList = new ArrayList<String>();
+			while (ses.hasNext()) {
+				Session s = ses.next();
+				if (!s.active()) {
+					inactivePlayerList.addAll(s.getPlayers());
+					System.out.println("Inactive Session shut down");
+					ses.remove();
+				}
+
+			}
+			for (int i = 0; i < inactivePlayerList.size(); i++) {
+				playerSession.remove(inactivePlayerList.get(i));
+			}
+			System.out.println("Remaining active sessions; " + sessions.size());
 		}
 
 		/**
@@ -186,23 +221,20 @@ public class MultiSocket implements Runnable {
 	private static ArrayList<MultiSocket> socketList = new ArrayList<MultiSocket>();
 	private static ArrayList<String> messages = new ArrayList<String>();
 	private static final SessionHandler sessionHandler = new SessionHandler();
-//	private static final String user = "Max";
-//	private static final String[][] users = { { "max", "hallo" },
-//			{ "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
+	// private static final String user = "Max";
+	// private static final String[][] users = { { "max", "hallo" },
+	// { "gollum", "hallo" }, { "lord", "hallo" }, { "dr.cool", "hallo" } };
 	private boolean isClient;
 	private int index;
 	private String clientName;
-	private boolean isActive;
+	private boolean isActive, shutDown;
 	private boolean searching;
+
 	public MultiSocket(Socket sock) {
 		this.socket = sock;
 		socketList.add(this);
 		this.index = socketList.size() - 1;
 		this.isActive = true;
-	}
-
-	private void setClientName(String name) {
-		this.clientName = name;
 	}
 
 	public static void addClient(Socket socket) {
@@ -219,7 +251,9 @@ public class MultiSocket implements Runnable {
 	}
 
 	private void close() {
+		System.out.println("Shutting down client "+clientName);
 		isActive = false;
+		shutDown = true;
 	}
 
 	public static void closeAll(ServerSocket serverSocket) {
@@ -229,9 +263,9 @@ public class MultiSocket implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 for (int i = 0; i < socketList.size(); i++) {
+		for (int i = 0; i < socketList.size(); i++) {
 			socketList.get(i).close();
-		 }
+		}
 	}
 
 	/**
@@ -241,8 +275,8 @@ public class MultiSocket implements Runnable {
 	 * @param password
 	 */
 	private boolean validateUser(String name) {
-		for(String user : clients.keySet()){
-			if(user.equals(name)){
+		for (String user : clients.keySet()) {
+			if (user.equals(name)) {
 				return false;
 			}
 		}
@@ -269,15 +303,19 @@ public class MultiSocket implements Runnable {
 			message = reader.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.close();
+//			e.printStackTrace();
 		}
-		// TODO: check whether client and message are valid.
-		String[] messageParts = message.split(" ");
-		String[] returnMessage = new String[messageParts.length];
-		System.out.println("");
-		System.out.println("Server recived message: " + message);
-
-		return messageParts;
+		if(message!=null){
+			String[] messageParts = message.split(" ");
+			String[] returnMessage = new String[messageParts.length];
+			System.out.println("");
+			System.out.println("Server recived message: " + message + " from "
+					+ this.clientName);
+	
+			return messageParts;
+		}
+		return null;
 	}
 
 	public static Set<String> getClients() {
@@ -296,20 +334,24 @@ public class MultiSocket implements Runnable {
 			e.printStackTrace();
 		}
 		while (isActive) {
-
 			String[] s = getMessage(bufferedReader);
 			String[] args = null;
-			// System.out.println("ICH BIN HIER!");
-			if (s != null) {
-				for (int a = 0; a < s.length; a++) {
-					System.out.println(a + " : " + s[a]);
-				}
-				// If the client is not registered: only login attempt possible
-				if (s[0].equals("logOut") && clients.get(clientName) != null) {
-					socketList.get(clients.get(clientName)).close();
-					socketList.remove(clients.remove(clientName));
+//			if (s!=null&&s[0]!="logOut") {
+//				String[] s = getMessage(bufferedReader);
 
-				} else {
+				// System.out.println("ICH BIN HIER!");
+				if (s != null) {
+					for (int a = 0; a < s.length; a++) {
+						System.out.println(a + " : " + s[a]);
+					}
+					// If the client is not registered: only login attempt
+					// possible
+					// if (s[0].equals("logOut") && clients.get(clientName) !=
+					// null) {
+					// socketList.get(clients.get(clientName)).close();
+					// socketList.remove(clients.remove(clientName));
+					//
+					// } else {
 					if (!isClient) {
 						if (s.length == 2 && s[0].equals("login")) {
 							args = new String[1];
@@ -326,13 +368,19 @@ public class MultiSocket implements Runnable {
 					} else {
 						Session session = sessionHandler
 								.getPlayerSession(clientName);
-						if (!searching&&session == null) {
+
+						if (!searching && session == null) {
 							if (s[0].equals("join") && s.length == 2) {
 
 								if (s[0].equals("join")) {
-									System.out.println("JOIN REQUEST");
-									sessionHandler.requestSession(
-											Integer.parseInt(s[1]), clientName);
+									// System.out.println("JOIN REQUEST");
+									int playerCount = Integer.parseInt(s[1]);
+									if (playerCount > 1 && playerCount <= 4) {
+										sessionHandler.requestSession(
+												Integer.parseInt(s[1]),
+												clientName);
+									}
+
 								}
 							}
 						} else {
@@ -340,14 +388,29 @@ public class MultiSocket implements Runnable {
 								session.makeMove(Integer.parseInt(s[1]),
 										Integer.parseInt(s[2]), clientName);
 							}
-						}
-					}
+							if (s[0].equals("disjoin")) {
+								session.gameOver();
+								sessionHandler.updateSessions();
+							}
 
+						}
+						
+					}
 					this.sendMessage(s[0] + "Ack", args);
+					if (s[0].equals("logOut")) {
+							this.close();
+					}
 				}
 			}
-		}
+//		}
 		try {
+			Session session = sessionHandler
+					.getPlayerSession(clientName);
+			if(session!=null){
+				session.gameOver();
+				sessionHandler.updateSessions();
+				
+			}
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

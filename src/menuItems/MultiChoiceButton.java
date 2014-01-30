@@ -29,13 +29,13 @@ public class MultiChoiceButton extends GuiObject {
 				GuiObject.ELEMENT_HEIGHT);
 		super.setClickAble(false);
 		// Add Buttons
-		this.setSelectAble(false);
 		menu.addGuiObject(this);
 		buttons = new Button[buttonNames.length];
 		for (int i = 0; i < buttonNames.length; i++) {
 
 			buttons[i] = new Button(buttonNames[i], x + width + i * width, y);
 			buttons[i].setParentObject(this);
+			buttons[i].setSelectAble(true);
 			if (i == 0) {
 				buttons[i].setSelected(true);
 			}
