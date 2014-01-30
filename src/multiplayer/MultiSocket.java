@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-
+/**
+ * Server for Rolit.
+ * @author Max Messerich and Joeri Kock
+ *
+ */
 public class MultiSocket implements Runnable {
 	
 	private static class Session implements Runnable {
@@ -80,7 +84,14 @@ public class MultiSocket implements Runnable {
 		}
 		/**
 		 * 
-		 * @return ArrayList containing all player instances of this session.
+		 * @return true if there are no spaces left in the session
+		 */
+		public boolean isFull(){
+			return playerNames.size() == playerCount;
+		}
+		/**
+		 * 
+		 * @return ArrayList containing all player instances of this sdession.
 		 */ 
 		private ArrayList<String> getPlayers() {
 			return playerNames;
@@ -126,18 +137,22 @@ public class MultiSocket implements Runnable {
 			}
 			return false;
 		}
-
+		/**
+		 * Tries to execute the move x, y with the color of the player with the given name.
+		 * If the execution of the move fails, the client is kicked from the game.
+		 * @param x
+		 * @param y
+		 * @param player
+		 */
 		public void makeMove(int x, int y, String player) {
-
-
 			for (int i = 0; i < playerNames.size(); i++) {
 				if (player.equals(playerNames.get(i))) {
 					if (board.currentPlayer().getName().equals(player)) {
 						
-						if (!board.tryMove(x, y, board.currentPlayerColor())) {
+						if (board.tryMove(x, y, board.currentPlayerColor())) {
 							// kick player
 							System.out.println("Player "+board.currentPlayer().getName().equals(player)+" send an invalid move");
-
+						
 						} else {
 							System.out.println("SESSION: NEW BALL AT" + x
 									+ " , " + y);
@@ -160,7 +175,9 @@ public class MultiSocket implements Runnable {
 			gameRunning = true;
 
 		}
-
+		/**
+		 * Thread for each session.
+		 */
 		@Override
 		public void run() {
 			while (active) {
@@ -250,14 +267,16 @@ public class MultiSocket implements Runnable {
 				return session;
 			} else {
 				for (int i = 0; i < sessions.size(); i++) {
-					if (!sessions.get(i).isInGame()
-							&& sessions.get(i).getPlayerCount() == playerCount) {
+					if (sessions.get(i).getPlayerCount() == playerCount&&
+							!sessions.get(i).isFull()&&
+							!sessions.get(i).isInGame()) {
 						sessions.get(i).join(playerName);
 						System.out.println("SessionManager found session");
 						playerSession.put(playerName, sessions.get(i));
 						return sessions.get(i);
 					}
 				}
+				System.out.println("Sessions founds but full. Starting new one");
 				Session session = new Session(playerCount, playerName);
 				sessions.add(session);
 				playerSession.put(playerName, session);
