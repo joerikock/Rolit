@@ -27,6 +27,7 @@ public class MultiChoiceButton extends GuiObject {
 		// Set Text;
 		super.setDimensions(x, y, GuiObject.ELEMENT_WIDTH,
 				GuiObject.ELEMENT_HEIGHT);
+		super.setClickAble(false);
 		// Add Buttons
 		this.setSelectAble(false);
 		menu.addGuiObject(this);
@@ -45,7 +46,7 @@ public class MultiChoiceButton extends GuiObject {
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.FONT
 				.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], alpha);
-		RollIt.FONT.draw(batch, this.name, x+10, y + 30);
+		RollIt.FONT.draw(batch, this.name, x + 10, y + 30);
 	}
 
 }

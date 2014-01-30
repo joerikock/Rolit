@@ -69,8 +69,8 @@ public class BoardGUI {
 	/**
 	 * Booleans used for the animation.
 	 */
-	private boolean animationInProgress, changinsBallInit, 
-	newSelectedField, choicesInit;
+	private boolean animationInProgress, changinsBallInit, newSelectedField,
+			choicesInit;
 
 	/*
 	 * @ private invariant newBall != null;

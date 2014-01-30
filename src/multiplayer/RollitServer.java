@@ -144,23 +144,23 @@ public class RollitServer implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-//			Set<String> clients = MultiSocket.getClients();
-//			for (String c : clients) {
-//				String[] s = MultiSocket.getClientMessage(c);
-//				if (s!=null&&s.length > 0) {
-//
-//					Session session = sessionHandler.getPlayerSession(c);
-//					if (s[0].equals("join")) {
-//						System.out.println("JOIN REQUEST");
-//						sessionHandler
-//								.requestSession(Integer.parseInt(s[1]), c);
-//					}
-//					if (s[0].equals("move")) {
-//						session.makeMove(Integer.parseInt(s[1]),
-//								Integer.parseInt(s[2]), c);
-//					}
-//				}
-//			}
+			// Set<String> clients = MultiSocket.getClients();
+			// for (String c : clients) {
+			// String[] s = MultiSocket.getClientMessage(c);
+			// if (s!=null&&s.length > 0) {
+			//
+			// Session session = sessionHandler.getPlayerSession(c);
+			// if (s[0].equals("join")) {
+			// System.out.println("JOIN REQUEST");
+			// sessionHandler
+			// .requestSession(Integer.parseInt(s[1]), c);
+			// }
+			// if (s[0].equals("move")) {
+			// session.makeMove(Integer.parseInt(s[1]),
+			// Integer.parseInt(s[2]), c);
+			// }
+			// }
+			// }
 		}
 
 	}

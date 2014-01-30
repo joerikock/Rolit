@@ -14,44 +14,48 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 
 public class AnimatedBackGround {
-	private class Mover{
-		private int x, y, speed, delay,count, xdir, ydir;
-		private float r,g,b;
-		public Mover(int x, int y, int speed, int delay,float r, float g, float b){
+	private class Mover {
+		private int x, y, speed, delay, count, xdir, ydir;
+		private float r, g, b;
+
+		public Mover(int x, int y, int speed, int delay, float r, float g,
+				float b) {
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
 			this.delay = delay;
-			this.r =r;
-			this.g= g;
+			this.r = r;
+			this.g = g;
 			this.b = b;
 			count = 0;
 			xdir = Tools.randomDir();
 			ydir = Tools.randomDir();
 		}
-		public void update(int maxX, int maxY){
+
+		public void update(int maxX, int maxY) {
 			count++;
-			if(count==delay){
-				if(x+xdir<0||x+xdir>=maxX){
-					xdir*=-1;
+			if (count == delay) {
+				if (x + xdir < 0 || x + xdir >= maxX) {
+					xdir *= -1;
 				}
-				if(y+ydir<0||y+ydir>=maxY){
-					ydir*=-1;
+				if (y + ydir < 0 || y + ydir >= maxY) {
+					ydir *= -1;
 				}
-				x+=xdir;
-				y+=ydir;
-				if(x>=maxX){
+				x += xdir;
+				y += ydir;
+				if (x >= maxX) {
 					x = maxX;
 				}
-				if(y>=maxY){
-					y = maxY-1;
+				if (y >= maxY) {
+					y = maxY - 1;
 				}
 				count = 0;
 			}
 
-			bg.setFieldColor(x, y, r,g,b, .2f);
+			bg.setFieldColor(x, y, r, g, b, .2f);
 		}
 	}
+
 	// Instance variables ------------------------------------------
 
 	/**
@@ -63,11 +67,12 @@ public class AnimatedBackGround {
 	 * ArrayList of Movers that animate the background
 	 */
 	private ArrayList<Mover> movers;
-	
+
 	/**
 	 * 
 	 */
-	private int w,h;
+	private int w, h;
+
 	/**
 	 * Creates a new AnimatedBackGround.
 	 * 
@@ -78,18 +83,18 @@ public class AnimatedBackGround {
 	 *            horizontally.
 	 */
 	public AnimatedBackGround(int initSpeed, int delay) {
-		w = (int) (Gdx.graphics.getWidth() / (BoardGUI.BALL_SIZE )+ 1);
-		h = (int) (Gdx.graphics.getHeight() / (BoardGUI.BALL_SIZE ));
-		this.bg = new BoardGUI(w,h);
+		w = (int) (Gdx.graphics.getWidth() / (BoardGUI.BALL_SIZE) + 1);
+		h = (int) (Gdx.graphics.getHeight() / (BoardGUI.BALL_SIZE));
+		this.bg = new BoardGUI(w, h);
 		movers = new ArrayList<Mover>();
-		movers.add(new Mover(3,3,1,6,0,1,0));
-		movers.add(new Mover(7,4,1,6,1,1,0));
-		movers.add(new Mover(6,6,1,6,0,1,1));
-		movers.add(new Mover(4,6,1,6,0,0,1));
-		movers.add(new Mover(3,2,1,6,0,1,0));
-		movers.add(new Mover(1,3,1,6,1,1,0));
-		movers.add(new Mover(3,7,1,6,0,1,1));
-		movers.add(new Mover(5,6,1,6,0,0,1));
+		movers.add(new Mover(3, 3, 1, 6, 0, 1, 0));
+		movers.add(new Mover(7, 4, 1, 6, 1, 1, 0));
+		movers.add(new Mover(6, 6, 1, 6, 0, 1, 1));
+		movers.add(new Mover(4, 6, 1, 6, 0, 0, 1));
+		movers.add(new Mover(3, 2, 1, 6, 0, 1, 0));
+		movers.add(new Mover(1, 3, 1, 6, 1, 1, 0));
+		movers.add(new Mover(3, 7, 1, 6, 0, 1, 1));
+		movers.add(new Mover(5, 6, 1, 6, 0, 0, 1));
 	}
 
 	/**
@@ -97,7 +102,7 @@ public class AnimatedBackGround {
 	 * edge, the xChange and/or yChange is reversed.
 	 */
 	public void update() {
-		for(Mover mov: movers){
+		for (Mover mov : movers) {
 			mov.update(w, h);
 		}
 	}

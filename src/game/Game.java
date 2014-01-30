@@ -140,6 +140,10 @@ public class Game {
 	 * Boolean deciding whether current game is online or not
 	 */
 	private boolean onlineGame;
+	/**
+	 * Standart port for connecting to the server.
+	 */
+	public static final int STANDART_PORT = 1235;
 
 	// Constructors --------------------------------------------------------
 
@@ -152,7 +156,7 @@ public class Game {
 		mainMenu = new MainMenu(menus);
 		inGameMenu = new IngameMenu(menus);
 		newGameMenu = new NewGameMenu(menus);
-		onlineGameMenu = new OnlineGameMenu(menus);
+		onlineGameMenu = new OnlineGameMenu(menus, STANDART_PORT);
 		menus.addMenu(inGameMenu);
 		menus.addMenu(newGameMenu);
 		menus.addMenu(onlineGameMenu);
@@ -215,7 +219,7 @@ public class Game {
 		}
 		if (active == mainMenu) {
 			if (active.lastClickedElement() == "Exit") {
-				if(client!=null){
+				if (client != null) {
 					client.close();
 				}
 				System.exit(0);
@@ -262,28 +266,29 @@ public class Game {
 		if (boardPainter.animationDone()) {
 			if (!board.finished()) {
 				if (!onlineGame) {
-				
+
 					if (board.currentPlayer().hasMove()) {
 						board.currentPlayer().makeMove(board);
-						
+
 					}
-					
-				}else{
-					if(client.isCurrentPlayer()){
-						if(boardPainter.hasSelectedField()){
+
+				} else {
+					if (client.isCurrentPlayer()) {
+						if (boardPainter.hasSelectedField()) {
 							System.out.println("Selected Field");
-							client.makeMove(boardPainter.getSelectedField()[0],boardPainter.getSelectedField()[1]);
+							client.makeMove(boardPainter.getSelectedField()[0],
+									boardPainter.getSelectedField()[1]);
 						}
 					}
 				}
 			}
 		}
-		
+
 		board.update();
 	}
 
 	private void updateOnlineGameMenu(Menu active) {
-		if(client == null){
+		if (client == null) {
 			menus.setActiveMenu(login);
 		}
 		if (active.lastClickedElement() == "Back") {
@@ -294,7 +299,7 @@ public class Game {
 			client.requestGame(2);
 
 		}
-		if (client!=null&&client.inGame()) {
+		if (client != null && client.inGame()) {
 			board = client.getBoard();
 			System.out.println("Client returned Board: " + board);
 			boardPainter.setBoard(board);

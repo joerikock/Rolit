@@ -24,6 +24,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 	private InputHandler input;
 	ShapeRenderer shapes;
 	Game game;
+
 	@Override
 	public void create() {
 		float w = Gdx.graphics.getWidth();
@@ -66,8 +67,8 @@ public class RollIt implements ApplicationListener, TextInputListener {
 
 	@Override
 	public void resize(int width, int height) {
-		System.out.println(width+", " +height);
-		
+		System.out.println(width + ", " + height);
+
 	}
 
 	@Override

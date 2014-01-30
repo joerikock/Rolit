@@ -90,11 +90,6 @@ public class MultiSocket implements Runnable {
 			System.out.println("-----------------");
 		}
 
-		public void addPlayer(Player player) {
-			players.add(player);
-
-		}
-
 		public void startGame() {
 			System.out.println("Session starting a new Game");
 			board.newGame(players);
@@ -137,10 +132,6 @@ public class MultiSocket implements Runnable {
 				}
 			}
 		}
-
-		public Player currentPlayer() {
-			return board.currentPlayer();
-		}
 	}
 
 	private static class SessionHandler {
@@ -152,11 +143,8 @@ public class MultiSocket implements Runnable {
 		}
 
 		private Session getPlayerSession(String name) {
-			System.out.println("Currently active sessions: "
-					+ playerSession.size());
+
 			for (String s : playerSession.keySet()) {
-				System.out.println(" ----------------------- " + s + " :: "
-						+ name);
 			}
 			return playerSession.get(name);
 		}
@@ -205,6 +193,7 @@ public class MultiSocket implements Runnable {
 	private int index;
 	private String clientName;
 	private boolean isActive;
+	private boolean searching;
 	public MultiSocket(Socket sock) {
 		this.socket = sock;
 		socketList.add(this);
@@ -225,12 +214,12 @@ public class MultiSocket implements Runnable {
 		if (clients.containsKey(name)) {
 			socketList.get(clients.get(name)).close();
 			socketList.remove(clients.get(name));
-			
+
 		}
 	}
 
 	private void close() {
-			isActive = false;
+		isActive = false;
 	}
 
 	public static void closeAll(ServerSocket serverSocket) {
@@ -240,16 +229,9 @@ public class MultiSocket implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// for (int i = 0; i < socketList.size(); i++) {
-		// // TODO: Sent message to socket that its being shut down.
-		// try {
-		// socketList.get(i).close();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-
+		 for (int i = 0; i < socketList.size(); i++) {
+			socketList.get(i).close();
+		 }
 	}
 
 	/**
@@ -352,7 +334,7 @@ public class MultiSocket implements Runnable {
 						Session session = sessionHandler
 								.getPlayerSession(clientName);
 						System.out.println(session);
-						if (session == null) {
+						if (!searching&&session == null) {
 							if (s[0].equals("join") && s.length == 2) {
 
 								if (s[0].equals("join")) {

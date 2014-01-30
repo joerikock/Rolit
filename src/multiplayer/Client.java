@@ -30,6 +30,7 @@ public class Client implements Runnable {
 	private ClientListener listener;
 	private Board clientBoard;
 	private Thread listenerThread;
+
 	public Client(String name, String password, int port, String serverName) {
 		InetAddress ip = null;
 
@@ -64,7 +65,7 @@ public class Client implements Runnable {
 		System.out.println("Client init. " + name);
 		String[] a = { name, password };
 		sendMessage("login", a);
-//		this.clientBoard = board;
+		// this.clientBoard = board;
 
 	}
 
@@ -77,7 +78,7 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 		listenerThread.stop();
-		
+
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class Client implements Runnable {
 		while (true) {
 			if (this.inGame) {
 				if (this.currentPlayer) {
-					System.out.println(this.name+" is current player");
+					System.out.println(this.name + " is current player");
 					if (clientBoard.currentPlayer().hasMove()) {
 						int[] position = clientBoard.currentPlayer()
 								.determineMove(clientBoard);
@@ -174,10 +175,12 @@ public class Client implements Runnable {
 						if (messageParts[0].equals("yourTurn")) {
 							client.setActive();
 						}
-						if(messageParts[0].equals("update")&&messageParts.length==3){
+						if (messageParts[0].equals("update")
+								&& messageParts.length == 3) {
 							int x = Integer.parseInt(messageParts[1]);
 							int y = Integer.parseInt(messageParts[2]);
-							client.getBoard().tryMove(x, y, client.getBoard().currentPlayerColor());
+							client.getBoard().tryMove(x, y,
+									client.getBoard().currentPlayerColor());
 						}
 					}
 					if (messageParts.length == 2) {
@@ -208,8 +211,8 @@ public class Client implements Runnable {
 	public void startGame(ArrayList<String> players) {
 		inGame = true;
 		ArrayList<Player> playerList = new ArrayList<Player>();
-//		playerList.remove(name);
-//		playerList.add(new HumanPlayer(name, 0, boardGui));
+		// playerList.remove(name);
+		// playerList.add(new HumanPlayer(name, 0, boardGui));
 		for (int i = 0; i < players.size(); i++) {
 			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);
@@ -231,19 +234,22 @@ public class Client implements Runnable {
 	public Board getBoard() {
 		return this.clientBoard;
 	}
-	public boolean isCurrentPlayer(){
+
+	public boolean isCurrentPlayer() {
 		return this.currentPlayer;
 	}
-	public void makeMove(int x, int y){
-		if(currentPlayer){
-			if(clientBoard.validateMove(x, y)){
-				String[ ] args = {x+"",y+""};
+
+	public void makeMove(int x, int y) {
+		if (currentPlayer) {
+			if (clientBoard.validateMove(x, y)) {
+				String[] args = { x + "", y + "" };
 				this.sendMessage("move", args);
 				currentPlayer = false;
 			}
 
 		}
 	}
+
 	public static void main(String[] args) {
 
 		Client client1 = new Client("Dr.Schnappus", "sda", 1235, "localHost");

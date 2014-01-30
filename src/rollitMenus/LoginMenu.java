@@ -11,11 +11,11 @@ public class LoginMenu extends Menu {
 	public LoginMenu(MenuManager m) {
 		super("Login");
 		super.setManager(m);
-		Button b = new Button("Login", 200, 300);
-		Button cancel = new Button("Cancel", 300,300);
-		password = new TextInputField("Password", 200, 200);
+		Button b = new Button("Login", 325, 200);
+		Button cancel = new Button("Cancel", 425, 200);
+		password = new TextInputField("Password", 350, 300);
 		password.setTextVisibility(false);
-		username = new TextInputField("Name", 200, 100);
+		username = new TextInputField("Name", 350, 350);
 
 		this.addGuiObject(b);
 		this.addGuiObject(cancel);

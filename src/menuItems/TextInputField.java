@@ -7,6 +7,7 @@ public class TextInputField extends GuiObject implements TextInput {
 	String string, displayString;
 	String empty;
 	private boolean textVisible;
+	private boolean hasStandartValue;
 
 	/**
 	 * Creates a new TextInputField that can be used to get text input from the
@@ -36,6 +37,10 @@ public class TextInputField extends GuiObject implements TextInput {
 		this.textVisible = bool;
 	}
 
+	public void setStandartValue(String text) {
+		this.empty = text;
+	}
+
 	/**
 	 * Updates the TextInputField with characters.
 	 */
@@ -63,11 +68,15 @@ public class TextInputField extends GuiObject implements TextInput {
 	}
 
 	/**
-	 * Returns what the user has written.
+	 * Returns what the user has written. If the field has a standart value and
+	 * his not been modified, the standart value is returned.
 	 * 
 	 * @return
 	 */
 	public String getInput() {
+		if (string.equals("") && hasStandartValue) {
+			return empty;
+		}
 		return this.string;
 	}
 
@@ -96,7 +105,8 @@ public class TextInputField extends GuiObject implements TextInput {
 
 		// batch.begin();
 		// RollIt.FONT.setScale(.8f);
-		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1], GuiObject.FONT_COLOR[2], alpha);
+		RollIt.FONT.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
+				GuiObject.FONT_COLOR[2], alpha);
 		// If the string is empty display standart text e.g "name" or "password"
 		if (string.length() == 0) {
 			RollIt.FONT.draw(batch, empty, x,
@@ -128,7 +138,9 @@ public class TextInputField extends GuiObject implements TextInput {
 		// batch.end();
 
 	}
+
 	@Override
-	public void drawOverLay(SpriteBatch batch) { }
-	
+	public void drawOverLay(SpriteBatch batch) {
+	}
+
 }
