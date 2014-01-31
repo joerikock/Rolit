@@ -30,14 +30,16 @@ public class Client implements Runnable {
 	 */
 	private int loginStatus;
 	private static boolean running = true;
-
+	/*
+	 * Boolean defining whether the client started a new game on his boarc
+	 */
+	private boolean newGame;
 	public Client() {
 
 	}
-
-	public void connect(int port, String serverName) {
+	public boolean connect(int port, String serverName) {
 		InetAddress ip = null;
-
+		System.out.println("Client loggin started");
 		try {
 			ip = InetAddress.getByName(serverName);
 		} catch (UnknownHostException e1) {
@@ -67,8 +69,10 @@ public class Client implements Runnable {
 			listener = new ClientListener(bufferedReader, this);
 			listenerThread = new Thread(listener);
 			listenerThread.start();
-
+			System.out.println(socket);
 		}
+		System.out.println("Client loggin done");
+		return (socket!=null);
 	}
 
 	public void login(String name) {
@@ -77,7 +81,9 @@ public class Client implements Runnable {
 		sendMessage("login", a);
 		loginStatus = 1;
 	}
-
+	public void rematch(){
+		sendMessage("join",null);
+	}
 	public void close() {
 		if(socket!=null){
 			sendMessage("logOut", null);
@@ -188,23 +194,22 @@ public class Client implements Runnable {
 									client.getBoard().currentPlayerColor());
 						}
 						if (messageParts[0].equals("gameOver")) {
+							
 							if(messageParts.length==1){
 								client.errorMessage = "The server shut down";
+								client.leaveGame();
 							}else{
-								if(!messageParts[1].equals("null")){
-									if(client.getBoard().finished()){
+								if(messageParts[1].equals("restart")){
+										System.out.println("Server asking for a rematch");
 										client.errorMessage = "Play again?";
-									}else{
-										client.errorMessage = messageParts[1]+ " left the game. Going back to the main menu.";
-									}
-									
 								}else{
 									client.errorMessage = "A player left the game. Going back to the main menu.";
+									client.leaveGame();
 								}
 								
 							}
 							
-							client.leaveGame();
+							
 						}
 					}
 					if (messageParts.length == 2) {
@@ -236,7 +241,12 @@ public class Client implements Runnable {
 	public int getLoginState() {
 		return loginStatus;
 	}
-
+	public boolean staredNewGame(){
+		return this.newGame;
+	}
+	public void newGameFetched(){
+		this.newGame = false;
+	}
 	private void loginComplete() {
 		loginStatus = 2;
 	}
@@ -255,6 +265,7 @@ public class Client implements Runnable {
 			Player p = new NetworkPlayer(players.get(i), i + 1);
 			playerList.add(p);
 		}
+		this.newGame = true;
 		System.out.println(" - -");
 		System.out.println("RESETTING BOARD AND STARTING A NEW GAME");
 		System.out.println("- -");

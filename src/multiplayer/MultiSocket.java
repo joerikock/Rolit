@@ -55,6 +55,12 @@ public class MultiSocket implements Runnable {
 		 */
 		private boolean active;
 		/*
+		 * Boolean defining whether the client has been asked whether he wants
+		 * to play again.
+		 */
+		private boolean sendQuery;
+
+		/*
 		 * Integer defining how many players can join this session.
 		 */
 		public int playerCount;
@@ -123,9 +129,6 @@ public class MultiSocket implements Runnable {
 			return gameRunning;
 		}
 
-		public boolean gameWon() {
-			return board.finished();
-		}
 
 		/**
 		 * Ends the current game and stops the session thread.
@@ -135,6 +138,11 @@ public class MultiSocket implements Runnable {
 			String[] args = { player };
 			sendToPlayers("gameOver", args);
 			active = false;
+		}
+
+		private void sendRematchQuery() {
+			String[] args = { "restart" };
+			sendToPlayers("gameOver", args);
 		}
 
 		/**
@@ -165,13 +173,17 @@ public class MultiSocket implements Runnable {
 		 *            name of the client
 		 * @return true if the player joined the session
 		 */
-		public boolean join(String name) {
+		public synchronized boolean join(String name) {
 			if (!gameRunning && playerNames.size() < playerCount) {
 				playerNames.add(name);
 				System.out.println(name
 						+ " joined session. Current player count: "
 						+ playerNames.size() + "( of " + playerCount + ")");
-
+				if (isFull()) {
+					this.startGame();
+				}
+				this.gameRunning = this.isFull();
+				System.out.println("gameRunning : " + gameRunning);
 				return true;
 			}
 			return false;
@@ -198,12 +210,19 @@ public class MultiSocket implements Runnable {
 											.equals(player)
 									+ " send an invalid move");
 
+
 						} else {
 							System.out.println("SESSION: NEW BALL AT" + x
 									+ " , " + y);
+							sendQuery = true;
 							board.update();
+							
 							if (board.modified()) {
 								newBall = true;
+								
+							}
+							if (board.finished()) {
+								sendQuery = true;
 							}
 						}
 
@@ -216,22 +235,36 @@ public class MultiSocket implements Runnable {
 		 * Starts a new game in the session
 		 */
 		public void startGame() {
+			board = new Board();
 			System.out.println("Session starting a new Game");
+			players.clear();
+			for (int i = 0; i < playerNames.size(); i++) {
+				players.add(new NetworkPlayer(playerNames.get(i), i));
+			}
 			board.newGame(players);
-			gameRunning = true;
 
+			gameRunning = true;
+			sendToPlayers("newGame",
+					playerNames.toArray(new String[playerNames.size()]));
+			socketList
+			.get(clients.get(board.currentPlayer()
+					.getName())).sendMessage(
+					"yourTurn", null);
 		}
 
 		public void requestRematch(String name) {
-			if (board.finished()||true) {
+//			if (board.finished() || true) {
+				System.out.println(" ||||||||||||||||||||||||||| ");
 				if (!this.rematchRequests.contains(name)) {
+					System.out.println(" not voted");
 					this.rematchRequests.add(name);
+					System.out.println(this.rematchRequests.size()+" _ "+this.players.size());
 					if (this.rematchRequests.size() == this.players.size()) {
 						this.startGame();
 					}
 				}
 
-			}
+//			}
 		}
 
 		/**
@@ -239,10 +272,12 @@ public class MultiSocket implements Runnable {
 		 */
 		@Override
 		public void run() {
+
 			while (active) {
 				if (gameRunning) {
-					boolean debug = true;
-					if (!board.finished()||debug) {
+					
+					if (!board.finished()) {
+
 						if (newBall) {
 							System.out.println("WAITING FOR NEW BALL");
 							String[] args = { board.getNewBallXPos() + "",
@@ -253,26 +288,29 @@ public class MultiSocket implements Runnable {
 											.getName())).sendMessage(
 											"yourTurn", null);
 							newBall = false;
+							sendQuery = true;
 						}
-					}else{
-						System.out.println("NEW GAME??");
-					}
-				} else {
-					if (playerNames.size() == playerCount) {
-						System.out.println("Session full. Starting Game!");
-						for (int i = 0; i < playerNames.size(); i++) {
-							players.add(new NetworkPlayer(playerNames.get(i), i));
+					} else {
+//						System.out.println("DOEN");
+						if (sendQuery) {
+							sendRematchQuery();
+							sendQuery = false;
 						}
-						gameRunning = true;
-						startGame();
-						sendToPlayers("newGame",
-								playerNames.toArray(new String[playerNames
-										.size()]));
-						socketList.get(
-								clients.get(board.currentPlayer().getName()))
-								.sendMessage("yourTurn", null);
+
 					}
 				}
+				// } else {
+				// if (playerNames.size() == playerCount) {
+				// System.out.println("Session full. Starting Game!");
+
+				// gameRunning = true;
+				// startGame();
+
+				// socketList.get(
+				// clients.get(board.currentPlayer().getName()))
+				// .sendMessage("yourTurn", null);
+				// }
+				// }
 			}
 		}
 	}
@@ -500,6 +538,7 @@ public class MultiSocket implements Runnable {
 							sessionHandler.updateSessions();
 						}
 						if (s[0].equals("join")) {
+							System.out.println("CLIENT WANTS REMATCH!!!");
 							session.requestRematch(clientName);
 						}
 
@@ -625,6 +664,8 @@ public class MultiSocket implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+		// if (args.length < 1) {
 		int port = Integer.parseInt(args[0]);
 		if (port > 1000 && port < 9999) {
 			ServerSocket serverSocket = null;
@@ -641,5 +682,8 @@ public class MultiSocket implements Runnable {
 		} else {
 			System.out.println("Invalid port number");
 		}
+		// }else{
+		// System.out.println("Please give a port number in the arguments.");
+		// }
 	}
 }

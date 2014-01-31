@@ -88,7 +88,6 @@ public class Game {
 	 * Client for playing online. (can be null, if offline)
 	 */
 	private Client client;
-
 	/*
 	 * @ private invariant boardPainter != null;
 	 */
@@ -204,7 +203,7 @@ public class Game {
 		gameActive = false;
 		Menu active = menus.getActiveMenu();
 
-		menus.update(x, y, mouseDown, input);
+		
 		if (active == inGameMenu) {
 			updateInGameMenu(active);
 			gameActive = true;
@@ -251,9 +250,14 @@ public class Game {
 			
 			client.messageFetched();
 		}
+		if(menus.messageBoxOpen()){
+			if(menus.messageBoxChoice()!=0){
+				menus.closeMesssage();
+			}
+		}
+		menus.update(x, y, mouseDown, input);
 	}
-	//TODO: PROBLEM: Game over is not send to client when game over. needs to be done with "null" as arg. then wait
-	//for client responce.
+
 	private void updateGame(float x, float y, boolean mouseDown) {
 		boardPainter.update(x, y, mouseDown, showHints);
 		gameActive = true;
@@ -278,15 +282,16 @@ public class Game {
 	}
 
 	private void updateLoginMenu(Menu active) {
+		System.out.println(active.lastClickedElement());
 		if (active.lastClickedElement() == "Login") {
 
 			System.out.println(login.getPort());
 			int port = Integer.parseInt(login.getPort());
 			String serverNameFetch = login.getServerIp();
-
-			client.connect(port, serverNameFetch);
-			
-			client.login(login.getUser());
+			System.out.println("Game calling login");
+			if(client.connect(port, serverNameFetch)){
+				client.login(login.getUser());
+			}
 
 		}
 
@@ -334,16 +339,23 @@ public class Game {
 		int winnerIndex = this.getBoard().getWinner();
 		if (onlineGame) {
 			this.board = client.getBoard();
+			if(client.staredNewGame()){
+				board = client.getBoard();
+				boardPainter.setBoard(board);
+				client.newGameFetched();
+			}
 			if (active.lastClickedElement() == "Back" || !client.inGame()) {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
 				client.leaveGame();
 			}
 			if(menus.messageBoxChoice()==-1){
+
 				client.leaveGame();
 			}
 			if(menus.messageBoxChoice()==1){
-				client.requestGame(222);
+
+				client.rematch();
 			}
 		} else {
 			if (active.lastClickedElement() == "Back") {
@@ -464,12 +476,13 @@ public class Game {
 			shapeRendererExit(shapes);
 			bg.batchDraw(batch);
 		}
+		if (gameActive) {
+			boardPainter.batchDraw(batch);
+		}
 		shapeRendererInit(shapes);
 		menus.shapesDraw(shapes);
 		shapeRendererExit(shapes);
 		menus.batchDraw(batch);
-		if (gameActive) {
-			boardPainter.batchDraw(batch);
-		}
+
 	}
 }

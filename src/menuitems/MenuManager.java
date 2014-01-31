@@ -92,11 +92,14 @@ public class MenuManager {
 	 * @param input
 	 *            Last released key from keyboard
 	 */
+	public void closeMesssage(){
+		this.messageBoxActive = false;
+	}
 	public void update(float x, float y, boolean mouseDown, char input) {
 		// TODO Auto-generated method stub
 		if (this.messageBoxActive) {
 			superMenu.update(x, y, mouseDown, input);
-			messageBoxActive = !superMenu.okayClicked();
+			
 		} else {
 			if (menus.size() > 0 && currentMenuIndex >= 0) {
 				menus.get(currentMenuIndex).update(x, y, mouseDown, input);
@@ -150,9 +153,11 @@ public class MenuManager {
 	public int messageBoxChoice(){
 		if(messageBoxActive){
 			if(superMenu.declineClicked()){
+				System.out.println("sa");
 				return -1;
 			}
 			if(superMenu.okayClicked()){
+				System.out.println("yes");
 				return 1;
 			}
 		}

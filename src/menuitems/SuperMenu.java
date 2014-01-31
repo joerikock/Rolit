@@ -18,13 +18,14 @@ public class SuperMenu extends Menu{
 		// TODO Auto-generated constructor stub
 	}
 	public void setMessage(String text, boolean showDecline){
+		this.activate();
 		message.setText(text);
 	}
 	public boolean okayClicked(){
-		return okay.clicked();
-	}
+		return (this.lastClickedElement()!=null&&this.lastClickedElement().equals("Okay"));	}
 	public boolean declineClicked(){
-		return decline.clicked();
+		
+		return (this.lastClickedElement()!=null&&this.lastClickedElement().equals("Decline"));
 	}
 
 }
