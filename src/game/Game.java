@@ -203,7 +203,7 @@ public class Game {
 		gameActive = false;
 		Menu active = menus.getActiveMenu();
 
-		
+		menus.update(x, y, mouseDown, input);
 		if (active == inGameMenu) {
 			updateInGameMenu(active);
 			gameActive = true;
@@ -255,7 +255,7 @@ public class Game {
 				menus.closeMesssage();
 			}
 		}
-		menus.update(x, y, mouseDown, input);
+
 	}
 
 	private void updateGame(float x, float y, boolean mouseDown) {

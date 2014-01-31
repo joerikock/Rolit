@@ -153,11 +153,11 @@ public class MenuManager {
 	public int messageBoxChoice(){
 		if(messageBoxActive){
 			if(superMenu.declineClicked()){
-				System.out.println("sa");
+	
 				return -1;
 			}
 			if(superMenu.okayClicked()){
-				System.out.println("yes");
+	
 				return 1;
 			}
 		}

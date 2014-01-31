@@ -193,8 +193,7 @@ public abstract class Menu {
 				}
 			}
 		}
-		System.out.println("MENU  :: :::: : :: "+this.lastClickedElementIndex);
-		
+	
 	}
 
 	/**
