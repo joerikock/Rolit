@@ -284,7 +284,7 @@ public class Game {
 	private void updateLoginMenu(Menu active) {
 		System.out.println(active.lastClickedElement());
 		if (active.lastClickedElement() == "Login") {
-
+			
 			System.out.println(login.getPort());
 			int port = Integer.parseInt(login.getPort());
 			String serverNameFetch = login.getServerIp();

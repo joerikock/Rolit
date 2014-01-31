@@ -34,25 +34,25 @@ public class Client implements Runnable {
 	 * Boolean defining whether the client started a new game on his boarc
 	 */
 	private boolean newGame;
-	public Client() {
 
-	}
 	public boolean connect(int port, String serverName) {
 		InetAddress ip = null;
 		System.out.println("Client loggin started");
 		try {
 			ip = InetAddress.getByName(serverName);
-		} catch (UnknownHostException e1) {
+			socket = new Socket(ip, port);
+		} catch (UnknownHostException e) {
 			this.errorMessage = "Server " + serverName + " not found on port " +port;
 			System.out.println("Server " + serverName + " not found on port "
 					+ port);
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
+		System.out.println("Server found");
 		socket = null;
 		try {
 			socket = new Socket(ip, port);
 		} catch (IOException e) {
-			this.errorMessage = "Could not connect to server.";
+			
 			System.out.println(e.getMessage());
 		}
 		if (socket != null) {
@@ -70,6 +70,8 @@ public class Client implements Runnable {
 			listenerThread = new Thread(listener);
 			listenerThread.start();
 			System.out.println(socket);
+		}else{
+			this.errorMessage = "Could not connect to server.";
 		}
 		System.out.println("Client loggin done");
 		return (socket!=null);
