@@ -253,12 +253,9 @@ public class Game {
 		if (boardPainter.animationDone()) {
 			if (!board.finished()) {
 				if (!onlineGame) {
-
 					if (board.currentPlayer().hasMove()) {
 						board.currentPlayer().makeMove(board);
-
 					}
-
 				} else {
 					if (client.isCurrentPlayer()) {
 						if (boardPainter.hasSelectedField()) {
@@ -270,7 +267,6 @@ public class Game {
 				}
 			}
 		}
-
 		board.update();
 	}
 
@@ -326,6 +322,9 @@ public class Game {
 	}
 
 	private void updateInGameMenu(Menu active) {
+		TextOutputField winner;
+		winner = (TextOutputField) (active.getElement("winner"));
+		int winnerIndex = this.getBoard().getWinner();
 		if (onlineGame) {
 			this.board = client.getBoard();
 			if (active.lastClickedElement() == "Back" || !client.inGame()) {
@@ -337,6 +336,7 @@ public class Game {
 			if (active.lastClickedElement() == "Back") {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
+				winner.setText("");
 			}
 		}
 		if (active.lastClickedElement() == "Hint"){
@@ -349,13 +349,7 @@ public class Game {
 			inGameMenu.setPlayerName(playerList.get(i).getName(), i);
 			inGameMenu.setPlayerScore(board.getNumberOfFields(i), i);
 		}
-		
-
 		if (this.getBoard().finished()) {
-			TextOutputField winner;
-			
-			winner = (TextOutputField) (active.getElement("winner"));
-			int winnerIndex = this.getBoard().getWinner();
 			if (winnerIndex == -1) {
 				winner.setText("It's a draw!");
 			} else {
