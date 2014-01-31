@@ -40,7 +40,7 @@ public class Client implements Runnable {
 		System.out.println("Client loggin started");
 		try {
 			ip = InetAddress.getByName(serverName);
-			socket = new Socket(ip, port);
+
 		} catch (UnknownHostException e) {
 			this.errorMessage = "Server " + serverName + " not found on port " +port;
 			System.out.println("Server " + serverName + " not found on port "
