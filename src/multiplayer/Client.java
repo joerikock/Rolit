@@ -228,7 +228,7 @@ public class Client implements Runnable {
 
 	};
 	public String getMessage(){
-		return "Play again?";
+		return this.errorMessage;
 	}
 	public void messageFetched(){
 		this.errorMessage = null;
