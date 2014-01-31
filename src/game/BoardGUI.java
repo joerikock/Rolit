@@ -84,10 +84,17 @@ public class BoardGUI {
 	 * @ private invariant selectedField != null;
 	 */
 	/**
-	 * Array neccesary for which field/ball is currently selected.
+	 * Array necessary for which field/ball is currently selected.
 	 */
 	private int[] selectedField;
-
+	/**
+	 * Array for AI-Hint position
+	 */
+	private int[] aiHint;
+	/**
+	 * Decides whether a new ai hint has been given
+	 */
+	private boolean newAiHint;
 	/*
 	 * @ private invariant w != null && h != null;
 	 */
@@ -95,7 +102,9 @@ public class BoardGUI {
 	 * The number of balls in the x and y direction.
 	 */
 	private int w, h;
-
+	
+	
+	
 	// Constructors
 	// -------------------------------------------------------------
 
@@ -241,7 +250,10 @@ public class BoardGUI {
 		this.offSetX = x;
 		this.offSetY = y;
 	}
-
+	public void setAiHint(int[] pos){
+		this.aiHint = pos;
+		this.newAiHint = true;
+	}
 	/*
 	 * @ requires mouseClicked == true || mouseClicked == false; requires hint
 	 * == true || hint == false;
@@ -285,6 +297,10 @@ public class BoardGUI {
 			choicesInit = true;
 
 		}
+		if(newAiHint&&this.aiHint!=null){
+			balls[this.aiHint[0]][this.aiHint[1]].setSuperHint(true);
+			newAiHint = false;
+		}
 		/**
 		 * If the board has been modified, fetch the ArrayList of new modified
 		 * fields in boardChanges and tell the new Ball to change its color.
@@ -303,6 +319,10 @@ public class BoardGUI {
 			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
 			this.choicesInit = false;
+			if(newAiHint&&this.aiHint!=null){
+				balls[this.aiHint[0]][this.aiHint[1]].setSuperHint(false);
+				newAiHint = false;
+			}
 		}
 		/**
 		 * Only if the last animation has been finished, the user can select a

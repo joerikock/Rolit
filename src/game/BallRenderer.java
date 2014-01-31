@@ -63,7 +63,10 @@ public class BallRenderer {
 	 * Instance variable nessecary for the mouse hover.
 	 */
 	private boolean changing, mouseOver, isChoice;
-
+	/**
+	 * Boolean for showing ai-hint.
+	 */
+	private boolean isAiHint;
 	/**
 	 * Variable that decides whether the alpha value is increased or decreased.
 	 */
@@ -178,7 +181,9 @@ public class BallRenderer {
 		this.isChoice = true;
 		this.currentPlayerColorID = currentPlayerID;
 	}
-
+	public void setSuperHint(boolean hint){
+		this.isAiHint = hint;
+	}
 	/**
 	 * Use when the ball is no longer a possible move for the current player.
 	 */
@@ -232,6 +237,10 @@ public class BallRenderer {
 			if (isChoice) {
 				this.renderColor = PLAYER_COLORS[this.currentPlayerColorID];
 				this.alpha = CHOICE_ALPHA;
+			}
+			if (this.isAiHint){
+				this.renderColor = CHOICE_COLOR;
+				this.alpha = 1;
 			}
 			if (mouseOver) {
 				this.renderColor = MOUSE_OVER;

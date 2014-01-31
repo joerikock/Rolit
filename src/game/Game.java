@@ -338,7 +338,11 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 			}
 		}
-
+		if (active.lastClickedElement() == "Hint"){
+			int[] hintPos = SmartPlayer.getHint(board, board.currentPlayerColor());
+			boardPainter.setAiHint(hintPos);
+			
+		}
 		ArrayList<Player> playerList = board.getPlayer();
 		for (int i = 0; i < playerList.size(); i++) {
 			inGameMenu.setPlayerName(playerList.get(i).getName(), i);
