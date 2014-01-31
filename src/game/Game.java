@@ -243,7 +243,7 @@ public class Game {
 		}
 		if (client.getMessage() != null) {
 			//if the board is complete, the player should be asked whether he want to play again
-			if(board!=null&&board.finished()){
+			if(client.getMessage().equals("Play again?")){
 				menus.openMessageBox(client.getMessage(), true);
 			}else{
 				menus.openMessageBox(client.getMessage(), false);

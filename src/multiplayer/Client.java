@@ -192,7 +192,12 @@ public class Client implements Runnable {
 								client.errorMessage = "The server shut down";
 							}else{
 								if(!messageParts[1].equals("null")){
-									client.errorMessage = messageParts[1]+ " left the game. Going back to the main menu.";
+									if(client.getBoard().finished()){
+										client.errorMessage = "Play again?";
+									}else{
+										client.errorMessage = messageParts[1]+ " left the game. Going back to the main menu.";
+									}
+									
 								}else{
 									client.errorMessage = "A player left the game. Going back to the main menu.";
 								}
@@ -223,7 +228,7 @@ public class Client implements Runnable {
 
 	};
 	public String getMessage(){
-		return this.errorMessage;
+		return "Play again?";
 	}
 	public void messageFetched(){
 		this.errorMessage = null;
