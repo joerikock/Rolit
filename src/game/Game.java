@@ -352,9 +352,11 @@ public class Game {
 			}
 		}
 		if (active.lastClickedElement() == "Hint"){
-			int[] hintPos = SmartPlayer.getHint(board, board.currentPlayerColor());
-			boardPainter.setAiHint(hintPos);
-			
+			if (this.getBoard().currentPlayer() instanceof HumanPlayer || 
+					client.isCurrentPlayer()) {
+				int[] hintPos = SmartPlayer.getHint(board, board.currentPlayerColor());
+				boardPainter.setAiHint(hintPos);
+			}	
 		}
 		ArrayList<Player> playerList = board.getPlayer();
 		for (int i = 0; i < playerList.size(); i++) {
