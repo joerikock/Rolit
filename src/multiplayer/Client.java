@@ -97,7 +97,7 @@ public class Client implements Runnable {
 		while (running) {
 			if (this.inGame) {
 				if (this.currentPlayer) {
-					System.out.println(this.name + " is current player");
+//					System.out.println(this.name + " is current player");
 					if (clientBoard.currentPlayer().hasMove()) {
 						int[] position = clientBoard.currentPlayer()
 								.determineMove(clientBoard);

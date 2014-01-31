@@ -140,11 +140,24 @@ public class MenuManager {
 		menus.get(currentMenuIndex).setAlpha(alpha);
 	}
 
-	public void openMessageBox(String message) {
+	public void openMessageBox(String message, boolean showDecline) {
 		this.messageBoxActive = true;
-		superMenu.setMessage(message);
+		superMenu.setMessage(message,showDecline);
 	}
-
+	public boolean messageBoxOpen(){
+		return this.messageBoxActive;
+	}
+	public int messageBoxChoice(){
+		if(messageBoxActive){
+			if(superMenu.declineClicked()){
+				return -1;
+			}
+			if(superMenu.okayClicked()){
+				return 1;
+			}
+		}
+		return 0;
+	}
 	public void shapesDraw(ShapeRenderer shapes) {
 		if (this.messageBoxActive) {
 			superMenu.shapesDraw(shapes);

@@ -3,7 +3,7 @@ package menuitems;
 public class SuperMenu extends Menu{
 	MessageBox box;
 	TextOutputField message;
-	Button okay;
+	Button okay, decline;
 	public SuperMenu() {
 		super("super");
 		box = new MessageBox("box", "HAllo");
@@ -13,14 +13,18 @@ public class SuperMenu extends Menu{
 		this.addGuiObject(message);
 		okay = new Button("Okay", 400, 300);
 		this.addGuiObject(okay);
+		decline = new Button("Decline", 500,300);
+		this.addGuiObject(decline);
 		// TODO Auto-generated constructor stub
 	}
-	public void setMessage(String text){
+	public void setMessage(String text, boolean showDecline){
 		message.setText(text);
 	}
 	public boolean okayClicked(){
 		return okay.clicked();
 	}
-
+	public boolean declineClicked(){
+		return decline.clicked();
+	}
 
 }

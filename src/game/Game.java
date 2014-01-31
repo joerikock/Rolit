@@ -242,7 +242,13 @@ public class Game {
 			updateLoginMenu(active);
 		}
 		if (client.getMessage() != null) {
-			menus.openMessageBox(client.getMessage());
+			//if the board is complete, the player should be asked whether he want to play again
+			if(board!=null&&board.finished()){
+				menus.openMessageBox(client.getMessage(), true);
+			}else{
+				menus.openMessageBox(client.getMessage(), false);
+			}
+			
 			client.messageFetched();
 		}
 	}
@@ -331,6 +337,12 @@ public class Game {
 				System.out.println("Going back to the main menu");
 				menus.setActiveMenu(mainMenu);
 				client.leaveGame();
+			}
+			if(menus.messageBoxChoice()==-1){
+				client.leaveGame();
+			}
+			if(menus.messageBoxChoice()==1){
+				client.requestGame(222);
 			}
 		} else {
 			if (active.lastClickedElement() == "Back") {

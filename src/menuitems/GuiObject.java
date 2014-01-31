@@ -13,15 +13,15 @@ public abstract class GuiObject {
 	/**
 	 * Defines the color for the mouse over effect.
 	 */
-	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
+	public static final float[] MOUSEOVER_COLOR = { .3f, .3f, .3f };
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = {.8f, .2f, .5f};
+	public static final float[] COLOR = { .8f, .2f, .5f };
 	/**
 	 * Defines the font color.
 	 */
-	public static final float[] FONT_COLOR = {.9f, .9f, .9f};
+	public static final float[] FONT_COLOR = { .9f, .9f, .9f };
 	/**
 	 * Defines the standard height of GuiObjects.
 	 */
@@ -59,7 +59,11 @@ public abstract class GuiObject {
 	/**
 	 * Defines whether the object can be interacted with.
 	 */
-	boolean clickAble;
+	protected boolean clickAble;
+	/**
+	 * Defines whether the object is being rendered.
+	 */
+	protected boolean render;
 	/**
 	 * Defines the position of the element.
 	 */
@@ -104,6 +108,7 @@ public abstract class GuiObject {
 		this.name = theName;
 		this.selectAble = true;
 		this.clickAble = true;
+		this.render = true;
 	}
 
 	/**
@@ -120,6 +125,15 @@ public abstract class GuiObject {
 	}
 
 	/**
+	 * If choice is false, the object will not be rendered.
+	 * 
+	 * @param choice
+	 */
+	public void setRender(boolean choice) {
+		this.render = choice;
+	}
+
+	/**
 	 * Sets selectAble to true or false.
 	 * 
 	 * @param selectAble
@@ -127,10 +141,12 @@ public abstract class GuiObject {
 	public void setSelectAble(boolean isSelectAble) {
 		this.selectAble = isSelectAble;
 	}
+
 	public void setClickAble(boolean clickeAble) {
 		setSelectAble(clickeAble);
 		this.clickAble = false;
 	}
+
 	/**
 	 * Adds a child to this object.
 	 * 
@@ -235,10 +251,9 @@ public abstract class GuiObject {
 
 		clicked = false;
 		if (clickAble) {
-			mouseOver = theX > this.x && theX < this.x + this.width && 
-					theY > this.y && theY < this.y + this.height;
+			mouseOver = theX > this.x && theX < this.x + this.width
+					&& theY > this.y && theY < this.y + this.height;
 		}
-
 
 		if (mouseDown) {
 			/**
@@ -294,30 +309,31 @@ public abstract class GuiObject {
 	 * @param shapes
 	 */
 	public void shapesDraw(ShapeRenderer shapes) {
-		if (selected || mouseOver) {
+		if (render) {
+			if (selected || mouseOver) {
 
-			if (this.heightProgress < height) {
-				this.heightProgress += GuiObject.MOUSEOVER_EFFECT_SPEED;
+				if (this.heightProgress < height) {
+					this.heightProgress += GuiObject.MOUSEOVER_EFFECT_SPEED;
+				} else {
+					this.heightProgress = height;
+				}
 			} else {
-				this.heightProgress = height;
+
+				if (this.heightProgress > 0) {
+					this.heightProgress -= GuiObject.MOUSEOVER_EFFECT_SPEED;
+				} else {
+					this.heightProgress = 0;
+				}
 			}
-		} else {
+			shapes.setColor(COLOR[0], COLOR[1], COLOR[2], alpha);
 
-			if (this.heightProgress > 0) {
-				this.heightProgress -= GuiObject.MOUSEOVER_EFFECT_SPEED;
-			} else {
-				this.heightProgress = 0;
+			shapes.rect(x, y, width, height);
+			if (heightProgress > 0) {
+				shapes.setColor(MOUSEOVER_COLOR[0], MOUSEOVER_COLOR[1],
+						MOUSEOVER_COLOR[2], alpha);
+				shapes.rect(x, y, width, heightProgress);
 			}
 		}
-		shapes.setColor(COLOR[0], COLOR[1], COLOR[2], alpha);
-
-		shapes.rect(x, y, width, height);
-		if (heightProgress > 0) {
-			shapes.setColor(MOUSEOVER_COLOR[0], MOUSEOVER_COLOR[1],
-					MOUSEOVER_COLOR[2], alpha);
-			shapes.rect(x, y, width, heightProgress);
-		}
-
 	}
 
 	/**
@@ -327,8 +343,10 @@ public abstract class GuiObject {
 	 * @param batch
 	 */
 	public abstract void batchDraw(SpriteBatch batch);
-
+	
 	public void drawOverLay(SpriteBatch batch) {
-		batch.draw(OVERLAY, x, y);
+		if (render) {
+			batch.draw(OVERLAY, x, y);
+		}
 	}
 }

@@ -41,10 +41,11 @@ public class Button extends GuiObject {
 
 	@Override
 	public void batchDraw(SpriteBatch batch) {
-
-		RollIt.font.setColor(GuiObject.FONT_COLOR[0], GuiObject.FONT_COLOR[1],
-				GuiObject.FONT_COLOR[2], alpha);
-		RollIt.font.draw(batch, text, x + 10, y + 30);
+		if (render) {
+			RollIt.font.setColor(GuiObject.FONT_COLOR[0],
+					GuiObject.FONT_COLOR[1], GuiObject.FONT_COLOR[2], alpha);
+			RollIt.font.draw(batch, text, x + 10, y + 30);
+		}
 	}
 
 	@Override

@@ -33,6 +33,11 @@ public class MultiSocket implements Runnable {
 		 * ArrayList containing all player instances.
 		 */
 		private ArrayList<Player> players;
+		/**
+		 * 
+		 */
+		
+		private ArrayList<String> rematchRequests;
 		/*
 		 * Board for each running game on the server.
 		 */
@@ -71,6 +76,7 @@ public class MultiSocket implements Runnable {
 			playerNames.add(clientName);
 			board = new Board();
 			this.playerCount = playerCount;
+			this.rematchRequests = new ArrayList<String>();
 			System.out.println("New session created by " + clientName);
 			active = true;
 		}
@@ -115,6 +121,10 @@ public class MultiSocket implements Runnable {
 		 */
 		public boolean isInGame() {
 			return gameRunning;
+		}
+
+		public boolean gameWon() {
+			return board.finished();
 		}
 
 		/**
@@ -211,7 +221,17 @@ public class MultiSocket implements Runnable {
 			gameRunning = true;
 
 		}
+		public void requestRematch(String name){
+			if(board.finished()){
+				if(!this.rematchRequests.contains(name)){
+					this.rematchRequests.add(name);
+					if(this.rematchRequests.size() == this.players.size()){
+						this.startGame();
+					}
+				}
 
+			}
+		}
 		/**
 		 * Thread for each session.
 		 */
@@ -220,15 +240,20 @@ public class MultiSocket implements Runnable {
 			while (active) {
 				System.out.print("");
 				if (gameRunning) {
-					if (newBall) {
-						System.out.println("WAITING FOR NEW BALL");
-						String[] args = { board.getNewBallXPos() + "",
-								board.getNewBallYPos() + "" };
-						sendToPlayers("update", args);
-						socketList.get(
-								clients.get(board.currentPlayer().getName()))
-								.sendMessage("yourTurn", null);
-						newBall = false;
+					if (!board.finished()) {
+						if (newBall) {
+							System.out.println("WAITING FOR NEW BALL");
+							String[] args = { board.getNewBallXPos() + "",
+									board.getNewBallYPos() + "" };
+							sendToPlayers("update", args);
+							socketList
+									.get(clients.get(board.currentPlayer()
+											.getName())).sendMessage(
+											"yourTurn", null);
+							newBall = false;
+						}
+					}else{
+						
 					}
 				} else {
 					if (playerNames.size() == playerCount) {
@@ -455,6 +480,7 @@ public class MultiSocket implements Runnable {
 
 							if (s[0].equals("join")) {
 								// System.out.println("JOIN REQUEST");
+								
 								int playerCount = Integer.parseInt(s[1]);
 								if (playerCount > 1 && playerCount <= 4) {
 									sessionHandler.requestSession(
@@ -471,6 +497,9 @@ public class MultiSocket implements Runnable {
 						if (s[0].equals("disjoin")) {
 							session.gameOver(clientName);
 							sessionHandler.updateSessions();
+						}
+						if (s[0].equals("join")) {
+							session.requestRematch(clientName);
 						}
 
 					}
