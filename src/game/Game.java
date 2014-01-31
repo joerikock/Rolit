@@ -240,11 +240,13 @@ public class Game {
 		if (active == login) {
 			updateLoginMenu(active);
 		}
+		//Fetch client (error) message
 		if (client.getMessage() != null) {
 			//if the board is complete, the player should be asked whether he want to play again
 			if(client.getMessage().equals("Play again?")){
 				menus.openMessageBox(client.getMessage(), true);
 			}else{
+				System.out.println("sa");
 				menus.openMessageBox(client.getMessage(), false);
 			}
 			
@@ -307,6 +309,7 @@ public class Game {
 	}
 
 	private void updateOnlineGameMenu(Menu active) {
+		System.out.println("ASDASDASD");
 		if (client.getLoginState() != 2) {
 			menus.setActiveMenu(login);
 		} else {

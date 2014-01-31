@@ -152,6 +152,7 @@ public class BoardGUI {
 		this.board = b;
 		init();
 		setUpBalls();
+		this.choices = board.getValidMoveList();
 	}
 
 	/*
@@ -212,6 +213,7 @@ public class BoardGUI {
 			}
 		}
 		animationInProgress = false;
+		
 	}
 
 	/*

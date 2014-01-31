@@ -20,7 +20,8 @@ public class SuperMenu extends Menu{
 	public void setMessage(String text, boolean showDecline){
 		this.activate();
 		message.setText(text);
-	}
+		decline.setRender(showDecline);
+		}
 	public boolean okayClicked(){
 		return (this.lastClickedElement()!=null&&this.lastClickedElement().equals("Okay"));	}
 	public boolean declineClicked(){

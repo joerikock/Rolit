@@ -99,6 +99,13 @@ public class MenuManager {
 		// TODO Auto-generated method stub
 		if (this.messageBoxActive) {
 			superMenu.update(x, y, mouseDown, input);
+			//Reset the currently active menu to prevent.
+			//Otherwise the lastClicked element will still be set and
+			//report it has been clicked.
+			if(currentMenuIndex >= 0){
+				menus.get(currentMenuIndex).activate();
+			}
+			
 			
 		} else {
 			if (menus.size() > 0 && currentMenuIndex >= 0) {
