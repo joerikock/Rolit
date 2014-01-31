@@ -223,7 +223,7 @@ public class MultiSocket implements Runnable {
 		}
 
 		public void requestRematch(String name) {
-			if (board.finished()) {
+			if (board.finished()||true) {
 				if (!this.rematchRequests.contains(name)) {
 					this.rematchRequests.add(name);
 					if (this.rematchRequests.size() == this.players.size()) {
@@ -240,19 +240,23 @@ public class MultiSocket implements Runnable {
 		@Override
 		public void run() {
 			while (active) {
-				System.out.print("");
 				if (gameRunning) {
-					if (newBall) {
-						System.out.println("WAITING FOR NEW BALL");
-						String[] args = { board.getNewBallXPos() + "",
-								board.getNewBallYPos() + "" };
-						sendToPlayers("update", args);
-						socketList.get(
-								clients.get(board.currentPlayer().getName()))
-								.sendMessage("yourTurn", null);
-						newBall = false;
+					boolean debug = true;
+					if (!board.finished()||debug) {
+						if (newBall) {
+							System.out.println("WAITING FOR NEW BALL");
+							String[] args = { board.getNewBallXPos() + "",
+									board.getNewBallYPos() + "" };
+							sendToPlayers("update", args);
+							socketList
+									.get(clients.get(board.currentPlayer()
+											.getName())).sendMessage(
+											"yourTurn", null);
+							newBall = false;
+						}
+					}else{
+						System.out.println("NEW GAME??");
 					}
-
 				} else {
 					if (playerNames.size() == playerCount) {
 						System.out.println("Session full. Starting Game!");

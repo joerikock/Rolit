@@ -252,7 +252,8 @@ public class Game {
 			client.messageFetched();
 		}
 	}
-
+	//TODO: PROBLEM: Game over is not send to client when game over. needs to be done with "null" as arg. then wait
+	//for client responce.
 	private void updateGame(float x, float y, boolean mouseDown) {
 		boardPainter.update(x, y, mouseDown, showHints);
 		gameActive = true;
