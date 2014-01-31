@@ -305,6 +305,7 @@ public class Game {
 		} else {
 			if (active.lastClickedElement() == "Back") {
 				menus.setActiveMenu(mainMenu);
+				client.leaveGame();
 			}
 			if (active.lastClickedElement() == "Connect") {
 				System.out.println(active.getSelectedChild("Opponents"));
