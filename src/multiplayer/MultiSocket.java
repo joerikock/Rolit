@@ -251,14 +251,18 @@ public class MultiSocket implements Runnable {
 					.getName())).sendMessage(
 					"yourTurn", null);
 		}
-
+		/**
+		 * Checks whether all players in the session requested a rematch and starts
+		 * a new game if they did.
+		 * @param name
+		 */
 		public void requestRematch(String name) {
 //			if (board.finished() || true) {
-				System.out.println(" ||||||||||||||||||||||||||| ");
 				if (!this.rematchRequests.contains(name)) {
-					System.out.println(" not voted");
+					System.out.println(name +" wants to play again.");
+					System.out.println(this.rematchRequests.size()+" | "+this.players.size());
 					this.rematchRequests.add(name);
-					System.out.println(this.rematchRequests.size()+" _ "+this.players.size());
+					
 					if (this.rematchRequests.size() == this.players.size()) {
 						this.startGame();
 					}
@@ -299,18 +303,6 @@ public class MultiSocket implements Runnable {
 
 					}
 				}
-				// } else {
-				// if (playerNames.size() == playerCount) {
-				// System.out.println("Session full. Starting Game!");
-
-				// gameRunning = true;
-				// startGame();
-
-				// socketList.get(
-				// clients.get(board.currentPlayer().getName()))
-				// .sendMessage("yourTurn", null);
-				// }
-				// }
 			}
 		}
 	}

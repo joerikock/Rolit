@@ -134,8 +134,12 @@ public class Client implements Runnable {
 		}
 
 	}
-
-	public void sendMessage(String command, String[] args) {
+	/**
+	 * Sends a message to the server. 
+	 * @param command the command that should follow the protocol.
+	 * @param args Array of strings that are added to the message (<command> <args[0]> <args[1]> ...).
+	 */
+	private void sendMessage(String command, String[] args) {
 		if (socket != null) {
 			PrintWriter printWriter = null;
 			try {
@@ -156,7 +160,11 @@ public class Client implements Runnable {
 
 		}
 	}
-
+	/**
+	 * Listens on the on the port and handles incomming messages.
+	 * @author Max Messerich and Joeri Kock
+	 *
+	 */
 	private static class ClientListener implements Runnable {
 
 		private BufferedReader bufferedReader;
@@ -247,18 +255,36 @@ public class Client implements Runnable {
 		}
 
 	};
+	/**
+	 * Returns the messages to be display in a messagebox
+	 * @return
+	 */
 	public String getMessage(){
 		return this.errorMessage;
 	}
+	/**
+	 * Resets the message. Should be called after getMessage() has been fetched.
+	 */
 	public void messageFetched(){
 		this.errorMessage = null;
 	}
+	/**
+	 * Returns an integer representing the login state of the client 0 = no connection. 1 = trying to log in. 2 = logged in.
+	 * @return
+	 */
 	public int getLoginState() {
 		return loginStatus;
 	}
+	/**
+	 * 
+	 * @return true if the client just started a new game.
+	 */
 	public boolean staredNewGame(){
 		return this.newGame;
 	}
+	/**
+	 * Should be called after new startedNewGame() has been fetched.
+	 */
 	public void newGameFetched(){
 		this.newGame = false;
 	}
