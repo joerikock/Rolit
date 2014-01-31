@@ -13,15 +13,15 @@ public abstract class GuiObject {
 	/**
 	 * Defines the color for the mouse over effect.
 	 */
-	public static final float[] MOUSEOVER_COLOR = { .3f, .3f, .3f };
+	public static final float[] MOUSEOVER_COLOR = {.3f, .3f, .3f};
 	/**
 	 * Defindes the normal background color.
 	 */
-	public static final float[] COLOR = { .8f, .2f, .5f };
+	public static final float[] COLOR = {.8f, .2f, .5f};
 	/**
 	 * Defines the font color.
 	 */
-	public static final float[] FONT_COLOR = { .9f, .9f, .9f };
+	public static final float[] FONT_COLOR = {.9f, .9f, .9f};
 	/**
 	 * Defines the standard height of GuiObjects.
 	 */

@@ -75,15 +75,15 @@ public class MultiSocket implements Runnable {
 		 * @param clientName
 		 *            Name of the client requesting the session.
 		 */
-		public Session(int playerCount, String clientName) {
+		public Session(int thePlayerCount, String theClientName) {
 
 			players = new ArrayList<Player>();
 			playerNames = new ArrayList<String>();
-			playerNames.add(clientName);
+			playerNames.add(theClientName);
 			board = new Board();
-			this.playerCount = playerCount;
+			this.playerCount = thePlayerCount;
 			this.rematchRequests = new ArrayList<String>();
-			System.out.println("New session created by " + clientName);
+			System.out.println("New session created by " + theClientName);
 			active = true;
 		}
 
@@ -135,13 +135,13 @@ public class MultiSocket implements Runnable {
 		 */
 		public void gameOver(String player) {
 			System.out.println("Player left or game over");
-			String[] args = { player };
+			String[] args = {player};
 			sendToPlayers("gameOver", args);
 			active = false;
 		}
 
 		private void sendRematchQuery() {
-			String[] args = { "restart" };
+			String[] args = {"restart"};
 			sendToPlayers("gameOver", args);
 		}
 
@@ -167,7 +167,7 @@ public class MultiSocket implements Runnable {
 		}
 
 		/**
-		 * Tries to add a new client to the session
+		 * Tries to add a new client to the session.
 		 * 
 		 * @param name
 		 *            name of the client
@@ -207,7 +207,7 @@ public class MultiSocket implements Runnable {
 							// kick player
 							System.out.println("Player "
 									+ board.currentPlayer().getName()
-											.equals(player)
+									.equals(player)
 									+ " send an invalid move");
 
 
@@ -216,10 +216,10 @@ public class MultiSocket implements Runnable {
 									+ " , " + y);
 							sendQuery = true;
 							board.update();
-							
+
 							if (board.modified()) {
 								newBall = true;
-								
+
 							}
 							if (board.finished()) {
 								sendQuery = true;
@@ -232,7 +232,7 @@ public class MultiSocket implements Runnable {
 		}
 
 		/**
-		 * Starts a new game in the session
+		 * Starts a new game in the session.
 		 */
 		public void startGame() {
 			board = new Board();
@@ -249,7 +249,7 @@ public class MultiSocket implements Runnable {
 			socketList
 			.get(clients.get(board.currentPlayer()
 					.getName())).sendMessage(
-					"yourTurn", null);
+							"yourTurn", null);
 		}
 		/**
 		 * Checks whether all players in the session requested a rematch and starts
@@ -257,18 +257,15 @@ public class MultiSocket implements Runnable {
 		 * @param name
 		 */
 		public void requestRematch(String name) {
-//			if (board.finished() || true) {
-				if (!this.rematchRequests.contains(name)) {
-					System.out.println(name +" wants to play again.");
-					System.out.println(this.rematchRequests.size()+" | "+this.players.size());
-					this.rematchRequests.add(name);
-					
-					if (this.rematchRequests.size() == this.players.size()) {
-						this.startGame();
-					}
-				}
+			if (!this.rematchRequests.contains(name)) {
+				System.out.println(name + " wants to play again.");
+				System.out.println(this.rematchRequests.size() + " | " + this.players.size());
+				this.rematchRequests.add(name);
 
-//			}
+				if (this.rematchRequests.size() == this.players.size()) {
+					this.startGame();
+				}
+			}
 		}
 
 		/**
@@ -279,28 +276,26 @@ public class MultiSocket implements Runnable {
 
 			while (active) {
 				if (gameRunning) {
-					
+
 					if (!board.finished()) {
 
 						if (newBall) {
 							System.out.println("WAITING FOR NEW BALL");
-							String[] args = { board.getNewBallXPos() + "",
-									board.getNewBallYPos() + "" };
+							String[] args = {board.getNewBallXPos() + "",
+									board.getNewBallYPos() + ""};
 							sendToPlayers("update", args);
 							socketList
-									.get(clients.get(board.currentPlayer()
-											.getName())).sendMessage(
+							.get(clients.get(board.currentPlayer()
+									.getName())).sendMessage(
 											"yourTurn", null);
 							newBall = false;
 							sendQuery = true;
 						}
 					} else {
-//						System.out.println("DOEN");
 						if (sendQuery) {
 							sendRematchQuery();
 							sendQuery = false;
 						}
-
 					}
 				}
 			}
@@ -368,7 +363,7 @@ public class MultiSocket implements Runnable {
 					}
 				}
 				System.out
-						.println("Sessions founds but full. Starting new one");
+				.println("Sessions founds but full. Starting new one");
 				Session session = new Session(playerCount, playerName);
 				sessions.add(session);
 				Thread sessionThread = new Thread(session);
@@ -383,7 +378,7 @@ public class MultiSocket implements Runnable {
 	private static HashMap<String, Integer> clients = new HashMap<String, Integer>();
 	private static ArrayList<MultiSocket> socketList = new ArrayList<MultiSocket>();
 	private static ArrayList<String> messages = new ArrayList<String>();
-	private static final SessionHandler sessionHandler = new SessionHandler();
+	private static final SessionHandler SESSIONHANDLER = new SessionHandler();
 	private boolean isClient;
 	private int index;
 	private String clientName;
@@ -423,7 +418,7 @@ public class MultiSocket implements Runnable {
 	}
 
 	/**
-	 * Login
+	 * Login.
 	 * 
 	 * @param name
 	 * @param password
@@ -435,13 +430,6 @@ public class MultiSocket implements Runnable {
 			}
 		}
 		return true;
-	}
-
-	public static String[] getClientMessage(String name) {
-		if (clients.containsKey(name)) {
-			// return (socketList.get(clients.get(name))).getMessage();
-		}
-		return null;
 	}
 
 	/**
@@ -489,7 +477,7 @@ public class MultiSocket implements Runnable {
 				for (int a = 0; a < s.length; a++) {
 					System.out.println(a + " : " + s[a]);
 				}
-				Session session = sessionHandler.getPlayerSession(clientName);
+				Session session = SESSIONHANDLER.getPlayerSession(clientName);
 				if (!isClient) {
 
 					if (s.length == 2 && s[0].equals("login")) {
@@ -514,7 +502,7 @@ public class MultiSocket implements Runnable {
 
 								int playerCount = Integer.parseInt(s[1]);
 								if (playerCount > 1 && playerCount <= 4) {
-									sessionHandler.requestSession(
+									SESSIONHANDLER.requestSession(
 											Integer.parseInt(s[1]), clientName);
 								}
 
@@ -527,7 +515,7 @@ public class MultiSocket implements Runnable {
 						}
 						if (s[0].equals("disjoin")) {
 							session.gameOver(clientName);
-							sessionHandler.updateSessions();
+							SESSIONHANDLER.updateSessions();
 						}
 						if (s[0].equals("join")) {
 							System.out.println("CLIENT WANTS REMATCH!!!");
@@ -544,10 +532,10 @@ public class MultiSocket implements Runnable {
 			}
 		}
 		try {
-			Session session = sessionHandler.getPlayerSession(clientName);
+			Session session = SESSIONHANDLER.getPlayerSession(clientName);
 			if (session != null) {
 				session.gameOver(null);
-				sessionHandler.updateSessions();
+				SESSIONHANDLER.updateSessions();
 			}
 			socket.close();
 		} catch (IOException e) {
@@ -566,8 +554,8 @@ public class MultiSocket implements Runnable {
 
 		String append = new String();
 		if (args != null) {
-			for (int index = 0; index < args.length; index++) {
-				append += " " + args[index];
+			for (int i = 0; i < args.length; i++) {
+				append += " " + args[i];
 			}
 		}
 		System.out.println("SERVER MESSAGE: Send " + message + "with ARGS: { "
@@ -577,7 +565,7 @@ public class MultiSocket implements Runnable {
 	}
 
 	/**
-	 * Runnable to listen for new Sockets;
+	 * Runnable to listen for new Sockets.
 	 */
 	public static class Listener implements Runnable {
 		ServerSocket ssocket = null;
@@ -632,7 +620,7 @@ public class MultiSocket implements Runnable {
 	}
 
 	/**
-	 * Starts a new Server
+	 * Starts a new Server.
 	 */
 	public static void init() {
 

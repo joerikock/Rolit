@@ -27,7 +27,7 @@ public class SmartPlayer extends Player {
 	 * which gets him the most fields. If a corner field is available, that
 	 * field is returned.
 	 */
-	public static int[] getHint(Board b, int id){
+	public static int[] getHint(Board b, int id) {
 		ArrayList<int[]> possibleMoves = b.getValidMoveList();
 		for (int[] elem : possibleMoves) {
 			System.out.print("(" + elem[0] + ", " + elem[1] + "), ");

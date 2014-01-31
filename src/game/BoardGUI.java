@@ -87,14 +87,17 @@ public class BoardGUI {
 	 * Array necessary for which field/ball is currently selected.
 	 */
 	private int[] selectedField;
+	
 	/**
-	 * Array for AI-Hint position
+	 * Array for AI-Hint position.
 	 */
 	private int[] aiHint;
+	
 	/**
-	 * Decides whether a new ai hint has been given
+	 * Decides whether a new ai hint has been given.
 	 */
 	private boolean newAiHint;
+	
 	/*
 	 * @ private invariant w != null && h != null;
 	 */
@@ -252,7 +255,7 @@ public class BoardGUI {
 		this.offSetX = x;
 		this.offSetY = y;
 	}
-	public void setAiHint(int[] pos){
+	public void setAiHint(int[] pos) {
 		this.aiHint = pos;
 		this.newAiHint = true;
 	}
@@ -299,7 +302,7 @@ public class BoardGUI {
 			choicesInit = true;
 
 		}
-		if(newAiHint&&this.aiHint!=null){
+		if (newAiHint && this.aiHint != null) {
 			balls[this.aiHint[0]][this.aiHint[1]].setSuperHint(true);
 			newAiHint = false;
 		}
@@ -321,7 +324,7 @@ public class BoardGUI {
 			animationInProgress = boardChanges.size() > 0;
 			this.changinsBallInit = false;
 			this.choicesInit = false;
-			if(newAiHint&&this.aiHint!=null){
+			if (newAiHint && this.aiHint != null) {
 				balls[this.aiHint[0]][this.aiHint[1]].setSuperHint(false);
 				newAiHint = false;
 			}

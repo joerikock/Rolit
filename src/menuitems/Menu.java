@@ -7,11 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * TODO: Add function to add a GuiElement to the Menu, that makes sure that the
- * Element is updated with corretly(Use same function for Button and TextFields
- * that require different arguments for updating)
  * 
- * @author Schnappus
+ * @author Max Messerich en Joeri Kock
  * 
  */
 
@@ -29,10 +26,8 @@ public abstract class Menu {
 	 * HashMap that handles child and parent Objects.
 	 */
 	/**
-	 * ArrayList that saves the
+	 * ArrayList that saves the index of the buttons and textFields.
 	 */
-	// private ArrayList<GuiObject> menuObjects;
-	// private ArrayList<GuiObject> childrenObjects;
 	private ArrayList<Integer> buttonIndexList, textInputFieldIndexList;
 	private int lastClickedElementIndex;
 	MenuManager manager;
@@ -42,13 +37,13 @@ public abstract class Menu {
 	 * Creates a new Menu with button, textfields and god know what. The update
 	 * function returns the id of the selected element
 	 */
-	public Menu(String name) {
+	public Menu(String theName) {
 		lastClickedElementIndex = -1;
 		this.isParent = new HashMap<Integer, Boolean>();
 		this.guiObjects = new ArrayList<GuiObject>();
 		this.buttonIndexList = new ArrayList<Integer>();
 		this.textInputFieldIndexList = new ArrayList<Integer>();
-		this.name = name;
+		this.name = theName;
 	}
 
 	/**
@@ -57,8 +52,8 @@ public abstract class Menu {
 	 * 
 	 * @param manager
 	 */
-	public void setManager(MenuManager manager) {
-		this.manager = manager;
+	public void setManager(MenuManager theManager) {
+		this.manager = theManager;
 	}
 
 	/**
@@ -197,7 +192,7 @@ public abstract class Menu {
 	}
 
 	/**
-	 * Returns the name of the last clicked Element in the currently active menu
+	 * Returns the name of the last clicked Element in the currently active menu.
 	 * 
 	 * @return
 	 */
@@ -253,9 +248,9 @@ public abstract class Menu {
 	 *            The name of the desired GuiObject.
 	 * @return
 	 */
-	public GuiObject getElement(String name) {
+	public GuiObject getElement(String theName) {
 		for (int i = 0; i < this.guiObjects.size(); i++) {
-			if (guiObjects.get(i).getName().equals(name)) {
+			if (guiObjects.get(i).getName().equals(theName)) {
 				return guiObjects.get(i);
 			}
 		}

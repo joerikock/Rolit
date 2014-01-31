@@ -42,7 +42,7 @@ public class LoginMenu extends Menu {
 		this.addGuiObject(port);
 		this.addGuiObject(name);
 	}
-	public String getServerIp(){
+	public String getServerIp() {
 		return server.getInput();
 	}
 	public String getPort() {

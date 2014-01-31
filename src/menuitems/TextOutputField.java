@@ -47,10 +47,10 @@ public class TextOutputField extends GuiObject {
 	/**
 	 * Function for setting the color of the text.
 	 */
-	public void setColor(float r, float g, float b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+	public void setColor(float theR, float theG, float theB) {
+		this.r = theR;
+		this.g = theG;
+		this.b = theB;
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class TextOutputField extends GuiObject {
 
 	public void batchDraw(SpriteBatch batch) {
 		RollIt.font.setColor(r, g, b, alpha);
-			RollIt.font.draw(batch, displayString, x, y + height / 2
-					+ RollIt.font.getCapHeight());
+		RollIt.font.draw(batch, displayString, x, y + height / 2 
+				+ RollIt.font.getCapHeight());
 		
 	}
 }

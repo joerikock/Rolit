@@ -14,8 +14,9 @@ public class OnlineGameMenu extends Menu {
 		super.setManager(manager);
 
 		
-		String[] choices = { "1", "2", "3"};
-		MultiChoiceButton opponentChooser = new MultiChoiceButton("Opponents",choices, this, 50, 450);
+		String[] choices = {"1", "2", "3"};
+		MultiChoiceButton opponentChooser = new MultiChoiceButton(
+				"Opponents", choices, this, 50, 450);
 		
 		Button b = new Button("Connect", 200, 200);
 		

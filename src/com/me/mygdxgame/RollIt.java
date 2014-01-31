@@ -29,7 +29,7 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		// add Key Listener for keyboardInput
 		font = new BitmapFont();
 		game = new Game();
-		input = new InputHandler(w,h);
+		input = new InputHandler(w, h);
 	}
 
 	@Override
@@ -38,11 +38,8 @@ public class RollIt implements ApplicationListener, TextInputListener {
 		shapes.dispose();
 	}
 
-	// TODO: Fix alpha blending in menus
 	@Override
 	public void render() {
-		// System.out.println(camera.position.x+","+camera.position.y);
-		// camera.update();
 		Gdx.gl.glClearColor(.2f, .2f, .2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glEnable(GL10.GL_BLEND);

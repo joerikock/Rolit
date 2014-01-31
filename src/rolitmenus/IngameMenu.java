@@ -78,18 +78,18 @@ public class IngameMenu extends Menu {
 			p4.setText(name);
 		}
 	}
-	public void setPlayerScore(int score, int i){
+	public void setPlayerScore(int theScore, int i) {
 		if (i == 0) {
-			p1Score.setText(score + "");
+			p1Score.setText(theScore + "");
 		}
 		if (i == 1) {
-			p2Score.setText(score + "");
+			p2Score.setText(theScore + "");
 		}
 		if (i == 2) {
-			p3Score.setText(score + "");
+			p3Score.setText(theScore + "");
 		}
 		if (i == 3) {
-			p4Score.setText(score + "");
+			p4Score.setText(theScore + "");
 		}
 	}
 }

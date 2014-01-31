@@ -243,17 +243,17 @@ public class Game {
 		//Fetch client (error) message
 		if (client.getMessage() != null) {
 			//if the board is complete, the player should be asked whether he want to play again
-			if(client.getMessage().equals("Play again?")){
+			if (client.getMessage().equals("Play again?")) {
 				menus.openMessageBox(client.getMessage(), true);
-			}else{
+			} else {
 				System.out.println("sa");
 				menus.openMessageBox(client.getMessage(), false);
 			}
 			
 			client.messageFetched();
 		}
-		if(menus.messageBoxOpen()){
-			if(menus.messageBoxChoice()!=0){
+		if (menus.messageBoxOpen()) {
+			if (menus.messageBoxChoice() != 0) {
 				menus.closeMesssage();
 			}
 		}
@@ -290,7 +290,7 @@ public class Game {
 			int port = Integer.parseInt(login.getPort());
 			String serverNameFetch = login.getServerIp();
 			System.out.println("Game calling login");
-			if(client.connect(port, serverNameFetch)){
+			if (client.connect(port, serverNameFetch)) {
 				client.login(login.getUser());
 			}
 
@@ -309,7 +309,6 @@ public class Game {
 	}
 
 	private void updateOnlineGameMenu(Menu active) {
-		System.out.println("ASDASDASD");
 		if (client.getLoginState() != 2) {
 			menus.setActiveMenu(login);
 		} else {
@@ -341,7 +340,7 @@ public class Game {
 		int winnerIndex = this.getBoard().getWinner();
 		if (onlineGame) {
 			this.board = client.getBoard();
-			if(client.staredNewGame()){
+			if (client.staredNewGame()) {
 				board = client.getBoard();
 				boardPainter.setBoard(board);
 				client.newGameFetched();
@@ -351,11 +350,11 @@ public class Game {
 				menus.setActiveMenu(mainMenu);
 				client.leaveGame();
 			}
-			if(menus.messageBoxChoice()==-1){
+			if (menus.messageBoxChoice() == -1) {
 
 				client.leaveGame();
 			}
-			if(menus.messageBoxChoice()==1){
+			if (menus.messageBoxChoice() == 1) {
 
 				client.rematch();
 			}
@@ -366,7 +365,7 @@ public class Game {
 				winner.setText("");
 			}
 		}
-		if (active.lastClickedElement() == "Hint"){
+		if (active.lastClickedElement() == "Hint") {
 			if (this.getBoard().currentPlayer() instanceof HumanPlayer || 
 					client.isCurrentPlayer()) {
 				int[] hintPos = SmartPlayer.getHint(board, board.currentPlayerColor());

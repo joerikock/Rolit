@@ -24,7 +24,7 @@ public class InputHandler implements InputProcessor {
 	/**
 	 * Responsible for fetching mouse and keyboard input.
 	 */
-	float mouseX, mouseY,startWidth, startHeight;
+	float mouseX, mouseY, startWidth, startHeight;
 	boolean mouseClicked, mouseDown, currentMouseState, 
 	keyReleased, keyDown, currentKeyState;
 	char typedKey;
@@ -47,9 +47,9 @@ public class InputHandler implements InputProcessor {
 	 */
 	public void update() {
 		
-		mouseX = Gdx.input.getX() * ( this.startWidth / Gdx.graphics.getWidth());
+		mouseX = Gdx.input.getX() * (this.startWidth / Gdx.graphics.getWidth());
 		mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY())
-				* (this.startHeight/Gdx.graphics.getHeight());
+				* (this.startHeight / Gdx.graphics.getHeight());
 
 		if (!Gdx.input.isButtonPressed(0)) {
 			if (mouseDown) {
@@ -66,7 +66,7 @@ public class InputHandler implements InputProcessor {
 	}
 
 	public boolean hasNewKey() {
-		return (typedKey != '\0');
+		return typedKey != '\0';
 	}
 
 	public char getKey() {
@@ -74,7 +74,7 @@ public class InputHandler implements InputProcessor {
 	}
 
 	/**
-	 * Return true when the Mouse was clicked (hold then release)
+	 * Return true when the Mouse was clicked (hold then release).
 	 * 
 	 * @return
 	 */
@@ -83,7 +83,7 @@ public class InputHandler implements InputProcessor {
 	}
 
 	/**
-	 * Return the x position of the mouse
+	 * Return the x position of the mouse.
 	 * 
 	 * @return
 	 */
@@ -92,7 +92,7 @@ public class InputHandler implements InputProcessor {
 	}
 
 	/**
-	 * returns the y position of the mouse;
+	 * returns the y position of the mouse.
 	 * 
 	 * @return
 	 */

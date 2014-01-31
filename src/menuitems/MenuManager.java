@@ -23,7 +23,7 @@ public class MenuManager {
 	 */
 	private SuperMenu superMenu;
 	/**
-	 * Boolean deciding whether the messageBox is active or not-
+	 * Boolean deciding whether the messageBox is active or not.
 	 */
 	private boolean messageBoxActive;
 	/**
@@ -82,7 +82,7 @@ public class MenuManager {
 	}
 
 	/**
-	 * Updated the menus and their GuiObject with user input
+	 * Updated the menus and their GuiObject with user input.
 	 * 
 	 * @param x
 	 *            mouse x
@@ -92,17 +92,16 @@ public class MenuManager {
 	 * @param input
 	 *            Last released key from keyboard
 	 */
-	public void closeMesssage(){
+	public void closeMesssage() {
 		this.messageBoxActive = false;
 	}
 	public void update(float x, float y, boolean mouseDown, char input) {
-		// TODO Auto-generated method stub
 		if (this.messageBoxActive) {
 			superMenu.update(x, y, mouseDown, input);
 			//Reset the currently active menu to prevent.
 			//Otherwise the lastClicked element will still be set and
 			//report it has been clicked.
-			if(currentMenuIndex >= 0){
+			if (currentMenuIndex >= 0) {
 				menus.get(currentMenuIndex).activate();
 			}
 			
@@ -152,18 +151,17 @@ public class MenuManager {
 
 	public void openMessageBox(String message, boolean showDecline) {
 		this.messageBoxActive = true;
-		superMenu.setMessage(message,showDecline);
+		superMenu.setMessage(message, showDecline);
 	}
-	public boolean messageBoxOpen(){
+	public boolean messageBoxOpen() {
 		return this.messageBoxActive;
 	}
-	public int messageBoxChoice(){
-		if(messageBoxActive){
-			if(superMenu.declineClicked()){
-	
+	public int messageBoxChoice() {
+		if (messageBoxActive) {
+			if (superMenu.declineClicked()) {
 				return -1;
 			}
-			if(superMenu.okayClicked()){
+			if (superMenu.okayClicked()) {
 	
 				return 1;
 			}

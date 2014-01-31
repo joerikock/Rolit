@@ -181,7 +181,7 @@ public class BallRenderer {
 		this.isChoice = true;
 		this.currentPlayerColorID = currentPlayerID;
 	}
-	public void setSuperHint(boolean hint){
+	public void setSuperHint(boolean hint) {
 		this.isAiHint = hint;
 	}
 	/**
@@ -238,7 +238,7 @@ public class BallRenderer {
 				this.renderColor = PLAYER_COLORS[this.currentPlayerColorID];
 				this.alpha = CHOICE_ALPHA;
 			}
-			if (this.isAiHint){
+			if (this.isAiHint) {
 				this.renderColor = CHOICE_COLOR;
 				this.alpha = 1;
 			}

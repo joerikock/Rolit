@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class Client implements Runnable {
 	private Socket socket;
-	private String name;
 	private boolean inGame;
 	private boolean currentPlayer;
 	private BufferedReader bufferedReader;
@@ -35,7 +34,7 @@ public class Client implements Runnable {
 	 */
 	private boolean newGame;
 	/**
-	 * Tries to establish a connection with a server with the given ip-address and port
+	 * Tries to establish a connection with a server with the given ip-address and port.
 	 * @param port
 	 * @param serverName
 	 * @return true if the connection has been established.
@@ -47,8 +46,8 @@ public class Client implements Runnable {
 			ip = InetAddress.getByName(serverName);
 
 		} catch (UnknownHostException e) {
-			
-			this.errorMessage = "Server " + serverName + " not found on port " +port;
+
+			this.errorMessage = "Server " + serverName + " not found on port " + port;
 			System.out.println("Server " + serverName + " not found on port "
 					+ port);
 			e.printStackTrace();
@@ -62,7 +61,7 @@ public class Client implements Runnable {
 			System.out.println(e.getMessage());
 			this.errorMessage = "Could not connect to server.";
 			return false;
-			
+
 		}
 		if (socket != null) {
 			bufferedReader = null;
@@ -81,26 +80,25 @@ public class Client implements Runnable {
 			System.out.println(socket);
 		}
 		System.out.println("Client loggin done");
-		return (socket!=null);
+		return socket != null;
 	}
 	/**
 	 * Logs the client in in the server with the given name.
 	 * @param name
 	 */
 	public void login(String name) {
-		this.name = name;
-		String[] a = { name };
+		String[] a = {name};
 		sendMessage("login", a);
 		loginStatus = 1;
 	}
 	/**
 	 * Sends the server a message, that the user wants a rematch.
 	 */
-	public void rematch(){
-		sendMessage("join",null);
+	public void rematch() {
+		sendMessage("join", null);
 	}
 	public void close() {
-		if(socket!=null){
+		if (socket != null) {
 			sendMessage("logOut", null);
 			try {
 				socket.close();
@@ -118,13 +116,12 @@ public class Client implements Runnable {
 		while (running) {
 			if (this.inGame) {
 				if (this.currentPlayer) {
-//					System.out.println(this.name + " is current player");
+					//					System.out.println(this.name + " is current player");
 					if (clientBoard.currentPlayer().hasMove()) {
 						int[] position = clientBoard.currentPlayer()
 								.determineMove(clientBoard);
 						if (position != null) {
-							String[] args = { position[0] + "",
-									position[1] + "" };
+							String[] args = {position[0] + "", position[1] + ""};
 							this.sendMessage("move", args);
 						}
 					}
@@ -137,7 +134,8 @@ public class Client implements Runnable {
 	/**
 	 * Sends a message to the server. 
 	 * @param command the command that should follow the protocol.
-	 * @param args Array of strings that are added to the message (<command> <args[0]> <args[1]> ...).
+	 * @param args Array of strings that are added to the message 
+	 * (<command> <args[0]> <args[1]> ...).
 	 */
 	private void sendMessage(String command, String[] args) {
 		if (socket != null) {
@@ -170,9 +168,9 @@ public class Client implements Runnable {
 		private BufferedReader bufferedReader;
 		private Client client;
 
-		public ClientListener(BufferedReader bufferedReader, Client client) {
-			this.bufferedReader = bufferedReader;
-			this.client = client;
+		public ClientListener(BufferedReader theBufferedReader, Client theClient) {
+			this.bufferedReader = theBufferedReader;
+			this.client = theClient;
 		}
 
 		@Override
@@ -180,7 +178,7 @@ public class Client implements Runnable {
 			while (running) {
 				System.out.println("");
 				System.out
-						.println("Client waiting for new input from the server");
+				.println("Client waiting for new input from the server");
 				String message = null;
 				try {
 					message = bufferedReader.readLine();
@@ -195,7 +193,7 @@ public class Client implements Runnable {
 				}
 				if (message != null) {
 					String[] messageParts = message.split(" ");
-					System.out.println("SERVER MESSAGE : "+ message);
+					System.out.println("SERVER MESSAGE : " + message);
 					if (messageParts.length > 0) {
 						if (messageParts[0].equals("newGame")) {
 							ArrayList<String> names = new ArrayList<String>();
@@ -217,22 +215,23 @@ public class Client implements Runnable {
 									client.getBoard().currentPlayerColor());
 						}
 						if (messageParts[0].equals("gameOver")) {
-							
-							if(messageParts.length==1){
+
+							if (messageParts.length == 1) {
 								client.errorMessage = "The server shut down";
 								client.leaveGame();
-							}else{
-								if(messageParts[1].equals("restart")){
-										System.out.println("Server asking for a rematch");
-										client.errorMessage = "Play again?";
-								}else{
-									client.errorMessage = "A player left the game. Going back to the main menu.";
+							} else {
+								if (messageParts[1].equals("restart")) {
+									System.out.println("Server asking for a rematch");
+									client.errorMessage = "Play again?";
+								} else {
+									client.errorMessage = "A player left the game. "
+											+ "Going back to the main menu.";
 									client.leaveGame();
 								}
-								
+
 							}
-							
-							
+
+
 						}
 					}
 					if (messageParts.length == 2) {
@@ -256,20 +255,21 @@ public class Client implements Runnable {
 
 	};
 	/**
-	 * Returns the messages to be display in a messagebox
+	 * Returns the messages to be display in a messagebox.
 	 * @return
 	 */
-	public String getMessage(){
+	public String getMessage() {
 		return this.errorMessage;
 	}
 	/**
 	 * Resets the message. Should be called after getMessage() has been fetched.
 	 */
-	public void messageFetched(){
+	public void messageFetched() {
 		this.errorMessage = null;
 	}
 	/**
-	 * Returns an integer representing the login state of the client 0 = no connection. 1 = trying to log in. 2 = logged in.
+	 * Returns an integer representing the login state of the client 
+	 * 0 = no connection. 1 = trying to log in. 2 = logged in.
 	 * @return
 	 */
 	public int getLoginState() {
@@ -279,13 +279,13 @@ public class Client implements Runnable {
 	 * 
 	 * @return true if the client just started a new game.
 	 */
-	public boolean staredNewGame(){
+	public boolean staredNewGame() {
 		return this.newGame;
 	}
 	/**
 	 * Should be called after new startedNewGame() has been fetched.
 	 */
-	public void newGameFetched(){
+	public void newGameFetched() {
 		this.newGame = false;
 	}
 	private void loginComplete() {
@@ -294,7 +294,7 @@ public class Client implements Runnable {
 
 	public void requestGame(int playerCount) {
 		System.out.println("requestGame called");
-		String[] c = { String.valueOf(playerCount) };
+		String[] c = {String.valueOf(playerCount)};
 		sendMessage("join", c);
 	}
 
@@ -340,7 +340,7 @@ public class Client implements Runnable {
 	public void makeMove(int x, int y) {
 		if (currentPlayer) {
 			if (clientBoard.validateMove(x, y)) {
-				String[] args = { x + "", y + "" };
+				String[] args = {x + "", y + ""};
 				this.sendMessage("move", args);
 				currentPlayer = false;
 			}

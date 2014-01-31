@@ -8,7 +8,7 @@ import menuitems.MultiChoiceButton;
 public class NewGameMenu extends Menu {
 
 	MultiChoiceButton hints;
-	String[] names = new String[] { "Off", "On" };
+	String[] names = new String[] {"Off", "On"};
 
 	public NewGameMenu(MenuManager manager) {
 		super("newGameMenu");
@@ -18,8 +18,7 @@ public class NewGameMenu extends Menu {
 		Button back = new Button("Back", 200, 10);
 		this.addGuiObject(start);
 		this.addGuiObject(back);
-		String[] choices = { "No Player", "Human Player", "Simple AI",
-				"Smart AI" };
+		String[] choices = {"No Player", "Human Player", "Simple AI", "Smart AI"};
 		MultiChoiceButton opponentChooser1 = new MultiChoiceButton("Player 1",
 				choices, this, 50, 450);
 		MultiChoiceButton opponentChooser2 = new MultiChoiceButton("Player 2",

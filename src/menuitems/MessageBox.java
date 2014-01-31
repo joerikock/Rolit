@@ -3,9 +3,9 @@ package menuitems;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class MessageBox extends GuiObject{
+public class MessageBox extends GuiObject {
 
-	public MessageBox(String name, String text){
+	public MessageBox(String name, String text) {
 		super(name);
 		super.setDimensions(280, 275, 350, 200);
 
@@ -13,16 +13,15 @@ public class MessageBox extends GuiObject{
 
 	@Override
 	public void batchDraw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void drawOverLay(SpriteBatch batch){
+	public void drawOverLay(SpriteBatch batch) {
 		
 	}
 	@Override
-	public void shapesDraw(ShapeRenderer shapes){
-		shapes.setColor(1, 1,1, alpha);
+	public void shapesDraw(ShapeRenderer shapes) {
+		shapes.setColor(1, 1, 1, alpha);
 		shapes.rect(x, y, width, height);
 	}
 }
